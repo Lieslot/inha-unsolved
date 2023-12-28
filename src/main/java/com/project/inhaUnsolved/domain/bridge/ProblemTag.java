@@ -10,9 +10,6 @@ import org.hibernate.annotations.Fetch;
 
 public class ProblemTag {
 
-    @Id
-    @GeneratedValue
-    private int id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Tag tag;

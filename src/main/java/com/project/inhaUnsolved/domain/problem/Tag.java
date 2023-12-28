@@ -11,7 +11,7 @@ import java.util.List;
 public class Tag {
     @Id
     @GeneratedValue
-    private long id;
+    private int id;
 
     @Column(nullable = false, unique = true)
     private int number;

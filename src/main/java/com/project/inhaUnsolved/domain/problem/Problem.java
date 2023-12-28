@@ -12,7 +12,7 @@ public class Problem {
 
     @Id
     @GeneratedValue
-    private long id;
+    private int id;
 
     @Column(nullable = false, unique = true)
     private int number;
