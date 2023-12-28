@@ -1,5 +1,9 @@
 package com.project.inhaUnsolved.domain.problem;
 
+import jakarta.persistence.Entity;
+import lombok.Getter;
+
+@Getter
 public enum Tier {
     UNRATED(0),
     BRONZE_V(1),
@@ -39,8 +43,5 @@ public enum Tier {
         this.value = value;
     }
 
-    public int getValue() {
-        return this.value;
-    }
 
 }
