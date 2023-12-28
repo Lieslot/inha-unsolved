@@ -8,8 +8,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import java.util.List;
 
-public class Problem {
-
+public class Tag {
     @Id
     @GeneratedValue
     private long id;
@@ -17,12 +16,10 @@ public class Problem {
     @Column(nullable = false, unique = true)
     private int number;
 
+
     private String name;
 
-    @Column(nullable = false)
-    private Tier tier;
-
-    @OneToMany(mappedBy = "tag", cascade = CascadeType.ALL)
-    private List<ProblemTag> tags;
+    @OneToMany(mappedBy = "problem", cascade = CascadeType.ALL)
+    private List<ProblemTag> problems;
 
 }
