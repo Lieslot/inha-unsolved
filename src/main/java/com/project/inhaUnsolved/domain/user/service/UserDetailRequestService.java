@@ -6,6 +6,7 @@ import com.project.inhaUnsolved.domain.user.User;
 import com.project.inhaUnsolved.domain.user.common.UserDetailResponseParser;
 import com.project.inhaUnsolved.domain.user.dto.UserDetail;
 import com.project.inhaUnsolved.domain.user.repository.UserRepository;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -27,12 +28,11 @@ public class UserDetailRequestService {
     private static final String API_URL = "https://solved.ac/api/v3/ranking/in_organization";
 
     private final RestTemplate restTemplate;
-    private final UserRepository userRepository;
 
-    public UserDetailRequestService(RestTemplateBuilder restTemplateBuilder,
-                                    UserRepository userRepository) {
+
+    public UserDetailRequestService(RestTemplateBuilder restTemplateBuilder) {
         this.restTemplate = restTemplateBuilder.build();
-        this.userRepository = userRepository;
+
     }
 
 
@@ -53,40 +53,28 @@ public class UserDetailRequestService {
 
     }
 
-    public void getUserDetail()  {
+    public List<UserDetail> getUserDetail()  {
+
+        List<UserDetail> userDetails = new ArrayList<>();
 
         for (int pageNumber = 1;; pageNumber++) {
             ResponseEntity<String> response = requestUserDetail(pageNumber);
             // ExceptionHandler에 대해 공부해보고 개선해보기
             try {
-                List<UserDetail> userDetails = UserDetailResponseParser.parse(response);
+                userDetails.addAll(UserDetailResponseParser.parse(response));
                 if (userDetails.isEmpty()) {
                     break;
                 }
-
-                userDetails.forEach(this::refreshUserDetail);
 
             } catch (JsonProcessingException e) {
                 System.out.println(e.getMessage());
                 throw new IllegalStateException();
             }
         }
+        return userDetails;
 
     }
 
-    private void refreshUserDetail(UserDetail userDetail) {
-
-        Optional<User> userSearchResult = userRepository.findByHandle(userDetail.getHandle());
-
-        if (userSearchResult.isEmpty()) {
-            userRepository.save(userDetail.toUser());
-        }
-        else {
-            User user = userSearchResult.get();
-            user.renewSolvedCount(user.getSolvingProblemCount());
-        }
-
-    }
 
 
 

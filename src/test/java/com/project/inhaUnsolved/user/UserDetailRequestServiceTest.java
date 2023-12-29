@@ -2,6 +2,7 @@ package com.project.inhaUnsolved.user;
 
 
 import com.project.inhaUnsolved.domain.user.User;
+import com.project.inhaUnsolved.domain.user.dto.UserDetail;
 import com.project.inhaUnsolved.domain.user.repository.UserRepository;
 import com.project.inhaUnsolved.domain.user.service.UserDetailRequestService;
 import java.util.List;
@@ -29,7 +30,7 @@ public class UserDetailRequestServiceTest {
     @DisplayName("유저 정보 API 테스트")
     @Test
     void userDetailApiTest() {
-        userDetailRequestService.getUserDetail();
+        List<UserDetail> userDetail = userDetailRequestService.getUserDetail();
 
         List<User> all = userRepository.findAll();
         System.out.println(all);
