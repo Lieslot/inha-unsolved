@@ -53,7 +53,7 @@ public class UserDetailRequestService {
 
     }
 
-    public List<UserDetail> getUserDetail()  {
+    public List<User> getUserDetail()  {
 
         List<UserDetail> userDetails = new ArrayList<>();
 
@@ -71,7 +71,9 @@ public class UserDetailRequestService {
                 throw new IllegalStateException();
             }
         }
-        return userDetails;
+        return userDetails.stream()
+                .map(UserDetail::toUser)
+                .toList();
 
     }
 

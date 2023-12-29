@@ -14,22 +14,22 @@ public class UserService {
 
     private final UserRepository userRepository;
 
+    public void refreshUserDetail(User user) {
 
-
-    private void refreshUserDetail(UserDetail userDetail) {
-
-        Optional<User> userSearchResult = userRepository.findByHandle(userDetail.getHandle());
+        Optional<User> userSearchResult = userRepository.findByHandle(user.getHandle());
 
         if (userSearchResult.isEmpty()) {
-            userRepository.save(userDetail.toUser());
+            userRepository.save(user);
         }
         else {
-            User user = userSearchResult.get();
-
-            user.renewSolvedCount(user.getSolvingProblemCount());
+            User existingUser = userSearchResult.get();
+            existingUser.renewSolvedCount(user.getSolvingProblemCount());
+            userRepository.save(existingUser);
         }
 
     }
+
+
 
 
 

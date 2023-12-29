@@ -30,7 +30,7 @@ public class UserDetailRequestServiceTest {
     @DisplayName("유저 정보 API 테스트")
     @Test
     void userDetailApiTest() {
-        List<UserDetail> userDetail = userDetailRequestService.getUserDetail();
+        List<User> userDetail = userDetailRequestService.getUserDetail();
 
         List<User> all = userRepository.findAll();
         System.out.println(all);
