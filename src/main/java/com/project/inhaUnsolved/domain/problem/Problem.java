@@ -28,7 +28,7 @@ public class Problem {
     @Column(nullable = false)
     private Tier tier;
 
-    @OneToMany(mappedBy = "tag", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "problem", cascade = CascadeType.ALL)
     private List<ProblemTag> tags;
 
 }
