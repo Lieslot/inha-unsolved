@@ -1,4 +1,4 @@
-package com.project.inhaUnsolved.domain.problem;
+package com.project.inhaUnsolved.domain.domain;
 
 import com.project.inhaUnsolved.domain.bridge.ProblemTag;
 import jakarta.persistence.CascadeType;
@@ -11,11 +11,9 @@ import jakarta.persistence.OneToMany;
 import java.util.List;
 import lombok.Getter;
 
-
 @Getter
 @Entity
-public class Problem {
-
+public class Tag {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -23,12 +21,10 @@ public class Problem {
     @Column(nullable = false, unique = true)
     private int number;
 
+
     private String name;
 
-    @Column(nullable = false)
-    private Tier tier;
-
-    @OneToMany(mappedBy = "problem", cascade = CascadeType.ALL)
-    private List<ProblemTag> tags;
+    @OneToMany(mappedBy = "tag", cascade = CascadeType.ALL)
+    private List<ProblemTag> problems;
 
 }

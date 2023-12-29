@@ -20,9 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserDetailRequestServiceTest {
 
     @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
     private UserDetailRequestService userDetailRequestService;
 
 
