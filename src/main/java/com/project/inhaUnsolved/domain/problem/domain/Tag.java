@@ -1,4 +1,4 @@
-package com.project.inhaUnsolved.domain.domain;
+package com.project.inhaUnsolved.domain.problem.domain;
 
 import com.project.inhaUnsolved.domain.bridge.ProblemTag;
 import jakarta.persistence.CascadeType;
@@ -20,7 +20,6 @@ public class Tag {
 
     @Column(nullable = false, unique = true)
     private int number;
-
 
     private String name;
 

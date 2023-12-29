@@ -1,4 +1,4 @@
-package com.project.inhaUnsolved.domain.domain;
+package com.project.inhaUnsolved.domain.problem.domain;
 
 import com.project.inhaUnsolved.domain.bridge.ProblemTag;
 import jakarta.persistence.CascadeType;
@@ -14,7 +14,7 @@ import lombok.Getter;
 
 @Getter
 @Entity
-public class Problem {
+public class UnsolvedProblem {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

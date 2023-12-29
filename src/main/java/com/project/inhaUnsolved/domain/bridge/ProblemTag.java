@@ -1,7 +1,7 @@
 package com.project.inhaUnsolved.domain.bridge;
 
-import com.project.inhaUnsolved.domain.domain.Problem;
-import com.project.inhaUnsolved.domain.domain.Tag;
+import com.project.inhaUnsolved.domain.problem.domain.UnsolvedProblem;
+import com.project.inhaUnsolved.domain.problem.domain.Tag;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -22,7 +22,7 @@ public class ProblemTag {
     private Tag tag;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private Problem problem;
+    private UnsolvedProblem problem;
 
 
 }

@@ -1,4 +1,4 @@
-package com.project.inhaUnsolved.domain.domain;
+package com.project.inhaUnsolved.domain.problem.domain;
 
 import jakarta.persistence.Entity;
 import lombok.Getter;
