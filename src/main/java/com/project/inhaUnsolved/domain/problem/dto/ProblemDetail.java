@@ -10,6 +10,7 @@ import org.springframework.beans.factory.parsing.Problem;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Getter
+@Setter
 public class ProblemDetail {
 
     private int problemId;

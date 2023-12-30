@@ -1,13 +1,11 @@
 package com.project.inhaUnsolved.domain.problem.service;
 
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.project.inhaUnsolved.domain.problem.common.ProblemDetailsParser;
 import com.project.inhaUnsolved.domain.problem.domain.UnsolvedProblem;
 import com.project.inhaUnsolved.domain.problem.dto.ProblemDetail;
+import com.project.inhaUnsolved.domain.problem.dto.ProblemsDetailResponse;
 import java.util.ArrayList;
 import java.util.List;
-import org.springframework.beans.factory.parsing.Problem;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -29,7 +27,7 @@ public class ProblemSolvedByUserRequest {
 
     private final RestTemplate restTemplate;
 
-    private ResponseEntity<String> requestProblem(String handle, int pageNumber) {
+    private ResponseEntity<ProblemsDetailResponse> requestProblem(String handle, int pageNumber) {
 
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(API_URL)
                                                            .queryParam("query", "s@" + handle)
@@ -41,7 +39,7 @@ public class ProblemSolvedByUserRequest {
         HttpEntity<String> entity = new HttpEntity<>(headers);
 
         return restTemplate.exchange(builder.build().encode().toUri(), HttpMethod.GET, entity,
-                String.class);
+                ProblemsDetailResponse.class);
 
     }
 
@@ -51,22 +49,19 @@ public class ProblemSolvedByUserRequest {
         List<UnsolvedProblem> problems = new ArrayList<>();
 
         for (int pageNumber = 1; ;pageNumber++) {
-            ResponseEntity<String> response = requestProblem(handle, pageNumber);
-            System.out.println("response = " + response);
-            try {
-                List<ProblemDetail> problemDetails = ProblemDetailsParser.parse(response);
-                if (problemDetails.isEmpty()) {
-                    break;
-                }
-                problems.addAll(problemDetails.stream()
-                        .map(ProblemDetail::toUnsolvedProblem)
-                        .toList());
-
-
-            } catch (JsonProcessingException e) {
-                System.out.println(e.getMessage());
-                throw new IllegalStateException();
+            ResponseEntity<ProblemsDetailResponse> response = requestProblem(handle, pageNumber);
+            ProblemsDetailResponse body = response.getBody();
+            if (body == null) {
+                continue;
             }
+
+            List<ProblemDetail> problemDetails = body.getItems();
+            if (problemDetails.isEmpty()) {
+                break;
+            }
+            problems.addAll(problemDetails.stream()
+                                          .map(ProblemDetail::toUnsolvedProblem)
+                                          .toList());
 
         }
         return problems;
