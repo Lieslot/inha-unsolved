@@ -1,15 +1,11 @@
 package com.project.inhaUnsolved.domain.user.service;
 
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.project.inhaUnsolved.domain.user.User;
-import com.project.inhaUnsolved.domain.user.common.UserDetailResponseParser;
 import com.project.inhaUnsolved.domain.user.dto.UserDetail;
-import com.project.inhaUnsolved.domain.user.repository.UserRepository;
+import com.project.inhaUnsolved.domain.user.dto.UserDetailsResponse;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import lombok.RequiredArgsConstructor;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -36,7 +32,7 @@ public class UserDetailRequestService {
     }
 
 
-    private ResponseEntity<String>  requestUserDetail(int pageNumber) {
+    private ResponseEntity<UserDetailsResponse>  requestUserDetail(int pageNumber) {
 
 
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(API_URL)
@@ -49,7 +45,7 @@ public class UserDetailRequestService {
         HttpEntity<String> entity = new HttpEntity<>(headers);
 
         return restTemplate.exchange(builder.toUriString(), HttpMethod.GET, entity,
-                String.class);
+                UserDetailsResponse.class);
 
     }
 
@@ -58,18 +54,20 @@ public class UserDetailRequestService {
         List<UserDetail> userDetails = new ArrayList<>();
 
         for (int pageNumber = 1;; pageNumber++) {
-            ResponseEntity<String> response = requestUserDetail(pageNumber);
+            ResponseEntity<UserDetailsResponse> response = requestUserDetail(pageNumber);
             // ExceptionHandler에 대해 공부해보고 개선해보기
-            try {
-                userDetails.addAll(UserDetailResponseParser.parse(response));
-                if (userDetails.isEmpty()) {
-                    break;
-                }
+            UserDetailsResponse body = response.getBody();
 
-            } catch (JsonProcessingException e) {
-                System.out.println(e.getMessage());
-                throw new IllegalStateException();
+            if (body == null) {
+                break;
             }
+
+            userDetails.addAll(body.getItems());
+
+            if (userDetails.isEmpty()) {
+                    break;
+            }
+
         }
         return userDetails.stream()
                 .map(UserDetail::toUser)
