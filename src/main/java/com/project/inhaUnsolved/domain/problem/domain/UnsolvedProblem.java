@@ -9,6 +9,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import java.util.List;
+import lombok.Builder;
 import lombok.Getter;
 
 
@@ -30,5 +31,13 @@ public class UnsolvedProblem {
 
     @OneToMany(mappedBy = "problem", cascade = CascadeType.ALL)
     private List<ProblemTag> tags;
+
+    @Builder
+    public UnsolvedProblem(int number, String name, Tier tier) {
+        this.number = number;
+        this.name = name;
+        this.tier = tier;
+
+    }
 
 }

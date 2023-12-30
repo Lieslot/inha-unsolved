@@ -3,6 +3,7 @@ package com.project.inhaUnsolved.domain.user.service;
 import com.project.inhaUnsolved.domain.user.User;
 import com.project.inhaUnsolved.domain.user.dto.UserDetail;
 import com.project.inhaUnsolved.domain.user.repository.UserRepository;
+import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,16 +15,23 @@ public class UserService {
 
     private final UserRepository userRepository;
 
-    public void refreshUserDetail(User user) {
 
-        Optional<User> userSearchResult = userRepository.findByHandle(user.getHandle());
+
+    public void refreshUserDetail(User renwedUser) {
+
+        Optional<User> userSearchResult = userRepository.findByHandle(renwedUser.getHandle());
 
         if (userSearchResult.isEmpty()) {
-            userRepository.save(user);
+            userRepository.save(renwedUser);
         }
         else {
             User existingUser = userSearchResult.get();
-            existingUser.renewSolvedCount(user.getSolvingProblemCount());
+
+            if (existingUser.getSolvingProblemCount() != renwedUser.getSolvingProblemCount()) {
+
+            }
+
+            existingUser.renewSolvedCount(renwedUser.getSolvingProblemCount());
             userRepository.save(existingUser);
         }
 

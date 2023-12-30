@@ -1,6 +1,7 @@
 package com.project.inhaUnsolved.user;
 
 
+import com.mysql.cj.protocol.x.XProtocolRowInputStream;
 import com.project.inhaUnsolved.domain.user.User;
 import com.project.inhaUnsolved.domain.user.dto.UserDetail;
 import com.project.inhaUnsolved.domain.user.repository.UserRepository;
@@ -22,7 +23,8 @@ public class UserDetailRequestServiceTest {
     @Autowired
     private UserDetailRequestService userDetailRequestService;
 
-
+    @Autowired
+    private UserRepository userRepository;
 
     @DisplayName("유저 정보 API 테스트")
     @Test
