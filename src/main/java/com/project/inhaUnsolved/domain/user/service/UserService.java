@@ -3,8 +3,10 @@ package com.project.inhaUnsolved.domain.user.service;
 import com.project.inhaUnsolved.domain.user.User;
 import com.project.inhaUnsolved.domain.user.dto.UserDetail;
 import com.project.inhaUnsolved.domain.user.repository.UserRepository;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import javax.swing.text.html.Option;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,25 +19,32 @@ public class UserService {
 
 
 
-    public void refreshUserDetail(User renwedUser) {
+    public List<String> getRenewedUserHandle(List<User> users) {
 
-        Optional<User> userSearchResult = userRepository.findByHandle(renwedUser.getHandle());
+        List<String> handles = new ArrayList<>();
 
-        if (userSearchResult.isEmpty()) {
-            userRepository.save(renwedUser);
-        }
-        else {
-            User existingUser = userSearchResult.get();
+        for (User user : users) {
+            Optional<User> userSearchResult = userRepository.findByHandle(user.getHandle());
 
-            if (existingUser.getSolvingProblemCount() != renwedUser.getSolvingProblemCount()) {
-
+            if (userSearchResult.isEmpty()) {
+                userRepository.save(user);
+                continue;
             }
 
-            existingUser.renewSolvedCount(renwedUser.getSolvingProblemCount());
-            userRepository.save(existingUser);
+            User existingUser = userSearchResult.get();
+
+            if (existingUser.getSolvingProblemCount() != user.getSolvingProblemCount()) {
+                existingUser.renewSolvedCount(user.getSolvingProblemCount());
+                userRepository.save(existingUser);
+
+                handles.add(user.getHandle());
+            }
+
         }
 
+        return handles;
     }
+
 
 
 
