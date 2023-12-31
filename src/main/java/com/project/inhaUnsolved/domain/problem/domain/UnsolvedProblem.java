@@ -21,6 +21,7 @@ public class UnsolvedProblem {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "problem_id")
     private int id;
 
     @Column(nullable = false, unique = true)
