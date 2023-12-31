@@ -51,32 +51,27 @@ public class UserDetailRequestService {
 
     public List<User> getUserDetail()  {
 
-        List<UserDetail> userDetails = new ArrayList<>();
+        List<User> users = new ArrayList<>();
 
         for (int pageNumber = 1;; pageNumber++) {
             ResponseEntity<UserDetailsResponse> response = requestUserDetail(pageNumber);
-            // ExceptionHandler에 대해 공부해보고 개선해보기
+
             UserDetailsResponse body = response.getBody();
 
             if (body == null) {
                 break;
             }
-
-            userDetails.addAll(body.getItems());
+            List<UserDetail> userDetails = body.getItems();
+            userDetails.forEach(userDetail -> users.add(userDetail.toUser()));
 
             if (userDetails.isEmpty()) {
                     break;
             }
 
         }
-        return userDetails.stream()
-                .map(UserDetail::toUser)
-                .toList();
+        return users;
 
     }
-
-
-
 
 
 }

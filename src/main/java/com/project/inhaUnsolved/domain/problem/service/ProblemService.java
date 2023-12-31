@@ -22,16 +22,16 @@ public class ProblemService {
     public void renewUnsolvedProblem(List<UnsolvedProblem> problems) {
 
         for (UnsolvedProblem problem : problems) {
+
+
             if (!solvedProblemRepository.existsByNumber(problem.getNumber())) {
                 continue;
             }
-
             int solvedProblemNumber = problem.getNumber();
 
             if (unsolvedProblemRepository.existsByNumber(solvedProblemNumber)) {
                 unsolvedProblemRepository.deleteByNumber(solvedProblemNumber);
             }
-
 
 
             solvedProblemRepository.save(new SolvedProblem(solvedProblemNumber));
