@@ -60,6 +60,7 @@ public class ProblemSolvedByUserRequest {
                 break;
             }
             problems.addAll(problemDetails.stream()
+                                          .filter(ProblemDetail::isSolvable)
                                           .map(ProblemDetail::toUnsolvedProblem)
                                           .toList());
 
