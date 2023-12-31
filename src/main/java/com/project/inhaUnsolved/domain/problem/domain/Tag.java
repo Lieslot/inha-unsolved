@@ -9,10 +9,13 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import java.util.List;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
 @Entity
+@NoArgsConstructor
 public class Tag {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,5 +28,12 @@ public class Tag {
 
     @OneToMany(mappedBy = "tag", cascade = CascadeType.ALL)
     private List<ProblemTag> problems;
+
+
+    @Builder
+    Tag(int number, String name) {
+        this.number = number;
+        this.name = name;
+    }
 
 }

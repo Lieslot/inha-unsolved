@@ -7,10 +7,12 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 
 @Getter
 @Entity
+@NoArgsConstructor
 public class User {
 
     @Id
@@ -27,10 +29,6 @@ public class User {
     public User(String handle, int solvingProblemCount) {
         this.handle = handle;
         this.solvingProblemCount = solvingProblemCount;
-    }
-
-    public User() {
-
     }
 
     public void renewSolvedCount(int solvedCount) {

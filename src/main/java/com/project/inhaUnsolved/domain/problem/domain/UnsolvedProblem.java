@@ -11,10 +11,12 @@ import jakarta.persistence.OneToMany;
 import java.util.List;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 
 @Getter
 @Entity
+@NoArgsConstructor
 public class UnsolvedProblem {
 
     @Id
