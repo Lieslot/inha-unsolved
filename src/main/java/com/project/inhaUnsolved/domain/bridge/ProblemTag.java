@@ -13,25 +13,36 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.MapKey;
 import jakarta.persistence.MapsId;
+import java.time.LocalDate;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.domain.Persistable;
 
 @Getter
 @Entity
+@NoArgsConstructor
 public class ProblemTag {
 
-    @EmbeddedId
-    private ProblemTagId id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
 
-    @MapsId("tagId")
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "tag_id")
     private Tag tag;
 
-    @MapsId("problemId")
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "problem_id")
     private UnsolvedProblem problem;
 
+    @Builder
+    ProblemTag(Tag tag, UnsolvedProblem problem) {
+        this.problem = problem;
+        this.tag =tag;
+    }
 
 }
 

@@ -33,10 +33,34 @@ public class ProblemService {
                 unsolvedProblemRepository.deleteByNumber(solvedProblemNumber);
             }
 
-
             solvedProblemRepository.save(new SolvedProblem(solvedProblemNumber));
         }
 
+
+    }
+
+    public void addNewProblems(List<UnsolvedProblem> newProblems) {
+
+        for (UnsolvedProblem newProblem : newProblems) {
+
+            if (!solvedProblemRepository.existsByNumber(newProblem.getNumber())) {
+                continue;
+            }
+
+            int newProblemNumber = newProblem.getNumber();
+
+            if (unsolvedProblemRepository.existsByNumber(newProblemNumber)) {
+                continue;
+            }
+
+            unsolvedProblemRepository.save(newProblem);
+        }
+
+
+
+    }
+
+    public void renewProblemDetails(List<UnsolvedProblem> unsolvedProblems) {
 
     }
 
