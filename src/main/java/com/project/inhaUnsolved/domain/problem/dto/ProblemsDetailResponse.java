@@ -8,7 +8,6 @@ import lombok.ToString;
 
 @Getter
 @Setter
-@ToString
 public class ProblemsDetailResponse {
 
 
@@ -22,5 +21,10 @@ public class ProblemsDetailResponse {
     public ProblemsDetailResponse(int count) {
         this.count = count;
         items = new ArrayList<>();
+    }
+
+    public ProblemsDetailResponse(int count, List<ProblemDetail> items) {
+        this.count = count;
+        items = new ArrayList<>(items);
     }
 }

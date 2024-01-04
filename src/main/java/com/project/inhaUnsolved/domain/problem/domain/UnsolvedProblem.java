@@ -96,4 +96,9 @@ public class UnsolvedProblem {
     public int hashCode() {
         return Objects.hash(this.name, this.tier, this.tags);
     }
+
+    @Override
+    public String toString() {
+        return "{ number:" + number + ", name:" + name + ", tag" + this.tags.toString() +" }";
+    }
 }

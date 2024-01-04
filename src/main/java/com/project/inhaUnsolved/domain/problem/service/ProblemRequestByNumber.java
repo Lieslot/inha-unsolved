@@ -2,6 +2,7 @@ package com.project.inhaUnsolved.domain.problem.service;
 
 import com.project.inhaUnsolved.domain.problem.domain.UnsolvedProblem;
 import com.project.inhaUnsolved.domain.problem.dto.ProblemDetail;
+import com.project.inhaUnsolved.domain.problem.dto.ProblemDetails;
 import com.project.inhaUnsolved.domain.problem.dto.ProblemsDetailResponse;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +21,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 public class ProblemRequestByNumber {
 
 
-    private static final String API_URL = "https://solved.ac/api/v3/search/problem/lookup";
+    private static final String API_URL = "https://solved.ac/api/v3/problem/lookup?";
 
     public ProblemRequestByNumber(RestTemplateBuilder restTemplate) {
         this.restTemplate = restTemplate.build();
@@ -28,7 +29,7 @@ public class ProblemRequestByNumber {
 
     private final RestTemplate restTemplate;
 
-    public ResponseEntity<ProblemsDetailResponse> requestProblem(List<String> problemNumbers) {
+    private ResponseEntity<ProblemDetails> requestProblem(List<String> problemNumbers) {
 
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(API_URL)
                                                            .queryParam("problemIds", String.join(",", problemNumbers));
@@ -41,7 +42,7 @@ public class ProblemRequestByNumber {
         return restTemplate.exchange(builder.build()
                                             .encode()
                                             .toUri(), HttpMethod.GET, entity,
-                ProblemsDetailResponse.class);
+                ProblemDetails.class);
 
     }
 
@@ -56,13 +57,13 @@ public class ProblemRequestByNumber {
                                                    .mapToObj(String::valueOf)
                                                    .toList();
 
-            ResponseEntity<ProblemsDetailResponse> response = requestProblem(problemNumbers);
-            ProblemsDetailResponse body = response.getBody();
+            ResponseEntity<ProblemDetails> response = requestProblem(problemNumbers);
+            ProblemDetails body = response.getBody();
             if (body == null) {
                 break;
             }
 
-            List<ProblemDetail> problemDetails = body.getItems();
+            List<ProblemDetail> problemDetails = body.getProblemDetails();
             if (problemDetails.isEmpty()) {
                 break;
             }
@@ -83,13 +84,13 @@ public class ProblemRequestByNumber {
 
         while (true) {
 
-            ResponseEntity<ProblemsDetailResponse> response = requestProblem(problemNumbers);
-            ProblemsDetailResponse body = response.getBody();
+            ResponseEntity<ProblemDetails> response = requestProblem(problemNumbers);
+            ProblemDetails body = response.getBody();
             if (body == null) {
                 break;
             }
 
-            List<ProblemDetail> problemDetails = body.getItems();
+            List<ProblemDetail> problemDetails = body.getProblemDetails();
             if (problemDetails.isEmpty()) {
                 break;
             }

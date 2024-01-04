@@ -12,7 +12,7 @@ public interface ProblemRepository extends JpaRepository<UnsolvedProblem, Intege
 
     void deleteByNumber(int number);
 
-    List<ProblemNumberOnly> findAllNumbers();
+//    List<ProblemNumberOnly> findAllNumbers();
 
     Optional<UnsolvedProblem> findByNumber(int number);
 }

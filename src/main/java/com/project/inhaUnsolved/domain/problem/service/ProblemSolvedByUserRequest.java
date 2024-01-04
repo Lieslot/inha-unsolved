@@ -54,7 +54,7 @@ public class ProblemSolvedByUserRequest {
             ResponseEntity<ProblemsDetailResponse> response = requestProblem(handle, pageNumber);
             ProblemsDetailResponse body = response.getBody();
             if (body == null) {
-                continue;
+                break;
             }
 
             List<ProblemDetail> problemDetails = body.getItems();
