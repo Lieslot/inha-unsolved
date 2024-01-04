@@ -61,7 +61,11 @@ public class ProblemRequestByNumberMockTest {
     @Test
     void requestNewProblemTest() {
 
-        List<UnsolvedProblem> newProblems = request.getNewProblems(1000);
+        List<String> problemNumbers= IntStream.range(1000, 1099)
+                                     .mapToObj(String::valueOf)
+                                     .toList();
+
+        List<UnsolvedProblem> newProblems = request.getProblemBy(problemNumbers);
 
         System.out.println(newProblems);
 

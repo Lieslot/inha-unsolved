@@ -1,9 +1,9 @@
 package com.project.inhaUnsolved.problem;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.project.inhaUnsolved.domain.problem.domain.UnsolvedProblem;
 import com.project.inhaUnsolved.domain.problem.service.ProblemRequestByNumber;
 import java.util.List;
+import java.util.stream.IntStream;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,14 +19,13 @@ public class ProblemRequestsByNumberTest {
 
     @Test
     void requestNewProblemTest() {
-        try {
-            List<UnsolvedProblem> newProblems = request.getNewProblems(31000);
-            Assertions.assertThat((long) newProblems.size()).isEqualTo(100);
-            System.out.println();
-        }  catch (Exception e) {
-            System.out.println();
-        }
 
+        List<String> problemNumbers= IntStream.range(31000, 31099)
+                                              .mapToObj(String::valueOf)
+                                              .toList();
+
+        List<UnsolvedProblem> newProblems = request.getProblemBy(problemNumbers);
+        Assertions.assertThat((long) newProblems.size()).isEqualTo(100);
 
 
 

@@ -3,7 +3,6 @@ package com.project.inhaUnsolved.domain.problem.service;
 import com.project.inhaUnsolved.domain.problem.domain.UnsolvedProblem;
 import com.project.inhaUnsolved.domain.problem.dto.ProblemDetail;
 import com.project.inhaUnsolved.domain.problem.dto.ProblemDetails;
-import com.project.inhaUnsolved.domain.problem.dto.ProblemsDetailResponse;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
@@ -47,38 +46,8 @@ public class ProblemRequestByNumber {
     }
 
 
-    public List<UnsolvedProblem> getNewProblems(int prevStartNumber) {
 
-        List<UnsolvedProblem> problems = new ArrayList<>();
-
-        for (int startNumber = prevStartNumber + 1; ; startNumber += 100) {
-
-            List<String> problemNumbers = IntStream.range(startNumber, startNumber + 100)
-                                                   .mapToObj(String::valueOf)
-                                                   .toList();
-
-            ResponseEntity<ProblemDetails> response = requestProblem(problemNumbers);
-            ProblemDetails body = response.getBody();
-            if (body == null) {
-                break;
-            }
-
-            List<ProblemDetail> problemDetails = body.getProblemDetails();
-            if (problemDetails.isEmpty()) {
-                break;
-            }
-            problems.addAll(problemDetails.stream()
-                                          .filter(ProblemDetail::isSolvable)
-                                          .map(ProblemDetail::toUnsolvedProblem)
-                                          .toList());
-
-        }
-        return problems;
-
-
-    }
-
-    public List<UnsolvedProblem> getNewUnsolvedProblemDetails(List<String> problemNumbers) {
+    public List<UnsolvedProblem> getProblemBy(List<String> problemNumbers) {
 
         List<UnsolvedProblem> problems = new ArrayList<>();
 
