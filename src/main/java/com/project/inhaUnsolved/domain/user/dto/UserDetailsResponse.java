@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 public class UserDetailsResponse {
-    
+
     private int count;
 
     private List<UserDetail> items;

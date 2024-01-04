@@ -10,7 +10,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -48,25 +47,26 @@ public class UnsolvedProblem {
         this.name = name;
         this.tier = tier;
         this.tags = tags.stream()
-                .map(tag -> ProblemTag.builder().problem(this).tag(tag).build())
-                .collect(Collectors.toSet());
+                        .map(tag -> ProblemTag.builder()
+                                              .problem(this)
+                                              .tag(tag)
+                                              .build())
+                        .collect(Collectors.toSet());
 
     }
 
-    public void renewTags(List<Tag> tags) {
+    public void renewTags(Set<ProblemTag> tags) {
 
         List<ProblemTag> newProblemTags = tags.stream()
-                                                .map(tag -> ProblemTag.builder().problem(this).tag(tag).build())
-                                                .toList();
-
+                                              .map(tag -> ProblemTag.builder()
+                                                                    .problem(this)
+                                                                    .tag(tag.getTag())
+                                                                    .build())
+                                              .toList();
 
         this.tags.removeIf(existingTag -> !newProblemTags.contains(existingTag));
 
-        newProblemTags.forEach(newTag -> {
-            if (!this.tags.contains(newTag)) {
-                this.tags.add(newTag);
-            }
-        });
+        this.tags.addAll(newProblemTags);
 
     }
 
@@ -80,8 +80,12 @@ public class UnsolvedProblem {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null || getClass() != obj.getClass()) return false;
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
         UnsolvedProblem other = (UnsolvedProblem) obj;
 
         return this.name.equals(other.name) && this.tier == other.tier

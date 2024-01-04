@@ -38,7 +38,9 @@ public class ProblemSolvedByUserRequest {
 
         HttpEntity<String> entity = new HttpEntity<>(headers);
 
-        return restTemplate.exchange(builder.build().encode().toUri(), HttpMethod.GET, entity,
+        return restTemplate.exchange(builder.build()
+                                            .encode()
+                                            .toUri(), HttpMethod.GET, entity,
                 ProblemsDetailResponse.class);
 
     }
@@ -48,7 +50,7 @@ public class ProblemSolvedByUserRequest {
 
         List<UnsolvedProblem> problems = new ArrayList<>();
 
-        for (int pageNumber = 1; ;pageNumber++) {
+        for (int pageNumber = 1; ; pageNumber++) {
             ResponseEntity<ProblemsDetailResponse> response = requestProblem(handle, pageNumber);
             ProblemsDetailResponse body = response.getBody();
             if (body == null) {
@@ -67,7 +69,6 @@ public class ProblemSolvedByUserRequest {
         }
         return problems;
     }
-
 
 
 }

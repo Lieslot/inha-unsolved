@@ -4,8 +4,6 @@ import com.project.inhaUnsolved.domain.problem.domain.SolvedProblem;
 import com.project.inhaUnsolved.domain.problem.domain.UnsolvedProblem;
 import com.project.inhaUnsolved.domain.problem.repository.ProblemRepository;
 import com.project.inhaUnsolved.domain.problem.repository.SolvedProblemRepository;
-import com.project.inhaUnsolved.domain.user.User;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +20,6 @@ public class ProblemService {
     public void renewUnsolvedProblem(List<UnsolvedProblem> problems) {
 
         for (UnsolvedProblem problem : problems) {
-
 
             if (!solvedProblemRepository.existsByNumber(problem.getNumber())) {
                 continue;
@@ -56,11 +53,29 @@ public class ProblemService {
             unsolvedProblemRepository.save(newProblem);
         }
 
-
-
     }
 
-    public void renewProblemDetails(List<UnsolvedProblem> unsolvedProblems) {
+    public void renewProblemDetails(List<UnsolvedProblem> newUnsolvedProblemDetails) {
+
+        for (UnsolvedProblem problem : newUnsolvedProblemDetails) {
+
+            Optional<UnsolvedProblem> problemSearchResult = unsolvedProblemRepository.findByNumber(problem.getNumber());
+            if (problemSearchResult.isEmpty()) {
+                continue;
+            }
+
+            UnsolvedProblem existingProblem = problemSearchResult.get();
+
+            if (existingProblem.equals(problem)) {
+                continue;
+            }
+
+            existingProblem.renewName(problem.getName());
+            existingProblem.renewTags(problem.getTags());
+            existingProblem.renewTier(problem.getTier());
+
+
+        }
 
     }
 

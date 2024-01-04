@@ -5,7 +5,6 @@ import com.project.inhaUnsolved.domain.problem.domain.UnsolvedProblem;
 import com.project.inhaUnsolved.domain.user.User;
 import com.project.inhaUnsolved.domain.user.service.UserDetailRequestService;
 import com.project.inhaUnsolved.domain.user.service.UserService;
-import java.util.Collection;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,7 +14,7 @@ import org.springframework.stereotype.Service;
 public class RenewUnsolvedProblemService {
 
     private final UserDetailRequestService userDetailRequest;
-    private final  ProblemSolvedByUserRequest problemSolvedByUserRequest;
+    private final ProblemSolvedByUserRequest problemSolvedByUserRequest;
     private final ProblemService problemService;
     private final UserService userService;
 
@@ -25,10 +24,10 @@ public class RenewUnsolvedProblemService {
         List<String> renewedUserHandle = userService.getRenewedUserHandle(userDetail);
 
         List<UnsolvedProblem> distinctSolvedProblem = renewedUserHandle.stream()
-                                                      .map(problemSolvedByUserRequest::getProblems)
-                                                      .flatMap(List::stream)
-                                                      .distinct()
-                                                      .toList();
+                                                                       .map(problemSolvedByUserRequest::getProblems)
+                                                                       .flatMap(List::stream)
+                                                                       .distinct()
+                                                                       .toList();
         problemService.renewUnsolvedProblem(distinctSolvedProblem);
     }
 

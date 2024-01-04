@@ -18,6 +18,7 @@ public class ProblemsDetailResponse {
     public ProblemsDetailResponse() {
         items = new ArrayList<>();
     }
+
     public ProblemsDetailResponse(int count) {
         this.count = count;
         items = new ArrayList<>();

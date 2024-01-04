@@ -1,12 +1,10 @@
 package com.project.inhaUnsolved.domain.user.service;
 
 import com.project.inhaUnsolved.domain.user.User;
-import com.project.inhaUnsolved.domain.user.dto.UserDetail;
 import com.project.inhaUnsolved.domain.user.repository.UserRepository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import javax.swing.text.html.Option;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +14,6 @@ public class UserService {
 
 
     private final UserRepository userRepository;
-
 
 
     public List<String> getRenewedUserHandle(List<User> users) {
@@ -44,10 +41,6 @@ public class UserService {
 
         return handles;
     }
-
-
-
-
 
 
 }

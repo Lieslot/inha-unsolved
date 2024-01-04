@@ -13,4 +13,8 @@ public class TagName {
     private String language;
     private String name;
 
+    public boolean isKoreanName() {
+
+        return language.equals("ko");
+    }
 }

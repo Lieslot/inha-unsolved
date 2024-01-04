@@ -1,6 +1,5 @@
 package com.project.inhaUnsolved.domain.problem.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.Getter;
@@ -16,6 +15,7 @@ public class TagDetailResponse {
     public TagDetailResponse() {
         items = new ArrayList<>();
     }
+
     public TagDetailResponse(int count) {
         this.count = count;
         items = new ArrayList<>();

@@ -32,12 +32,11 @@ public class UserDetailRequestService {
     }
 
 
-    private ResponseEntity<UserDetailsResponse>  requestUserDetail(int pageNumber) {
-
+    private ResponseEntity<UserDetailsResponse> requestUserDetail(int pageNumber) {
 
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(API_URL)
-                .queryParam("organizationId", "356")
-                .queryParam("page", String.valueOf(pageNumber));
+                                                           .queryParam("organizationId", "356")
+                                                           .queryParam("page", String.valueOf(pageNumber));
 
         HttpHeaders headers = new HttpHeaders();
         headers.set(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE);
@@ -49,11 +48,11 @@ public class UserDetailRequestService {
 
     }
 
-    public List<User> getUserDetail()  {
+    public List<User> getUserDetail() {
 
         List<User> users = new ArrayList<>();
 
-        for (int pageNumber = 1;; pageNumber++) {
+        for (int pageNumber = 1; ; pageNumber++) {
             ResponseEntity<UserDetailsResponse> response = requestUserDetail(pageNumber);
 
             UserDetailsResponse body = response.getBody();
@@ -65,7 +64,7 @@ public class UserDetailRequestService {
             userDetails.forEach(userDetail -> users.add(userDetail.toUser()));
 
             if (userDetails.isEmpty()) {
-                    break;
+                break;
             }
 
         }

@@ -1,6 +1,5 @@
 package com.project.inhaUnsolved.domain.problem.domain;
 
-import jakarta.persistence.Entity;
 import java.util.Arrays;
 import lombok.Getter;
 
@@ -46,9 +45,9 @@ public enum Tier {
 
     public static Tier valueOf(int key) {
         return Arrays.stream(Tier.values())
-                .filter(tier -> key == tier.value)
-                .findFirst()
-                .orElseThrow(IllegalAccessError::new);
+                     .filter(tier -> key == tier.value)
+                     .findFirst()
+                     .orElseThrow(IllegalAccessError::new);
     }
 
 }
