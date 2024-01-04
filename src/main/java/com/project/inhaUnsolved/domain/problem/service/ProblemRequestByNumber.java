@@ -17,12 +17,12 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 @Service
-public class ProblemRequestById {
+public class ProblemRequestByNumber {
 
 
     private static final String API_URL = "https://solved.ac/api/v3/search/problem/lookup";
 
-    public ProblemRequestById(RestTemplateBuilder restTemplate) {
+    public ProblemRequestByNumber(RestTemplateBuilder restTemplate) {
         this.restTemplate = restTemplate.build();
     }
 
