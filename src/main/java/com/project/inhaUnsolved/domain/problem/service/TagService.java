@@ -17,16 +17,10 @@ public class TagService {
     private final TagRepository tagRepository;
     private final TagRequestService request;
 
-    public void addTags() {
+    public void renewTagDetails() {
         List<Tag> tagDetails = request.getTagDetails();
 
-        List<Tag> newTags = tagDetails.stream()
-                                   .filter(tag -> !tagRepository.existsByNumber(tag.getNumber()))
-                                   .toList();
-
-        tagRepository.saveAll(newTags);
-
+        tagRepository.saveAll(tagDetails);
     }
-
 
 }
