@@ -1,6 +1,7 @@
 package com.project.inhaUnsolved.domain.problem.service;
 
 
+import com.project.inhaUnsolved.domain.problem.domain.Tag;
 import com.project.inhaUnsolved.domain.problem.dto.TagDetail;
 import com.project.inhaUnsolved.domain.problem.dto.TagDetailResponse;
 import java.util.ArrayList;
@@ -42,7 +43,7 @@ public class TagRequestService {
     }
 
 
-    public List<TagDetail> getTagDetails() {
+    public List<Tag> getTagDetails() {
 
         TagDetailResponse body = requestAllTagDetails().getBody();
 
@@ -50,7 +51,9 @@ public class TagRequestService {
             throw new IllegalStateException("tag body empty");
         }
 
-        return body.getItems();
+        return body.getItems().stream()
+                .map(TagDetail::toTag)
+                .toList();
 
     }
 

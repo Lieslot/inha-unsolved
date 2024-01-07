@@ -1,4 +1,4 @@
-package com.project.inhaUnsolved.problem;
+package com.project.inhaUnsolved.problem.api;
 
 import com.project.inhaUnsolved.domain.problem.domain.UnsolvedProblem;
 import com.project.inhaUnsolved.domain.problem.service.ProblemRequestByNumber;

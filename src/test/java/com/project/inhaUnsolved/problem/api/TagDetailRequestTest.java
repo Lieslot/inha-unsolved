@@ -1,6 +1,7 @@
-package com.project.inhaUnsolved.problem;
+package com.project.inhaUnsolved.problem.api;
 
 
+import com.project.inhaUnsolved.domain.problem.domain.Tag;
 import com.project.inhaUnsolved.domain.problem.dto.TagDetail;
 import com.project.inhaUnsolved.domain.problem.service.TagRequestService;
 import java.util.List;
@@ -19,7 +20,7 @@ public class TagDetailRequestTest {
     @Test
     void tagDetailRequestTest() {
 
-        List<TagDetail> tagDetails = request.getTagDetails();
+        List<Tag> tagDetails = request.getTagDetails();
 
         Assertions.assertThat(tagDetails).isNotEmpty();
 

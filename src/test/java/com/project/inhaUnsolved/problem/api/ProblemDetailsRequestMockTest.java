@@ -1,4 +1,4 @@
-package com.project.inhaUnsolved.problem;
+package com.project.inhaUnsolved.problem.api;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;

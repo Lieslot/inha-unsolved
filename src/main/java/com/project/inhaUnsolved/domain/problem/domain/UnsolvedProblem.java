@@ -9,7 +9,9 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Index;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -21,6 +23,7 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @Entity
+@Table(indexes = {@Index(name = "numberSortIndex", columnList = "number")})
 @NoArgsConstructor
 public class UnsolvedProblem {
 

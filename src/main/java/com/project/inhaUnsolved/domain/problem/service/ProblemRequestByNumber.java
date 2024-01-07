@@ -1,5 +1,6 @@
 package com.project.inhaUnsolved.domain.problem.service;
 
+import com.project.inhaUnsolved.domain.problem.common.ProblemDetailsParser;
 import com.project.inhaUnsolved.domain.problem.domain.UnsolvedProblem;
 import com.project.inhaUnsolved.domain.problem.dto.ProblemDetail;
 import com.project.inhaUnsolved.domain.problem.dto.ProblemDetails;
@@ -20,7 +21,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 public class ProblemRequestByNumber {
 
 
-    private static final String API_URL = "https://solved.ac/api/v3/problem/lookup?";
+    private static final String API_URL = "https://solved.ac/api/v3/problem/lookup";
 
     public ProblemRequestByNumber(RestTemplateBuilder restTemplate) {
         this.restTemplate = restTemplate.build();
@@ -28,7 +29,7 @@ public class ProblemRequestByNumber {
 
     private final RestTemplate restTemplate;
 
-    private ResponseEntity<ProblemDetails> requestProblem(List<String> problemNumbers) {
+    private ResponseEntity<String> requestProblem(List<String> problemNumbers) {
 
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(API_URL)
                                                            .queryParam("problemIds", String.join(",", problemNumbers));
@@ -41,7 +42,7 @@ public class ProblemRequestByNumber {
         return restTemplate.exchange(builder.build()
                                             .encode()
                                             .toUri(), HttpMethod.GET, entity,
-                ProblemDetails.class);
+                String.class);
 
     }
 
@@ -49,28 +50,17 @@ public class ProblemRequestByNumber {
 
     public List<UnsolvedProblem> getProblemBy(List<String> problemNumbers) {
 
-        List<UnsolvedProblem> problems = new ArrayList<>();
+        ResponseEntity<String> response = requestProblem(problemNumbers);
+        List<ProblemDetail> problemDetails = ProblemDetailsParser.parse(response);
 
-        while (true) {
-
-            ResponseEntity<ProblemDetails> response = requestProblem(problemNumbers);
-            ProblemDetails body = response.getBody();
-            if (body == null) {
-                break;
-            }
-
-            List<ProblemDetail> problemDetails = body.getProblemDetails();
-            if (problemDetails.isEmpty()) {
-                break;
-            }
-
-            problems.addAll(problemDetails.stream()
-                                          .filter(ProblemDetail::isSolvable)
-                                          .map(ProblemDetail::toUnsolvedProblem)
-                                          .toList());
+        if (problemDetails == null) {
+            throw new IllegalStateException("body empty");
         }
 
-        return problems;
+        return problemDetails.stream()
+                                      .filter(ProblemDetail::isSolvable)
+                                      .map(ProblemDetail::toUnsolvedProblem)
+                                      .toList();
 
     }
 

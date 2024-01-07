@@ -13,11 +13,8 @@ import lombok.NoArgsConstructor;
 @Entity
 @NoArgsConstructor
 public class Tag {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "tag_id")
-    private int id;
 
+    @Id
     @Column(nullable = false, unique = true)
     private int number;
 

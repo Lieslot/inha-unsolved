@@ -1,9 +1,10 @@
-package com.project.inhaUnsolved.problem;
+package com.project.inhaUnsolved.problem.api;
 
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.inhaUnsolved.domain.problem.domain.UnsolvedProblem;
+import com.project.inhaUnsolved.domain.problem.dto.ProblemDetails;
 import com.project.inhaUnsolved.domain.problem.dto.ProblemsDetailResponse;
 import com.project.inhaUnsolved.domain.problem.service.ProblemRequestByNumber;
 import java.util.List;
@@ -22,7 +23,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 @RestClientTest(ProblemRequestByNumber.class)
 public class ProblemRequestByNumberMockTest {
 
-    private static final String API_URL = "https://solved.ac/api/v3/problem/lookup?";
+    private static final String API_URL = "https://solved.ac/api/v3/problem/lookup";
 
 
     @Autowired
@@ -46,7 +47,7 @@ public class ProblemRequestByNumberMockTest {
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(API_URL)
                                                            .queryParam("problemIds", String.join(",", problemNumbers));
 
-        ProblemsDetailResponse problemsDetailResponse = new ProblemsDetailResponse(100);
+        ProblemDetails problemsDetailResponse = new ProblemDetails();
         String expectedResponse = objectMapper.writeValueAsString(problemsDetailResponse);
 
         server.expect(MockRestRequestMatchers.requestTo(builder.encode()
@@ -61,7 +62,7 @@ public class ProblemRequestByNumberMockTest {
     @Test
     void requestNewProblemTest() {
 
-        List<String> problemNumbers= IntStream.range(1000, 1099)
+        List<String> problemNumbers= IntStream.range(1001, 1101)
                                      .mapToObj(String::valueOf)
                                      .toList();
 
