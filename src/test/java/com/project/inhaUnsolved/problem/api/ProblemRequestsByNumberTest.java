@@ -1,7 +1,7 @@
 package com.project.inhaUnsolved.problem.api;
 
 import com.project.inhaUnsolved.domain.problem.domain.UnsolvedProblem;
-import com.project.inhaUnsolved.domain.problem.service.ProblemRequestByNumber;
+import com.project.inhaUnsolved.domain.problem.api.ProblemRequestByNumber;
 import java.util.List;
 import java.util.stream.IntStream;
 import org.assertj.core.api.Assertions;

@@ -1,10 +1,7 @@
 package com.project.inhaUnsolved.problem.api;
 
 import com.project.inhaUnsolved.domain.problem.domain.UnsolvedProblem;
-import com.project.inhaUnsolved.domain.problem.service.ProblemSolvedByUserRequest;
-import com.project.inhaUnsolved.domain.user.User;
-import com.project.inhaUnsolved.domain.user.repository.UserRepository;
-import com.project.inhaUnsolved.domain.user.service.UserDetailRequestService;
+import com.project.inhaUnsolved.domain.problem.api.ProblemSolvedByUserRequest;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

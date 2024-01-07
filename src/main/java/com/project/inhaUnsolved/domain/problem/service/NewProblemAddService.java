@@ -1,6 +1,7 @@
 package com.project.inhaUnsolved.domain.problem.service;
 
 
+import com.project.inhaUnsolved.domain.problem.api.ProblemRequestByNumber;
 import com.project.inhaUnsolved.domain.problem.domain.UnsolvedProblem;
 import java.util.List;
 import java.util.stream.IntStream;

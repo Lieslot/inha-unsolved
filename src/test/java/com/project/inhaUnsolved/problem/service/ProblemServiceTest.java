@@ -1,8 +1,7 @@
 package com.project.inhaUnsolved.problem.service;
 
-import com.project.inhaUnsolved.domain.problem.domain.Tag;
 import com.project.inhaUnsolved.domain.problem.domain.UnsolvedProblem;
-import com.project.inhaUnsolved.domain.problem.service.ProblemRequestByNumber;
+import com.project.inhaUnsolved.domain.problem.api.ProblemRequestByNumber;
 import com.project.inhaUnsolved.domain.problem.service.ProblemService;
 import com.project.inhaUnsolved.domain.problem.service.TagService;
 import java.util.ArrayList;

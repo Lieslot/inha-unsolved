@@ -4,7 +4,7 @@ package com.project.inhaUnsolved.problem.api;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.inhaUnsolved.domain.problem.domain.UnsolvedProblem;
 import com.project.inhaUnsolved.domain.problem.dto.ProblemsDetailResponse;
-import com.project.inhaUnsolved.domain.problem.service.ProblemSolvedByUserRequest;
+import com.project.inhaUnsolved.domain.problem.api.ProblemSolvedByUserRequest;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
