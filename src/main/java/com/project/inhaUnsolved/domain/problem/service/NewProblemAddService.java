@@ -18,15 +18,21 @@ public class NewProblemAddService {
     public void addNewProblem() {
         int number = getLastProcessedNumber();
 
+        if (number == 0) {
+            number = 1000;
+        }
+
         for (;;number += 100) {
             List<String> problemNumbers = IntStream.range(number, number + 100)
                                                    .mapToObj(String::valueOf)
                                                    .toList();
             List<UnsolvedProblem> newProblems = request.getProblemBy(problemNumbers);
+            if (newProblems.isEmpty()) {
+                break;
+            }
 
             problemService.addNewProblems(newProblems);
         }
-
 
     }
 
