@@ -1,4 +1,4 @@
-package com.project.inhaUnsolved.domain.user.service;
+package com.project.inhaUnsolved.domain.user.api;
 
 
 import com.project.inhaUnsolved.domain.user.User;
