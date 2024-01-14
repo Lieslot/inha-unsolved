@@ -58,7 +58,7 @@ jobs:
          username: ubuntu
          key: ${{ secrets.KEY }}
          envs: GITHUB_SHA
-       script: |
+       run: |
          sudo docker rm -f $(docker ps -qa)
          sudo docker pull ${{ secrets.DOCKER_REPO }}/inha-unsolved
          docker-compose up -d
