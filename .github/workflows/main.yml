@@ -4,7 +4,7 @@ on:
   push:
     branches: [ "main" ]
   pull_request:
-    branches: [ main ]
+    branches: [ "main" ]
 permissions:
   contents: read
 
@@ -22,7 +22,7 @@ jobs:
          java-version: '17'
          distribution: "adopt"
      # Github secrets로부터 데이터를 받아서, 워크 플로우에 파일을 생성
-     - name: Make application.yml
+     - name: Make config file
        run: |
            cd ./src/main/resources
            touch ./application.yml
