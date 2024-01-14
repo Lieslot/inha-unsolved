@@ -42,4 +42,8 @@ public class User {
         return "{" + handle + ", " +
                 solvingProblemCount + "}";
     }
+
+    public boolean hasEqualSolvingCount(User other) {
+        return this.solvingProblemCount == other.solvingProblemCount;
+    }
 }

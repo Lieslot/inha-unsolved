@@ -32,5 +32,8 @@ public class RenewUnsolvedProblemService {
         problemService.renewUnsolvedProblem(distinctSolvedProblem);
     }
 
+    public void renewProblemDetail() {
+
+    }
 
 }

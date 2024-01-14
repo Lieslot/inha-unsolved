@@ -4,6 +4,7 @@ package com.project.inhaUnsolved.user;
 import com.project.inhaUnsolved.domain.user.User;
 import com.project.inhaUnsolved.domain.user.repository.UserRepository;
 import com.project.inhaUnsolved.domain.user.api.UserDetailRequestService;
+import com.project.inhaUnsolved.domain.user.service.UserService;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -17,15 +18,26 @@ public class UserDetailRequestServiceTest {
     private UserDetailRequestService userDetailRequestService;
 
     @Autowired
-    private UserRepository userRepository;
+    private UserService userService;
+
+
 
     @DisplayName("유저 정보 API 테스트")
     @Test
     void userDetailApiTest() {
         List<User> userDetail = userDetailRequestService.getUserDetail();
 
-        List<User> all = userRepository.findAll();
-        System.out.println(all);
+    }
+
+    @DisplayName("유저 정보 API 호출 후 저장 테스트")
+    @Test
+    void userDetailSaveAfterRequest() {
+        List<User> userDetail = userDetailRequestService.getUserDetail();
+        userService.getRenewedUserHandle(userDetail);
+
+        List<User> all = userService.findAll();
+
+
 
     }
 

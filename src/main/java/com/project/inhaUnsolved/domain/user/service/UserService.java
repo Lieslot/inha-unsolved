@@ -7,9 +7,11 @@ import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class UserService {
 
 
@@ -30,17 +32,21 @@ public class UserService {
 
             User existingUser = userSearchResult.get();
 
-            if (existingUser.getSolvingProblemCount() != user.getSolvingProblemCount()) {
+            if (!existingUser.hasEqualSolvingCount(user)) {
                 existingUser.renewSolvedCount(user.getSolvingProblemCount());
                 userRepository.save(existingUser);
-
                 handles.add(user.getHandle());
             }
 
         }
-
         return handles;
     }
+
+
+    public List<User> findAll() {
+        return userRepository.findAll();
+    }
+
 
 
 }

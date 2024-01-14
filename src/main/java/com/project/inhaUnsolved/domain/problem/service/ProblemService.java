@@ -36,7 +36,7 @@ public class ProblemService {
 
 
     }
-
+    // 지금까지 없던 문제를 추가
     public void addNewProblems(List<UnsolvedProblem> newProblems) {
 
         for (UnsolvedProblem newProblem : newProblems) {
@@ -55,6 +55,7 @@ public class ProblemService {
 
     }
 
+    // 문제 정보 갱신
     public void renewProblemDetails(List<UnsolvedProblem> newUnsolvedProblemDetails) {
 
         for (UnsolvedProblem problem : newUnsolvedProblemDetails) {
@@ -71,7 +72,7 @@ public class ProblemService {
             }
 
             existingProblem.renewName(problem.getName());
-            existingProblem.renewTags(problem.getTags());
+            existingProblem.renewTags(problem.getTags()); // 태그 정보가 갱신되지 않은 상태에서 문제 발생
             existingProblem.renewTier(problem.getTier());
 
             unsolvedProblemRepository.save(existingProblem);
