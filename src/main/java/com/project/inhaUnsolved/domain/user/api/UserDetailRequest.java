@@ -19,14 +19,14 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 // 인하대에 소속되어 있는 유저 정보 api 호출 후 저장
 @Service
-public class UserDetailRequestService {
+public class UserDetailRequest {
 
     private static final String API_URL = "https://solved.ac/api/v3/ranking/in_organization";
 
     private final RestTemplate restTemplate;
 
 
-    public UserDetailRequestService(RestTemplateBuilder restTemplateBuilder) {
+    public UserDetailRequest(RestTemplateBuilder restTemplateBuilder) {
         this.restTemplate = restTemplateBuilder.build();
 
     }

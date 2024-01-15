@@ -2,8 +2,7 @@ package com.project.inhaUnsolved.problem.api;
 
 
 import com.project.inhaUnsolved.domain.problem.domain.Tag;
-import com.project.inhaUnsolved.domain.problem.api.TagRequestService;
-import com.project.inhaUnsolved.domain.problem.service.TagService;
+import com.project.inhaUnsolved.domain.problem.api.TagRequest;
 import java.util.List;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -14,7 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 public class TagDetailRequestTest {
 
     @Autowired
-    TagRequestService request;
+    TagRequest request;
 
     @Test
     void tagDetailRequestTest() {

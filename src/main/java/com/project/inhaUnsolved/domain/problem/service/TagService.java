@@ -1,6 +1,6 @@
 package com.project.inhaUnsolved.domain.problem.service;
 
-import com.project.inhaUnsolved.domain.problem.api.TagRequestService;
+import com.project.inhaUnsolved.domain.problem.api.TagRequest;
 import com.project.inhaUnsolved.domain.problem.domain.Tag;
 import com.project.inhaUnsolved.domain.problem.repository.TagRepository;
 import java.util.List;
@@ -15,7 +15,7 @@ public class TagService {
 
 
     private final TagRepository tagRepository;
-    private final TagRequestService request;
+    private final TagRequest request;
 
     public void renewTagDetails() {
         List<Tag> tagDetails = request.getTagDetails();

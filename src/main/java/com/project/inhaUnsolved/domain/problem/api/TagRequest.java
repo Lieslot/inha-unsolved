@@ -4,11 +4,8 @@ package com.project.inhaUnsolved.domain.problem.api;
 import com.project.inhaUnsolved.domain.problem.domain.Tag;
 import com.project.inhaUnsolved.domain.problem.dto.TagDetail;
 import com.project.inhaUnsolved.domain.problem.dto.TagDetailResponse;
-import java.util.ArrayList;
 import java.util.List;
 import org.springframework.boot.web.client.RestTemplateBuilder;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
@@ -17,13 +14,13 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 @Service
-public class TagRequestService {
+public class TagRequest {
 
     private static final String API_URL = "https://solved.ac/api/v3/tag/list";
 
     private final RestTemplate restTemplate;
 
-    public TagRequestService(RestTemplateBuilder restTemplate) {
+    public TagRequest(RestTemplateBuilder restTemplate) {
         this.restTemplate = restTemplate.build();
     }
 

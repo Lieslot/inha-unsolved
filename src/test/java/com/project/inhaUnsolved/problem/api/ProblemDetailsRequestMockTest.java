@@ -4,7 +4,7 @@ package com.project.inhaUnsolved.problem.api;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.inhaUnsolved.domain.problem.domain.UnsolvedProblem;
 import com.project.inhaUnsolved.domain.problem.dto.ProblemsDetailResponse;
-import com.project.inhaUnsolved.domain.problem.api.ProblemSolvedByUserRequest;
+import com.project.inhaUnsolved.domain.problem.api.ProblemRequestSolvedByUser;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -19,7 +19,7 @@ import org.springframework.test.web.client.response.MockRestResponseCreators;
 import org.springframework.web.util.UriComponentsBuilder;
 
 
-@RestClientTest(value = {ProblemSolvedByUserRequest.class})
+@RestClientTest(value = {ProblemRequestSolvedByUser.class})
 //@SpringBootTest
 public class ProblemDetailsRequestMockTest {
 
@@ -29,7 +29,7 @@ public class ProblemDetailsRequestMockTest {
     private MockRestServiceServer server;
 
     @Autowired
-    private ProblemSolvedByUserRequest request;
+    private ProblemRequestSolvedByUser request;
 
     @Autowired
     private ObjectMapper objectMapper;

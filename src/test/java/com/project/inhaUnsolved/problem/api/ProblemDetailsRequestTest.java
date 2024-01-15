@@ -1,7 +1,7 @@
 package com.project.inhaUnsolved.problem.api;
 
 import com.project.inhaUnsolved.domain.problem.domain.UnsolvedProblem;
-import com.project.inhaUnsolved.domain.problem.api.ProblemSolvedByUserRequest;
+import com.project.inhaUnsolved.domain.problem.api.ProblemRequestSolvedByUser;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -14,7 +14,7 @@ public class ProblemDetailsRequestTest {
 
 
     @Autowired
-    private ProblemSolvedByUserRequest request;
+    private ProblemRequestSolvedByUser request;
 
 
     @DisplayName("유저 정보 API 테스트")
