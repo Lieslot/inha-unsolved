@@ -18,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-public class RenewUnsolvedProblemService {
+public class ProblemRenewService {
     
 
     private final UserDetailRequest userDetailRequest;

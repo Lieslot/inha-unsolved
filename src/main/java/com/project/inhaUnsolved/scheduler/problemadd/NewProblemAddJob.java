@@ -1,8 +1,7 @@
-package com.project.inhaUnsolved.scheduler.newproblemadd;
+package com.project.inhaUnsolved.scheduler.problemadd;
 
 import com.project.inhaUnsolved.domain.problem.service.NewProblemAddService;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;

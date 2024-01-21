@@ -3,15 +3,12 @@ package com.project.inhaUnsolved.problem.service;
 
 import com.project.inhaUnsolved.domain.problem.api.ProblemRequestSolvedByUser;
 import com.project.inhaUnsolved.domain.problem.domain.UnsolvedProblem;
-import com.project.inhaUnsolved.domain.problem.dto.ProblemsDetailResponse;
 import com.project.inhaUnsolved.domain.problem.repository.ProblemRepository;
-import com.project.inhaUnsolved.domain.problem.service.ProblemService;
-import com.project.inhaUnsolved.domain.problem.service.RenewUnsolvedProblemService;
+import com.project.inhaUnsolved.domain.problem.service.ProblemRenewService;
 import com.project.inhaUnsolved.domain.problem.vo.NewSolvedProblemStore;
 import com.project.inhaUnsolved.domain.user.User;
 import java.util.ArrayList;
 import java.util.List;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -23,7 +20,7 @@ public class RenewUnsolvedProblemServiceTest {
 
 
     @Autowired
-    private RenewUnsolvedProblemService service;
+    private ProblemRenewService service;
     @Autowired
     private ProblemRepository problemRepository;
 
