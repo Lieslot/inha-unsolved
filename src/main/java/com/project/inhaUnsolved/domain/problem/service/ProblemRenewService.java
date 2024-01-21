@@ -29,17 +29,23 @@ public class ProblemRenewService {
     private final Logger log = LoggerFactory.getLogger(getClass());
 
 
-    public void renewUnsolvedProblem() {
+    private List<User> filterRenewedUsers() {
         List<User> userDetail = userDetailRequest.getUserDetail();
         List<User> renewedUserHandle = userDetail.stream()
-                .filter(userService::isNewUserOrUserDetailChanged)
-                .toList();
+                                                 .filter(userService::isNewUserOrUserDetailChanged)
+                                                 .toList();
+        return renewedUserHandle;
+    }
+
+    public void renewUnsolvedProblem() {
+
+        List<User> renewedUsers = filterRenewedUsers();
 
         NewSolvedProblemStore solvedProblemStore = new NewSolvedProblemStore();
 
         List<User> userBuffer = new ArrayList<>();
 
-        for (User user : renewedUserHandle) {
+        for (User user : renewedUsers) {
             List<UnsolvedProblem> problems = problemSolvedByUserRequest.getProblems(user.getHandle());
             log.info("유저가 푼 모든 문제 api request");
 
