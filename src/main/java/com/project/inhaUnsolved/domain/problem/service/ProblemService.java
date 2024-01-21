@@ -21,23 +21,28 @@ public class ProblemService {
     private final SolvedProblemRepository solvedProblemRepository;
 
     // 기존 미해결 문제 중 새롭게 해결된 문제가 있으면 해결된 문제 목록에 추가
+
+    @Transactional
     public void renewUnsolvedProblem(List<UnsolvedProblem> problems) {
 
         for (UnsolvedProblem problem : problems) {
 
             int solvedProblemNumber = problem.getNumber();
 
-            if (unsolvedProblemRepository.existsByNumber(solvedProblemNumber)) {
-                unsolvedProblemRepository.deleteByNumber(solvedProblemNumber);
+            Optional<UnsolvedProblem> searchResult = unsolvedProblemRepository.findByNumber(solvedProblemNumber);
+
+            if (searchResult.isPresent()) {
+                UnsolvedProblem existingProblem = searchResult.get();
+                unsolvedProblemRepository.delete(existingProblem);
+                solvedProblemRepository.save(new SolvedProblem(solvedProblemNumber));
             }
 
-            solvedProblemRepository.save(new SolvedProblem(solvedProblemNumber));
         }
 
-
     }
+
     // 지금까지 없던 문제를 추가
-    public void addNewProblems(List<UnsolvedProblem> newProblems) {
+    public void addProblems(List<UnsolvedProblem> newProblems) {
 
         for (UnsolvedProblem newProblem : newProblems) {
             int newProblemNumber = newProblem.getNumber();

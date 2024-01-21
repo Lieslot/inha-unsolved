@@ -32,7 +32,7 @@ public class UserDetailRequestServiceTest {
     @Test
     void userDetailSaveAfterRequest() {
         List<User> userDetail = userDetailRequestService.getUserDetail();
-        userService.getRenewedUserHandle(userDetail);
+        userService.saveAll(userDetail);
 
         List<User> all = userService.findAll();
 

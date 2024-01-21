@@ -6,45 +6,59 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
 public class UserService {
 
 
     private final UserRepository userRepository;
+    private final Logger log = LoggerFactory.getLogger(getClass());
+
+    @Transactional(readOnly = true)
+    public boolean isNewUserOrUserDetailChanged(User user) {
+
+        Optional<User> userSearchResult = userRepository.findByHandle(user.getHandle());
+        if (userSearchResult.isEmpty()) {
+
+            return true;
+        }
+
+        User existingUser = userSearchResult.get();
+
+        return !existingUser.hasEqualSolvingCount(user);
 
 
-    public List<String> getRenewedUserHandle(List<User> users) {
+    }
 
-        List<String> handles = new ArrayList<>();
+    @Transactional(readOnly = true)
+    public List<User> findAll() {
+        return userRepository.findAll();
+    }
+
+    @Transactional
+    public void saveAll(List<User> users) {
+        log.info("유저 저장 시작");
 
         for (User user : users) {
-            Optional<User> userSearchResult = userRepository.findByHandle(user.getHandle());
+            Optional<User> searchResult = userRepository.findByHandle(user.getHandle());
 
-            if (userSearchResult.isEmpty()) {
+            if (searchResult.isEmpty()) {
+                log.info("새로운 유저 저장");
                 userRepository.save(user);
                 continue;
             }
+            log.info("유저 저장");
 
-            User existingUser = userSearchResult.get();
-
-            if (!existingUser.hasEqualSolvingCount(user)) {
-                existingUser.renewSolvedCount(user.getSolvingProblemCount());
-                userRepository.save(existingUser);
-                handles.add(user.getHandle());
-            }
-
+            User existingUser = searchResult.get();
+            existingUser.renewSolvedCount(user.getSolvingProblemCount());
+            userRepository.save(existingUser);
         }
-        return handles;
-    }
 
-
-    public List<User> findAll() {
-        return userRepository.findAll();
     }
 
 

@@ -36,7 +36,7 @@ public class ProblemServiceTest {
         }
 
         tagService.renewTagDetails();
-        problemService.addNewProblems(newProblems);
+        problemService.addProblems(newProblems);
         problemService.renewUnsolvedProblem(solvedProblem);
 
     }

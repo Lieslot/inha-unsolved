@@ -1,6 +1,8 @@
 package com.project.inhaUnsolved.domain.problem.api;
 
 
+import com.project.inhaUnsolved.domain.problem.common.ProblemDetailResponseParser;
+import com.project.inhaUnsolved.domain.problem.common.ProblemDetailsParser;
 import com.project.inhaUnsolved.domain.problem.domain.UnsolvedProblem;
 import com.project.inhaUnsolved.domain.problem.dto.ProblemDetail;
 import com.project.inhaUnsolved.domain.problem.dto.ProblemsDetailResponse;
@@ -27,7 +29,7 @@ public class ProblemRequestSolvedByUser {
 
     private final RestTemplate restTemplate;
 
-    private ResponseEntity<ProblemsDetailResponse> requestProblem(String handle, int pageNumber) {
+    private ResponseEntity<String> requestProblem(String handle, int pageNumber) {
 
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(API_URL)
                                                            .queryParam("query", "s@" + handle)
@@ -41,7 +43,7 @@ public class ProblemRequestSolvedByUser {
         return restTemplate.exchange(builder.build()
                                             .encode()
                                             .toUri(), HttpMethod.GET, entity,
-                ProblemsDetailResponse.class);
+                String.class);
 
     }
 
@@ -51,16 +53,16 @@ public class ProblemRequestSolvedByUser {
         List<UnsolvedProblem> problems = new ArrayList<>();
 
         for (int pageNumber = 1; ; pageNumber++) {
-            ResponseEntity<ProblemsDetailResponse> response = requestProblem(handle, pageNumber);
-            ProblemsDetailResponse body = response.getBody();
-            if (body == null) {
-                break;
-            }
+            ResponseEntity<String> response = requestProblem(handle, pageNumber);
 
-            List<ProblemDetail> problemDetails = body.getItems();
+            ProblemsDetailResponse problemsDetailResponse = ProblemDetailResponseParser.parse(response);
+
+
+            List<ProblemDetail> problemDetails = problemsDetailResponse.getItems();
             if (problemDetails.isEmpty()) {
                 break;
             }
+
             problems.addAll(problemDetails.stream()
                                           .filter(ProblemDetail::isSolvable)
                                           .map(ProblemDetail::toUnsolvedProblem)

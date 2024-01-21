@@ -18,7 +18,8 @@ public class NewProblemAddService {
     public void addNewProblem() {
         int number = getLastProcessedNumber();
 
-        if (number == 0) {
+        number++;
+        if (number == 1) {
             number = 1000;
         }
 
@@ -26,12 +27,13 @@ public class NewProblemAddService {
             List<String> problemNumbers = IntStream.range(number, number + 100)
                                                    .mapToObj(String::valueOf)
                                                    .toList();
+
             List<UnsolvedProblem> newProblems = request.getProblemBy(problemNumbers);
             if (newProblems.isEmpty()) {
                 break;
             }
 
-            problemService.addNewProblems(newProblems);
+            problemService.addProblems(newProblems);
         }
 
     }
