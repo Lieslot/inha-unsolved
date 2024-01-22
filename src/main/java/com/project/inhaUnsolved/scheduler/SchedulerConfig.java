@@ -1,8 +1,9 @@
 package com.project.inhaUnsolved.scheduler;
 
 
-import com.project.inhaUnsolved.scheduler.problemadd.NewProblemAddJob;
-import com.project.inhaUnsolved.scheduler.problemrenew.ProblemRenewJob;
+import com.project.inhaUnsolved.scheduler.job.NewProblemAddJob;
+import com.project.inhaUnsolved.scheduler.job.ProblemRenewJob;
+import com.project.inhaUnsolved.scheduler.job.TagRenewJob;
 import jakarta.annotation.PostConstruct;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -43,8 +44,10 @@ public class SchedulerConfig {
                                                .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
 
             log.info("스케쥴 설정 시작");
-            buildJob(ProblemRenewJob.class, "ProblemRenewJob", paramsMap, "0 0/2 * * * ?");
+            buildJob(ProblemRenewJob.class, "ProblemRenewJob", paramsMap, "0 0/15 * * * ?");
             buildJob(NewProblemAddJob.class, "NewProblemAddJob", paramsMap, "0 0 0 * * ?");
+            buildJob(TagRenewJob.class, "TagRenewJob", paramsMap, "0 0 0/1 * * ?");
+
 
             log.info("스케쥴 설정 완료");
 
@@ -54,6 +57,7 @@ public class SchedulerConfig {
 
         }
     }
+
     //Job 추가
     public void buildJob(Class<? extends Job> job , String name, Map paramsMap, String cron)
             throws SchedulerException {
@@ -66,6 +70,7 @@ public class SchedulerConfig {
         }
         scheduler.scheduleJob(jobDetail,trigger);
     }
+
     //JobDetail 생성
     public JobDetail buildJobDetail(Class<? extends Job> job, String name, Map paramsMap) {
         JobDataMap jobDataMap = new JobDataMap();

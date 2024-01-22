@@ -1,4 +1,4 @@
-package com.project.inhaUnsolved.scheduler.problemadd;
+package com.project.inhaUnsolved.scheduler.job;
 
 import com.project.inhaUnsolved.domain.problem.service.NewProblemAddService;
 import lombok.NoArgsConstructor;

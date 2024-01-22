@@ -24,6 +24,7 @@ public class UserService {
     public boolean isNewUserOrUserDetailChanged(User user) {
 
         Optional<User> userSearchResult = userRepository.findByHandle(user.getHandle());
+
         if (userSearchResult.isEmpty()) {
 
             return true;
