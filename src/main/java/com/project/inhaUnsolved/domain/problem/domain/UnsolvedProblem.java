@@ -58,6 +58,10 @@ public class UnsolvedProblem {
 
     }
 
+    public boolean hasEqual(int number) {
+        return this.number == number;
+    }
+
     public void renewTags(Set<ProblemTag> tags) {
 
         List<ProblemTag> newProblemTags = tags.stream()

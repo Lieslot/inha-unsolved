@@ -3,25 +3,36 @@ package com.project.inhaUnsolved.domain.problem.service;
 
 import com.project.inhaUnsolved.domain.problem.api.ProblemRequestByNumber;
 import com.project.inhaUnsolved.domain.problem.domain.UnsolvedProblem;
+import jakarta.annotation.PostConstruct;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.IntStream;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class NewProblemAddService {
+
+
+    @Value("${common.last-number-path}")
+    private String LAST_NUMBER_PATH;
 
     private final ProblemService problemService;
     private final ProblemRequestByNumber request;
 
+
     public void addNewProblem() {
         int number = getLastProcessedNumber();
 
-        number++;
-        if (number == 1) {
-            number = 1000;
-        }
 
         for (;;number += 100) {
             List<String> problemNumbers = IntStream.range(number, number + 100)
@@ -29,18 +40,57 @@ public class NewProblemAddService {
                                                    .toList();
 
             List<UnsolvedProblem> newProblems = request.getProblemBy(problemNumbers);
+
             if (newProblems.isEmpty()) {
                 break;
             }
 
             problemService.addProblems(newProblems);
+
+            int storedNumber  = newProblems.get(newProblems.size() - 1)
+                                           .getNumber();
+
+
+            log.debug(String.valueOf(storedNumber));
+
+            reWriteLastProcessedNumber(storedNumber);
+
         }
 
     }
 
     private Integer getLastProcessedNumber() {
 
-        return Integer.max(problemService.findLastSolvedNumber(), problemService.findLastUnsolvedNumber());
+        File inputFile = new File(LAST_NUMBER_PATH);
 
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader(inputFile));
+
+            String lastNumber = reader.readLine();
+
+            return Integer.parseInt(lastNumber);
+
+        }
+        catch (Exception e) {
+            log.error("이전에 처리했던 마지막 문제 번호 읽기 오류", e);
+            return 1000;
+        }
+
+    }
+
+    private void reWriteLastProcessedNumber(int number) {
+
+        File outputFile = new File(LAST_NUMBER_PATH);
+
+        try {
+            BufferedWriter writer = new BufferedWriter(new FileWriter(outputFile));
+
+            writer.write(String.valueOf(number));
+            writer.flush();
+        }
+        catch (Exception e) {
+            log.error("이전에 처리했던 마지막 문제 번호 읽기 오류", e);
+            throw new IllegalArgumentException();
+        }
     }
 }

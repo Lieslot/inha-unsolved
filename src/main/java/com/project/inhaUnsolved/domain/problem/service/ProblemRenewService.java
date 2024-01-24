@@ -29,17 +29,16 @@ public class ProblemRenewService {
     private final Logger log = LoggerFactory.getLogger(getClass());
 
 
-    private List<User> filterRenewedUsers() {
+    private List<User> requestAndFilterRenewedUsers() {
         List<User> userDetail = userDetailRequest.getUserDetail();
-        List<User> renewedUserHandle = userDetail.stream()
-                                                 .filter(userService::isNewUserOrUserDetailChanged)
-                                                 .toList();
-        return renewedUserHandle;
+
+        return userService.getRenewedUser(userDetail);
     }
 
+    @Transactional
     public void renewUnsolvedProblem() {
 
-        List<User> renewedUsers = filterRenewedUsers();
+        List<User> renewedUsers = requestAndFilterRenewedUsers();
 
         NewSolvedProblemStore solvedProblemStore = new NewSolvedProblemStore();
 

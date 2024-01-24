@@ -4,9 +4,16 @@ import com.project.inhaUnsolved.domain.problem.domain.SolvedProblem;
 import com.project.inhaUnsolved.domain.problem.domain.UnsolvedProblem;
 import com.project.inhaUnsolved.domain.problem.dto.ProblemNumberOnly;
 import com.project.inhaUnsolved.domain.problem.repository.ProblemRepository;
+import com.project.inhaUnsolved.domain.problem.repository.ProblemRepositoryCustom;
 import com.project.inhaUnsolved.domain.problem.repository.SolvedProblemRepository;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,40 +25,58 @@ import org.springframework.transaction.annotation.Transactional;
 public class ProblemService {
 
     private final ProblemRepository unsolvedProblemRepository;
+    private final ProblemRepositoryCustom unsolvedProblemRepositoryCustom;
     private final SolvedProblemRepository solvedProblemRepository;
 
     // 기존 미해결 문제 중 새롭게 해결된 문제가 있으면 해결된 문제 목록에 추가
 
-    @Transactional
     public void renewUnsolvedProblem(List<UnsolvedProblem> problems) {
 
-        for (UnsolvedProblem problem : problems) {
+        Set<Integer> numbers = problems.stream()
+                                     .map(UnsolvedProblem::getNumber)
+                                     .collect(Collectors.toSet());
 
-            int solvedProblemNumber = problem.getNumber();
+        List<UnsolvedProblem> newSolvedProblems = unsolvedProblemRepository.findAllByNumberIn(numbers);
 
-            Optional<UnsolvedProblem> searchResult = unsolvedProblemRepository.findByNumber(solvedProblemNumber);
+        List<Integer> newSolvedProblemNumbers = unsolvedProblemRepository.findAllByNumberIn(numbers)
+                .stream()
+                .map(UnsolvedProblem::getNumber)
+                .toList();
 
-            if (searchResult.isPresent()) {
-                UnsolvedProblem existingProblem = searchResult.get();
-                unsolvedProblemRepository.delete(existingProblem);
-                solvedProblemRepository.save(new SolvedProblem(solvedProblemNumber));
-            }
+        List<SolvedProblem> newSolvedOne = newSolvedProblemNumbers.stream()
+                                                                              .map(SolvedProblem::new)
+                                                                                      .toList();
 
-        }
+        unsolvedProblemRepositoryCustom.deleteAllById(newSolvedProblems.stream()
+                .map(UnsolvedProblem::getId)
+                .toList());
+        solvedProblemRepository.saveAll(newSolvedOne);
+
 
     }
 
     // 지금까지 없던 문제를 추가
     public void addProblems(List<UnsolvedProblem> newProblems) {
 
+        List<Integer> numbers = newProblems.stream()
+                                        .map(UnsolvedProblem::getNumber)
+                                        .toList();
+
+        Set<Integer> existingUnsolvedOne = unsolvedProblemRepository.findAllByNumberIn(numbers)
+                .stream()
+                .map(UnsolvedProblem::getNumber)
+                .collect(Collectors.toSet());
+
+        Set<Integer> existingSolvedOne = unsolvedProblemRepository.findAllByNumberIn(numbers)
+                                                                  .stream()
+                                                                  .map(UnsolvedProblem::getNumber)
+                                                                  .collect(Collectors.toSet());;
+
         for (UnsolvedProblem newProblem : newProblems) {
             int newProblemNumber = newProblem.getNumber();
 
-            if (solvedProblemRepository.existsByNumber(newProblemNumber)) {
-                continue;
-            }
-
-            if (unsolvedProblemRepository.existsByNumber(newProblemNumber)) {
+            if (existingSolvedOne.contains(newProblemNumber) ||
+                    existingUnsolvedOne.contains(newProblemNumber)) {
                 continue;
             }
 
@@ -61,27 +86,34 @@ public class ProblemService {
     }
 
     // 문제 정보 갱신
-    public void renewProblemDetails(List<UnsolvedProblem> newUnsolvedProblemDetails) {
+    public void renewProblemDetails(List<UnsolvedProblem> problemDetails) {
 
-        for (UnsolvedProblem problem : newUnsolvedProblemDetails) {
+        List<Integer> numbers = problemDetails.stream()
+                                        .map(UnsolvedProblem::getNumber)
+                                        .toList();
 
-            Optional<UnsolvedProblem> problemSearchResult = unsolvedProblemRepository.findByNumber(problem.getNumber());
-            if (problemSearchResult.isEmpty()) {
+        Map<Integer, UnsolvedProblem> existingProblems = unsolvedProblemRepository.findAllByNumberIn(numbers)
+                                                                         .stream()
+                                                                         .collect(Collectors.toMap(
+                                                                                 UnsolvedProblem::getNumber,
+                                                                                 Function.identity()));
+
+        for (UnsolvedProblem newProblemDetail : problemDetails) {
+            UnsolvedProblem existingProblem = existingProblems.get(newProblemDetail.getNumber());
+
+            if (existingProblem == null) {
                 continue;
             }
 
-            UnsolvedProblem existingProblem = problemSearchResult.get();
-
-            if (existingProblem.equals(problem)) {
-                continue;
-            }
-
-            existingProblem.renewName(problem.getName());
-            existingProblem.renewTags(problem.getTags()); // 태그 정보가 갱신되지 않은 상태에서 문제 발생
-            existingProblem.renewTier(problem.getTier());
+            existingProblem.renewName(newProblemDetail.getName());
+            existingProblem.renewTags(newProblemDetail.getTags()); // 태그 정보가 갱신되지 않은 상태에서 문제 발생
+            existingProblem.renewTier(newProblemDetail.getTier());
 
             unsolvedProblemRepository.save(existingProblem);
+
         }
+
+
 
     }
 

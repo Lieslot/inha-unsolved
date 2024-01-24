@@ -4,11 +4,12 @@ import com.project.inhaUnsolved.domain.user.User;
 import com.project.inhaUnsolved.domain.user.repository.UserRepository;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,21 +22,32 @@ public class UserService {
     private final UserRepository userRepository;
 
     @Transactional(readOnly = true)
-    public boolean isNewUserOrUserDetailChanged(User user) {
+    public List<User> getRenewedUser(List<User> newUserDetails) {
 
-        Optional<User> userSearchResult = userRepository.findByHandle(user.getHandle());
+        Map<String, User> existingUsers = userRepository.findAll()
+                                                  .stream()
+                                                  .collect(Collectors.toMap(User::getHandle, Function.identity()));
 
-        if (userSearchResult.isEmpty()) {
+        List<User> renewedUsers = new ArrayList<>();
 
-            return true;
+        for (User newUserDetail : newUserDetails) {
+            User existingUser = existingUsers.get(newUserDetail.getHandle());
+
+            if (existingUser == null) {
+                renewedUsers.add(newUserDetail);
+                continue;
+            }
+
+            if (existingUser.hasEqualSolvingCount(newUserDetail)) {
+                renewedUsers.add(existingUser);
+            }
         }
 
-        User existingUser = userSearchResult.get();
-
-        return !existingUser.hasEqualSolvingCount(user);
-
+        return renewedUsers;
 
     }
+
+
 
     @Transactional(readOnly = true)
     public List<User> findAll() {
