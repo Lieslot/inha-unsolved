@@ -1,8 +1,10 @@
 package com.project.inhaUnsolved.domain.problem.service;
 
 
+import com.project.inhaUnsolved.domain.problem.api.ProblemRequestByNumber;
 import com.project.inhaUnsolved.domain.problem.api.ProblemRequestSolvedByUser;
 import com.project.inhaUnsolved.domain.problem.domain.UnsolvedProblem;
+import com.project.inhaUnsolved.domain.problem.repository.ProblemRepositoryCustom;
 import com.project.inhaUnsolved.domain.problem.vo.NewSolvedProblemStore;
 import com.project.inhaUnsolved.domain.user.User;
 import com.project.inhaUnsolved.domain.user.api.UserDetailRequest;
@@ -12,6 +14,9 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,6 +30,8 @@ public class ProblemRenewService {
     private final ProblemRequestSolvedByUser problemSolvedByUserRequest;
     private final ProblemService problemService;
     private final UserService userService;
+    private final ProblemRequestByNumber problemRequestByNumber;
+
 
     private final Logger log = LoggerFactory.getLogger(getClass());
 
@@ -72,6 +79,23 @@ public class ProblemRenewService {
         problemService.renewUnsolvedProblem(problems);
 
     }
+
+
+    public void renewProblemDetail() {
+        List<String> problemNumbers = problemService.findAllUnsolvedProblemNumbers()
+                                          .stream()
+                                          .map(String::valueOf)
+                                          .toList();
+
+        List<UnsolvedProblem> problems = problemRequestByNumber.getProblemBy(problemNumbers);
+
+        problemService.renewProblemDetails(problems);
+
+
+
+    }
+
+
 
 
 

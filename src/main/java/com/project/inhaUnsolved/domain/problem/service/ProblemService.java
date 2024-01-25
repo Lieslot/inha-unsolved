@@ -27,6 +27,8 @@ public class ProblemService {
     private final ProblemRepository unsolvedProblemRepository;
     private final ProblemRepositoryCustom unsolvedProblemRepositoryCustom;
     private final SolvedProblemRepository solvedProblemRepository;
+    private final ProblemRepositoryCustom problemRepositoryCustom;
+
 
     // 기존 미해결 문제 중 새롭게 해결된 문제가 있으면 해결된 문제 목록에 추가
 
@@ -138,6 +140,13 @@ public class ProblemService {
         }
 
         return number.get().getNumber();
+    }
+
+
+    @Transactional(readOnly = true)
+    public List<Integer> findAllUnsolvedProblemNumbers() {
+        return problemRepositoryCustom.findAllNumber();
+
     }
 
 

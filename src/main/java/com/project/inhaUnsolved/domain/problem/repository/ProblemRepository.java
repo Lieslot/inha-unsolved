@@ -26,4 +26,5 @@ public interface ProblemRepository extends JpaRepository<UnsolvedProblem, Intege
     Set<UnsolvedProblem> findSetByNumberIn(Collection<Integer> number);
 
     Optional<ProblemNumberOnly> findTopByOrderByNumberDesc();
+
 }

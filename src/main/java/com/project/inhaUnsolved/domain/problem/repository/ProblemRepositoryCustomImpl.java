@@ -9,6 +9,8 @@ import com.project.inhaUnsolved.domain.problem.domain.QUnsolvedProblem;
 import com.project.inhaUnsolved.domain.problem.domain.UnsolvedProblem;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.Collection;
+import java.util.List;
+import java.util.stream.IntStream;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -33,4 +35,26 @@ public class ProblemRepositoryCustomImpl implements ProblemRepositoryCustom{
                 .where(unsolvedProblem.id.in(ids))
                 .execute();
     }
+
+    @Override
+    public List<Integer> findAllNumber() {
+
+        int batchSize = 100;
+
+        return IntStream.iterate(0, n -> n + 1)
+                        .mapToObj(page -> jpaQueryFactory
+                                .select(unsolvedProblem.number)
+                                .from(unsolvedProblem)
+                                .offset((long) page * batchSize)
+                                .limit(batchSize)
+                                .fetch())
+                        .takeWhile(batch -> !batch.isEmpty())
+                        .flatMap(List::stream)
+                .toList();
+
+    }
+
+
+
+
 }
