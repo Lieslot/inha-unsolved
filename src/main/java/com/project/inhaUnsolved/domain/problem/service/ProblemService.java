@@ -40,7 +40,7 @@ public class ProblemService {
 
         List<UnsolvedProblem> newSolvedProblems = unsolvedProblemRepository.findAllByNumberIn(numbers);
 
-        List<Integer> newSolvedProblemNumbers = unsolvedProblemRepository.findAllByNumberIn(numbers)
+        List<Integer> newSolvedProblemNumbers = newSolvedProblems
                 .stream()
                 .map(UnsolvedProblem::getNumber)
                 .toList();
@@ -69,9 +69,9 @@ public class ProblemService {
                 .map(UnsolvedProblem::getNumber)
                 .collect(Collectors.toSet());
 
-        Set<Integer> existingSolvedOne = unsolvedProblemRepository.findAllByNumberIn(numbers)
+        Set<Integer> existingSolvedOne = solvedProblemRepository.findAllByNumberIn(numbers)
                                                                   .stream()
-                                                                  .map(UnsolvedProblem::getNumber)
+                                                                  .map(SolvedProblem::getNumber)
                                                                   .collect(Collectors.toSet());;
 
         for (UnsolvedProblem newProblem : newProblems) {

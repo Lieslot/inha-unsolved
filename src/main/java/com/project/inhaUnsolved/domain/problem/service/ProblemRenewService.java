@@ -9,11 +9,13 @@ import com.project.inhaUnsolved.domain.problem.vo.NewSolvedProblemStore;
 import com.project.inhaUnsolved.domain.user.User;
 import com.project.inhaUnsolved.domain.user.api.UserDetailRequest;
 import com.project.inhaUnsolved.domain.user.service.UserService;
+import jakarta.persistence.EntityManager;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -42,7 +44,7 @@ public class ProblemRenewService {
         return userService.getRenewedUser(userDetail);
     }
 
-    @Transactional
+
     public void renewUnsolvedProblem() {
 
         List<User> renewedUsers = requestAndFilterRenewedUsers();
@@ -70,8 +72,10 @@ public class ProblemRenewService {
 
     }
 
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
+
     public void saveTransaction(List<UnsolvedProblem> problems, List<User> userBuffer) {
+
+
 
         log.info("문제 갱신 트랜잭션 시작");
         userService.saveAll(userBuffer);

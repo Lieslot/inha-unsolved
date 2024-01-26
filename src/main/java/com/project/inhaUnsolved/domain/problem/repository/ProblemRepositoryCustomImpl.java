@@ -54,7 +54,22 @@ public class ProblemRepositoryCustomImpl implements ProblemRepositoryCustom{
 
     }
 
-
+//    @Override
+//    public List<Integer> findAllId(int batchSize) {
+//
+//        return IntStream.iterate(0, n -> n + 1)
+//                 .mapToObj(page -> jpaQueryFactory
+//                         .select(unsolvedProblem.number)
+//                         .from(unsolvedProblem)
+//                         .offset((long) page * batchSize)
+//                         .limit(batchSize)
+//                         .fetch())
+//                 .takeWhile(batch -> !batch.isEmpty())
+//                 .flatMap(List::stream)
+//                 .toList();
+//
+//
+//    }
 
 
 }

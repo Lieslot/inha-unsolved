@@ -2,6 +2,7 @@ package com.project.inhaUnsolved.domain.problem.repository;
 
 import com.project.inhaUnsolved.domain.problem.domain.SolvedProblem;
 import com.project.inhaUnsolved.domain.problem.dto.ProblemNumberOnly;
+import java.util.List;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -11,4 +12,6 @@ public interface SolvedProblemRepository extends JpaRepository<SolvedProblem, In
 
 
     Optional<ProblemNumberOnly> findTopByOrderByNumberDesc();
+
+    List<SolvedProblem> findAllByNumberIn(List<Integer> number);
 }

@@ -48,7 +48,7 @@ public class SchedulerConfig {
             buildJob(ProblemRenewJob.class, "ProblemRenewJob", paramsMap, "0 0/15 * * * ?");
             buildJob(NewProblemAddJob.class, "NewProblemAddJob", paramsMap, "0 0 0 * * ?");
             buildJob(TagRenewJob.class, "TagRenewJob", paramsMap, "0 0 0/1 * * ?");
-            buildJob(ProblemDetailRenewJob.class, "ProblemDetailRenewJob", paramsMap, "0 0 0/1 * * ?");
+            buildJob(ProblemDetailRenewJob.class, "ProblemDetailRenewJob", paramsMap, "0 0 1 * * ?");
 
 
             log.info("스케쥴 설정 완료");
