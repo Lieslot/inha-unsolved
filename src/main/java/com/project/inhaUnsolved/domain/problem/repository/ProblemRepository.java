@@ -14,7 +14,7 @@ public interface ProblemRepository extends JpaRepository<UnsolvedProblem, Intege
 
 
 
-
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
     List<UnsolvedProblem> findAllByNumberIn(Collection<Integer> number);
 
     Set<UnsolvedProblem> findSetByNumberIn(Collection<Integer> number);

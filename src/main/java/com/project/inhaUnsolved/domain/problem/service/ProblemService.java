@@ -33,15 +33,20 @@ public class ProblemService {
     public void renewUnsolvedProblem(List<UnsolvedProblem> problems) {
 
         List<Integer> numbers = problems.stream()
-                                       .map(UnsolvedProblem::getNumber)
-                                       .collect(Collectors.toList());
+                                        .map(UnsolvedProblem::getNumber)
+                                        .collect(Collectors.toList());
 
+        Set<Integer> existingProblems = unsolvedProblemRepositoryCustom.findAllByNumbersIn(numbers);
 
-        List<SolvedProblem> newSolvedOne = numbers.stream()
-                                                                  .map(SolvedProblem::new)
-                                                                  .toList();
+        List<Integer> newSolvedNumber = numbers.stream()
+                                             .filter(existingProblems::contains)
+                                             .toList();
 
-        unsolvedProblemRepositoryCustom.deleteAllByNumber(numbers);
+        List<SolvedProblem> newSolvedOne = newSolvedNumber.stream()
+                                                  .map(SolvedProblem::new)
+                                                  .toList();
+
+        unsolvedProblemRepositoryCustom.deleteAllByNumber(newSolvedNumber);
 
         solvedProblemRepository.saveAll(newSolvedOne);
 
@@ -110,12 +115,10 @@ public class ProblemService {
     }
 
 
-
     @Transactional(readOnly = true)
     public List<Integer> findAllUnsolvedProblemNumbers() {
         return problemRepositoryCustom.findAllNumber();
     }
-
 
 
 }
