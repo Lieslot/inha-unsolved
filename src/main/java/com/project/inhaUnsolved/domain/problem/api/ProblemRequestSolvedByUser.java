@@ -2,7 +2,6 @@ package com.project.inhaUnsolved.domain.problem.api;
 
 
 import com.project.inhaUnsolved.domain.problem.common.ProblemDetailResponseParser;
-import com.project.inhaUnsolved.domain.problem.common.ProblemDetailsParser;
 import com.project.inhaUnsolved.domain.problem.domain.UnsolvedProblem;
 import com.project.inhaUnsolved.domain.problem.dto.ProblemDetail;
 import com.project.inhaUnsolved.domain.problem.dto.ProblemsDetailResponse;
@@ -56,7 +55,6 @@ public class ProblemRequestSolvedByUser {
             ResponseEntity<String> response = requestProblem(handle, pageNumber);
 
             ProblemsDetailResponse problemsDetailResponse = ProblemDetailResponseParser.parse(response);
-
 
             List<ProblemDetail> problemDetails = problemsDetailResponse.getItems();
             if (problemDetails.isEmpty()) {

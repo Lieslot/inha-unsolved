@@ -29,11 +29,10 @@ public class TagRequest {
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(API_URL);
 
         RequestEntity<Void> request = RequestEntity.get(builder.encode()
-                                                             .build()
-                                                             .toUri())
-                                                 .accept(MediaType.APPLICATION_JSON)
-                                                 .build();
-
+                                                               .build()
+                                                               .toUri())
+                                                   .accept(MediaType.APPLICATION_JSON)
+                                                   .build();
 
         return restTemplate.exchange(request, TagDetailResponse.class);
 
@@ -48,9 +47,10 @@ public class TagRequest {
             throw new IllegalStateException("tag body empty");
         }
 
-        return body.getItems().stream()
-                .map(TagDetail::toTag)
-                .toList();
+        return body.getItems()
+                   .stream()
+                   .map(TagDetail::toTag)
+                   .toList();
 
     }
 

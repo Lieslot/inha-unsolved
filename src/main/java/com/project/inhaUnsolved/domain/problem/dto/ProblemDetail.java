@@ -8,7 +8,6 @@ import com.project.inhaUnsolved.domain.problem.domain.UnsolvedProblem;
 import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Getter

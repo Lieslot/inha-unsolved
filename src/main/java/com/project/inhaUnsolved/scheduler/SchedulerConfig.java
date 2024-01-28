@@ -23,11 +23,13 @@ import org.quartz.SchedulerException;
 import org.quartz.Trigger;
 import org.quartz.TriggerBuilder;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 
 
 @RequiredArgsConstructor
 @Configuration
 @Slf4j
+@Profile("!dbtest")
 public class SchedulerConfig {
 
     private final Scheduler scheduler;
@@ -45,15 +47,14 @@ public class SchedulerConfig {
                                                .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
 
             log.info("스케쥴 설정 시작");
-            buildJob(ProblemRenewJob.class, "ProblemRenewJob", paramsMap, "0 0/15 * * * ?");
-            buildJob(NewProblemAddJob.class, "NewProblemAddJob", paramsMap, "0 0 0 * * ?");
-            buildJob(TagRenewJob.class, "TagRenewJob", paramsMap, "0 0 0/1 * * ?");
-            buildJob(ProblemDetailRenewJob.class, "ProblemDetailRenewJob", paramsMap, "0 0 1 * * ?");
-
+            buildJob(ProblemRenewJob.class, "ProblemRenewJob", paramsMap, "0 0/5 * * * ?");
+            buildJob(NewProblemAddJob.class, "NewProblemAddJob", paramsMap, "0 0/5 0 * * ?");
+            buildJob(TagRenewJob.class, "TagRenewJob", paramsMap, "0 0/5 0 * * ?");
+            buildJob(ProblemDetailRenewJob.class, "ProblemDetailRenewJob", paramsMap, "0 0/5 0 * * ?");
 
             log.info("스케쥴 설정 완료");
 
-        } catch (Exception e){
+        } catch (Exception e) {
 
             log.error("addJob error  : {}", e);
 
@@ -61,16 +62,16 @@ public class SchedulerConfig {
     }
 
     //Job 추가
-    public void buildJob(Class<? extends Job> job , String name, Map paramsMap, String cron)
+    public void buildJob(Class<? extends Job> job, String name, Map paramsMap, String cron)
             throws SchedulerException {
 
-        JobDetail jobDetail = buildJobDetail(job,name,paramsMap);
+        JobDetail jobDetail = buildJobDetail(job, name, paramsMap);
         Trigger trigger = buildCronTrigger(cron);
 
-        if(scheduler.checkExists(jobDetail.getKey())) {
+        if (scheduler.checkExists(jobDetail.getKey())) {
             scheduler.deleteJob(jobDetail.getKey());
         }
-        scheduler.scheduleJob(jobDetail,trigger);
+        scheduler.scheduleJob(jobDetail, trigger);
     }
 
     //JobDetail 생성
@@ -83,6 +84,7 @@ public class SchedulerConfig {
                 .usingJobData(jobDataMap)
                 .build();
     }
+
     //Trigger 생성
     private Trigger buildCronTrigger(String cronExp) {
         return TriggerBuilder.newTrigger()

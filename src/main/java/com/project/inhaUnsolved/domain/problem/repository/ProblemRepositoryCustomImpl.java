@@ -1,23 +1,23 @@
 package com.project.inhaUnsolved.domain.problem.repository;
 
 
-import static com.project.inhaUnsolved.domain.bridge.QProblemTag.*;
-import static com.project.inhaUnsolved.domain.problem.domain.QUnsolvedProblem.*;
+import static com.project.inhaUnsolved.domain.bridge.QProblemTag.problemTag;
+import static com.project.inhaUnsolved.domain.problem.domain.QUnsolvedProblem.unsolvedProblem;
 
-import com.project.inhaUnsolved.domain.bridge.QProblemTag;
-import com.project.inhaUnsolved.domain.problem.domain.QUnsolvedProblem;
 import com.project.inhaUnsolved.domain.problem.domain.UnsolvedProblem;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import jakarta.persistence.LockModeType;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.IntStream;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.repository.Lock;
 import org.springframework.stereotype.Repository;
 
 
 @RequiredArgsConstructor
 @Repository
-public class ProblemRepositoryCustomImpl implements ProblemRepositoryCustom{
+public class ProblemRepositoryCustomImpl implements ProblemRepositoryCustom {
 
 
     private final JPAQueryFactory jpaQueryFactory;
@@ -30,10 +30,9 @@ public class ProblemRepositoryCustomImpl implements ProblemRepositoryCustom{
                        .where(problemTag.problem.id.in(ids))
                        .execute();
 
-
         jpaQueryFactory.delete(unsolvedProblem)
-                .where(unsolvedProblem.id.in(ids))
-                .execute();
+                       .where(unsolvedProblem.id.in(ids))
+                       .execute();
     }
 
     @Override
@@ -50,7 +49,16 @@ public class ProblemRepositoryCustomImpl implements ProblemRepositoryCustom{
                                 .fetch())
                         .takeWhile(batch -> !batch.isEmpty())
                         .flatMap(List::stream)
-                .toList();
+                        .toList();
+
+    }
+
+    @Override
+    public void deleteAllByNumber(Collection<Integer> numbers) {
+
+        jpaQueryFactory.delete(unsolvedProblem)
+                .where(unsolvedProblem.number.in(numbers))
+                .execute();
 
     }
 

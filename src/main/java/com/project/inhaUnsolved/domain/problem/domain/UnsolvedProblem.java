@@ -19,6 +19,7 @@ import java.util.stream.Collectors;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.BatchSize;
 
 
 @Getter
@@ -41,6 +42,7 @@ public class UnsolvedProblem {
     @Enumerated(EnumType.ORDINAL)
     private Tier tier;
 
+    @BatchSize(size = 5)
     @OneToMany(mappedBy = "problem", orphanRemoval = true, cascade = CascadeType.ALL)
     private Set<ProblemTag> tags;
 
@@ -106,6 +108,6 @@ public class UnsolvedProblem {
 
     @Override
     public String toString() {
-        return "{ number:" + number + ", name:" + name + ", tag" + this.tags.toString() +" }";
+        return "{ number:" + number + ", name:" + name + ", tag" + this.tags.toString() + " }";
     }
 }

@@ -1,12 +1,10 @@
 package com.project.inhaUnsolved.domain.problem.vo;
 
 import com.project.inhaUnsolved.domain.problem.domain.UnsolvedProblem;
-import com.project.inhaUnsolved.domain.problem.service.ProblemService;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import org.springframework.data.relational.core.sql.Like;
 
 public class NewSolvedProblemStore {
 
@@ -24,9 +22,9 @@ public class NewSolvedProblemStore {
     public void addSolvedProblems(List<UnsolvedProblem> solvedProblems) {
 
         List<UnsolvedProblem> newProblems = solvedProblems.stream()
-                                                   .filter(solvedProblem ->
-                                                           !checkAlreadyStoredOrAdd(solvedProblem.getNumber()))
-                                                   .toList();
+                                                          .filter(solvedProblem ->
+                                                                  !checkAlreadyStoredOrAdd(solvedProblem.getNumber()))
+                                                          .toList();
 
         problems.addAll(newProblems);
     }

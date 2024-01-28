@@ -26,7 +26,7 @@ public class TagDetail {
                   .name(String.valueOf(tagNames.stream()
                                                .filter(TagName::isKoreanName)
                                                .findFirst()
-                          .orElse(new TagName())
+                                               .orElse(new TagName())
                                                .getName()))
                   .number(bojTagId)
                   .build();

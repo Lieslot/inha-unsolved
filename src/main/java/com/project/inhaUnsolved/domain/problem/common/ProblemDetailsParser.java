@@ -4,8 +4,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.inhaUnsolved.domain.problem.dto.ProblemDetail;
-import com.project.inhaUnsolved.domain.problem.dto.ProblemDetails;
-import com.project.inhaUnsolved.domain.problem.dto.ProblemsDetailResponse;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +17,8 @@ public class ProblemDetailsParser {
 
         ObjectMapper objectMapper = new ObjectMapper();
         try {
-            return objectMapper.readValue(body, new TypeReference<List<ProblemDetail>>() {});
+            return objectMapper.readValue(body, new TypeReference<List<ProblemDetail>>() {
+            });
 
         } catch (JsonProcessingException e) {
             System.out.println(e.getMessage());

@@ -1,7 +1,6 @@
 package com.project.inhaUnsolved.scheduler.job;
 
 
-import com.project.inhaUnsolved.domain.problem.service.NewProblemAddService;
 import com.project.inhaUnsolved.domain.problem.service.ProblemRenewService;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,8 +27,7 @@ public class ProblemDetailRenewJob implements Job {
 
         try {
             service.renewProblemDetail();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             log.error("ProblemDetailRenewJob 예외 발생", e);
         }
 

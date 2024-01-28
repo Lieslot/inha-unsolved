@@ -3,13 +3,12 @@ package com.project.inhaUnsolved.domain.problem.service;
 
 import com.project.inhaUnsolved.domain.problem.api.ProblemRequestByNumber;
 import com.project.inhaUnsolved.domain.problem.domain.UnsolvedProblem;
-import jakarta.annotation.PostConstruct;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
-import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
 import lombok.RequiredArgsConstructor;
@@ -34,29 +33,31 @@ public class NewProblemAddService {
         int number = getLastProcessedNumber();
 
 
-        for (;;number += 100) {
+        List<UnsolvedProblem> newProblems = new ArrayList<>();
+
+        int lastProcessedNumber = number;
+
+        for (; ; number += 100) {
             List<String> problemNumbers = IntStream.range(number, number + 100)
                                                    .mapToObj(String::valueOf)
                                                    .toList();
 
-            List<UnsolvedProblem> newProblems = request.getProblemBy(problemNumbers);
+            List<UnsolvedProblem> requestedProblems = request.getProblemBy(problemNumbers);
 
-            if (newProblems.isEmpty()) {
+            if (requestedProblems.isEmpty()) {
                 break;
             }
 
-            problemService.addProblems(newProblems);
+            newProblems.addAll(requestedProblems);
 
-            int storedNumber  = newProblems.get(newProblems.size() - 1)
+            lastProcessedNumber = requestedProblems.get(requestedProblems.size() - 1)
                                            .getNumber();
-
-
-            log.debug(String.valueOf(storedNumber));
-
-            reWriteLastProcessedNumber(storedNumber);
 
         }
 
+        problemService.addProblems(newProblems);
+
+        reWriteLastProcessedNumber(lastProcessedNumber);
     }
 
     private Integer getLastProcessedNumber() {
@@ -70,8 +71,7 @@ public class NewProblemAddService {
 
             return Integer.parseInt(lastNumber);
 
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             log.error("이전에 처리했던 마지막 문제 번호 읽기 오류", e);
             return 1000;
         }
@@ -87,8 +87,7 @@ public class NewProblemAddService {
 
             writer.write(String.valueOf(number));
             writer.flush();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             log.error("이전에 처리했던 마지막 문제 번호 읽기 오류", e);
             throw new IllegalArgumentException();
         }

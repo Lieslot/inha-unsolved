@@ -21,12 +21,14 @@ public class UserService {
 
     private final UserRepository userRepository;
 
-    @Transactional(readOnly = true)
+
+
     public List<User> getRenewedUser(List<User> newUserDetails) {
 
         Map<String, User> existingUsers = userRepository.findAll()
-                                                  .stream()
-                                                  .collect(Collectors.toMap(User::getHandle, Function.identity()));
+                                                        .stream()
+                                                        .collect(
+                                                                Collectors.toMap(User::getHandle, Function.identity()));
 
         List<User> renewedUsers = new ArrayList<>();
 
@@ -38,7 +40,7 @@ public class UserService {
                 continue;
             }
 
-            if (existingUser.hasEqualSolvingCount(newUserDetail)) {
+            if (!existingUser.hasEqualSolvingCount(newUserDetail)) {
                 renewedUsers.add(existingUser);
             }
         }
@@ -46,9 +48,6 @@ public class UserService {
         return renewedUsers;
 
     }
-
-
-
 
 
     @Transactional(readOnly = true)
@@ -76,7 +75,6 @@ public class UserService {
         }
 
     }
-
 
 
 }

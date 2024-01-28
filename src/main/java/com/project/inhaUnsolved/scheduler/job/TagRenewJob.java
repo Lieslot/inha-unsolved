@@ -23,8 +23,7 @@ public class TagRenewJob implements Job {
 
         try {
             service.renewTagDetails();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             log.error("TagRenewJob 실행 중 오류 발생", e);
         }
 

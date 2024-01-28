@@ -1,9 +1,9 @@
 package com.project.inhaUnsolved.domain.problem.repository;
 
-import com.project.inhaUnsolved.domain.problem.domain.UnsolvedProblem;
+import jakarta.persistence.LockModeType;
 import java.util.Collection;
 import java.util.List;
-import org.springframework.data.relational.core.sql.In;
+import org.springframework.data.jpa.repository.Lock;
 
 public interface ProblemRepositoryCustom {
 
@@ -14,5 +14,7 @@ public interface ProblemRepositoryCustom {
 
 //    List<Integer> findAllId(int batchSize);
 
+
+   void deleteAllByNumber(Collection<Integer> numbers);
 
 }

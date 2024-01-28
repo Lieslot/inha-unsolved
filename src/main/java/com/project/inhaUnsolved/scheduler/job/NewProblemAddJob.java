@@ -19,7 +19,6 @@ import org.springframework.stereotype.Component;
 public class NewProblemAddJob implements Job {
 
 
-
     @Autowired
     private NewProblemAddService service;
 
@@ -29,8 +28,7 @@ public class NewProblemAddJob implements Job {
 
         try {
             service.addNewProblem();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             log.error("NewProblemAddJob 예외 발생", e);
         }
     }

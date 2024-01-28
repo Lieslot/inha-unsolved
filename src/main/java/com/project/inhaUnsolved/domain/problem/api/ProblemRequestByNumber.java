@@ -3,10 +3,7 @@ package com.project.inhaUnsolved.domain.problem.api;
 import com.project.inhaUnsolved.domain.problem.common.ProblemDetailsParser;
 import com.project.inhaUnsolved.domain.problem.domain.UnsolvedProblem;
 import com.project.inhaUnsolved.domain.problem.dto.ProblemDetail;
-import com.project.inhaUnsolved.domain.problem.dto.ProblemDetails;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.IntStream;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -47,7 +44,6 @@ public class ProblemRequestByNumber {
     }
 
 
-
     public List<UnsolvedProblem> getProblemBy(List<String> problemNumbers) {
 
         ResponseEntity<String> response = requestProblem(problemNumbers);
@@ -58,9 +54,9 @@ public class ProblemRequestByNumber {
         }
 
         return problemDetails.stream()
-                                      .filter(ProblemDetail::isSolvable)
-                                      .map(ProblemDetail::toUnsolvedProblem)
-                                      .toList();
+                             .filter(ProblemDetail::isSolvable)
+                             .map(ProblemDetail::toUnsolvedProblem)
+                             .toList();
 
     }
 
