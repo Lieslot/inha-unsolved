@@ -20,6 +20,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.BatchSize;
+import org.springframework.batch.item.database.JpaItemWriter;
 
 
 @Getter
@@ -47,7 +48,7 @@ public class UnsolvedProblem {
     private Set<ProblemTag> tags;
 
     @Builder
-    public UnsolvedProblem(int number, String name, Tier tier, List<Tag> tags) {
+    public UnsolvedProblem(int number, String name, Tier tier, Set<Tag> tags) {
         this.number = number;
         this.name = name;
         this.tier = tier;
@@ -64,17 +65,16 @@ public class UnsolvedProblem {
         return this.number == number;
     }
 
-    public void renewTags(Set<ProblemTag> tags) {
+    public void renewTags(Set<ProblemTag> newProblemTags) {
 
-        List<ProblemTag> newProblemTags = tags.stream()
-                                              .map(tag -> ProblemTag.builder()
-                                                                    .problem(this)
-                                                                    .tag(tag.getTag())
-                                                                    .build())
-                                              .toList();
+        System.out.println(this.tags);
+
+        newProblemTags.forEach(newProblemTag -> newProblemTag.addProblem(this));
 
         this.tags.removeIf(existingTag -> !newProblemTags.contains(existingTag));
 
+        System.out.println(this.tags);
+        System.out.println(newProblemTags);
         this.tags.addAll(newProblemTags);
 
     }
@@ -108,6 +108,6 @@ public class UnsolvedProblem {
 
     @Override
     public String toString() {
-        return "{ number:" + number + ", name:" + name + ", tag" + this.tags.toString() + " }";
+        return "{ number:" + number + ", name:" + name + ", tag" + this.tags + " }";
     }
 }

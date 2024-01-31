@@ -1,10 +1,6 @@
 package com.project.inhaUnsolved.scheduler;
 
 
-import com.project.inhaUnsolved.scheduler.job.NewProblemAddJob;
-import com.project.inhaUnsolved.scheduler.job.ProblemDetailRenewJob;
-import com.project.inhaUnsolved.scheduler.job.ProblemRenewJob;
-import com.project.inhaUnsolved.scheduler.job.TagRenewJob;
 import jakarta.annotation.PostConstruct;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -47,10 +43,10 @@ public class SchedulerConfig {
                                                .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
 
             log.info("스케쥴 설정 시작");
-            buildJob(ProblemRenewJob.class, "ProblemRenewJob", paramsMap, "0 0/5 * * * ?");
-            buildJob(NewProblemAddJob.class, "NewProblemAddJob", paramsMap, "0 0/5 0 * * ?");
-            buildJob(TagRenewJob.class, "TagRenewJob", paramsMap, "0 0/5 0 * * ?");
-            buildJob(ProblemDetailRenewJob.class, "ProblemDetailRenewJob", paramsMap, "0 0/5 0 * * ?");
+//            buildJob(ProblemRenewJob.class, "ProblemRenewJob", paramsMap, "0 0/5 * * * ?");
+//            buildJob(NewProblemAddJob.class, "NewProblemAddJob", paramsMap, "0 0/5 * * * ?");
+//            buildJob(TagRenewJob.class, "TagRenewJob", paramsMap, "0 0/5 * * * ?");
+//            buildJob(ProblemDetailRenewJob.class, "ProblemDetailRenewJob", paramsMap, "0 0/5 * * * ?");
 
             log.info("스케쥴 설정 완료");
 

@@ -7,6 +7,7 @@ import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.quartz.PersistJobDataAfterExecution;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Slf4j
@@ -15,7 +16,7 @@ import org.springframework.stereotype.Component;
 @PersistJobDataAfterExecution
 public class TagRenewJob implements Job {
 
-
+    @Autowired
     private TagService service;
 
     @Override

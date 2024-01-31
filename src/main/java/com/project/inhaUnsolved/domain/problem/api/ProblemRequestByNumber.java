@@ -4,21 +4,27 @@ import com.project.inhaUnsolved.domain.problem.common.ProblemDetailsParser;
 import com.project.inhaUnsolved.domain.problem.domain.UnsolvedProblem;
 import com.project.inhaUnsolved.domain.problem.dto.ProblemDetail;
 import java.util.List;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
-@Service
+@Component
+@Slf4j
+
 public class ProblemRequestByNumber {
 
 
     private static final String API_URL = "https://solved.ac/api/v3/problem/lookup";
+
 
     public ProblemRequestByNumber(RestTemplateBuilder restTemplate) {
         this.restTemplate = restTemplate.build();

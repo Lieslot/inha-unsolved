@@ -83,37 +83,6 @@ public class ProblemService {
 
     }
 
-    // 문제 정보 갱신
-    public void renewProblemDetails(List<UnsolvedProblem> problemDetails) {
-
-        List<Integer> numbers = problemDetails.stream()
-                                              .map(UnsolvedProblem::getNumber)
-                                              .toList();
-
-        Map<Integer, UnsolvedProblem> existingProblems = unsolvedProblemRepository.findAllByNumberIn(numbers)
-                                                                                  .stream()
-                                                                                  .collect(Collectors.toMap(
-                                                                                          UnsolvedProblem::getNumber,
-                                                                                          Function.identity()));
-
-        for (UnsolvedProblem newProblemDetail : problemDetails) {
-            UnsolvedProblem existingProblem = existingProblems.get(newProblemDetail.getNumber());
-
-            if (existingProblem == null) {
-                continue;
-            }
-
-            existingProblem.renewName(newProblemDetail.getName());
-            existingProblem.renewTags(newProblemDetail.getTags()); // 태그 정보가 갱신되지 않은 상태에서 문제 발생
-            existingProblem.renewTier(newProblemDetail.getTier());
-
-            unsolvedProblemRepository.save(existingProblem);
-
-        }
-
-
-    }
-
 
     @Transactional(readOnly = true)
     public List<Integer> findAllUnsolvedProblemNumbers() {

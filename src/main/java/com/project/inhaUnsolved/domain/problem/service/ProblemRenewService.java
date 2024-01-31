@@ -10,6 +10,7 @@ import com.project.inhaUnsolved.domain.user.api.UserDetailRequest;
 import com.project.inhaUnsolved.domain.user.service.UserService;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.IntStream;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
@@ -28,7 +29,6 @@ public class ProblemRenewService {
     private final ProblemRequestSolvedByUser problemSolvedByUserRequest;
     private final ProblemService problemService;
     private final UserService userService;
-    private final ProblemRequestByNumber problemRequestByNumber;
 
     private final PlatformTransactionManager transactionManager;
 
@@ -88,20 +88,6 @@ public class ProblemRenewService {
             }
 
         });
-
-    }
-
-
-    public void renewProblemDetail() {
-        List<String> problemNumbers = problemService.findAllUnsolvedProblemNumbers()
-                                                    .stream()
-                                                    .map(String::valueOf)
-                                                    .toList();
-
-        List<UnsolvedProblem> problems = problemRequestByNumber.getProblemBy(problemNumbers);
-
-        problemService.renewProblemDetails(problems);
-
 
     }
 

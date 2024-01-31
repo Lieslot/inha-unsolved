@@ -9,6 +9,7 @@ import com.project.inhaUnsolved.domain.problem.service.ProblemService;
 import com.zaxxer.hikari.HikariDataSource;
 import com.zaxxer.hikari.HikariPoolMXBean;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
@@ -75,7 +76,7 @@ public class ProblemServiceTransactionLockTest {
         for (int i = startNumber; i < startNumber + testcaseCount; i++) {
             UnsolvedProblem testProblem = UnsolvedProblem.builder()
                                                          .name("test1")
-                                                         .tags(new ArrayList<>())
+                                                         .tags(new HashSet<>())
                                                          .number(i)
                                                          .tier(Tier.BRONZE_IV)
                                                          .build();

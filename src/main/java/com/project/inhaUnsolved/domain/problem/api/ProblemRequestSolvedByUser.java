@@ -7,17 +7,20 @@ import com.project.inhaUnsolved.domain.problem.dto.ProblemDetail;
 import com.project.inhaUnsolved.domain.problem.dto.ProblemsDetailResponse;
 import java.util.ArrayList;
 import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
-@Service
+@Component
+@Slf4j
 public class ProblemRequestSolvedByUser {
 
     private static final String API_URL = "https://solved.ac/api/v3/search/problem";
@@ -33,6 +36,7 @@ public class ProblemRequestSolvedByUser {
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(API_URL)
                                                            .queryParam("query", "s@" + handle)
                                                            .queryParam("page", String.valueOf(pageNumber));
+
 
         HttpHeaders headers = new HttpHeaders();
         headers.set(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE);

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.project.inhaUnsolved.domain.problem.domain.Tag;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
@@ -29,6 +30,7 @@ public class TagDetail {
                                                .orElse(new TagName())
                                                .getName()))
                   .number(bojTagId)
+                .problems(new HashSet<>())
                   .build();
     }
 }
