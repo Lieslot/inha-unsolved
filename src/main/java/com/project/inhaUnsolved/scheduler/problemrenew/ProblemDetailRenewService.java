@@ -24,12 +24,10 @@ public class ProblemDetailRenewService {
     private final ProblemService problemService;
 
     @Transactional
-    public void renewProblemDetails(List<? extends ProblemMinDetail> problemMinDetails,
+    public void renewProblemDetails(List<Integer> problemIds,
                                      List<UnsolvedProblem> newProblemDetails) {
 
-        List<UnsolvedProblem> existingProblems = problemService.findAllByIdIn(problemMinDetails.stream()
-                                                                                        .map(ProblemMinDetail::getId)
-                                                                                        .toList());
+        List<UnsolvedProblem> existingProblems = problemService.findAllByIdIn(problemIds);
 
         Map<Integer, UnsolvedProblem> problemMap = existingProblems
                 .stream()

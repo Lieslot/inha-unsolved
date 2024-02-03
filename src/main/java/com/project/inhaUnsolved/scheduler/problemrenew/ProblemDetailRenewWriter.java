@@ -3,16 +3,10 @@ package com.project.inhaUnsolved.scheduler.problemrenew;
 import com.project.inhaUnsolved.domain.problem.api.ProblemRequestByNumber;
 import com.project.inhaUnsolved.domain.problem.domain.UnsolvedProblem;
 import com.project.inhaUnsolved.domain.problem.dto.ProblemMinDetail;
-import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import java.util.List;
-import java.util.Map;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 import org.springframework.batch.item.Chunk;
 import org.springframework.batch.item.ItemWriter;
-import org.springframework.dao.DataAccessResourceFailureException;
-import org.springframework.orm.jpa.EntityManagerFactoryUtils;
 
 
 public class ProblemDetailRenewWriter implements ItemWriter<ProblemMinDetail> {
@@ -21,7 +15,7 @@ public class ProblemDetailRenewWriter implements ItemWriter<ProblemMinDetail> {
     private final ProblemDetailRenewService service;
 
     public ProblemDetailRenewWriter(ProblemRequestByNumber request, EntityManagerFactory emf,
-                             ProblemDetailRenewService service) {
+                                    ProblemDetailRenewService service) {
         this.request = request;
         this.service = service;
     }
@@ -31,7 +25,10 @@ public class ProblemDetailRenewWriter implements ItemWriter<ProblemMinDetail> {
 
         List<? extends ProblemMinDetail> items = chunk.getItems();
         List<UnsolvedProblem> newProblemDetails = getNewProblemDetails(items);
-        service.renewProblemDetails(items, newProblemDetails);
+        List<Integer> problemIds = items.stream()
+                                        .map(ProblemMinDetail::getId)
+                                        .toList();
+        service.renewProblemDetails(problemIds, newProblemDetails);
 
     }
 
@@ -43,7 +40,6 @@ public class ProblemDetailRenewWriter implements ItemWriter<ProblemMinDetail> {
 
         return request.getProblemBy(problemNumbers);
     }
-
 
 
 }
