@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.function.Function;
+import org.springframework.batch.core.step.item.ChunkProcessor;
 import org.springframework.batch.item.database.AbstractPagingItemReader;
 import org.springframework.batch.item.database.JpaPagingItemReader;
 import org.springframework.dao.DataAccessResourceFailureException;
@@ -24,7 +25,6 @@ public class QuerydslPagingItemReader<T> extends AbstractPagingItemReader<T> {
     protected EntityManager entityManager;
     protected Function<JPAQueryFactory, JPAQuery<T>> queryFunction;
     protected boolean transacted = true; // default value
-
     protected QuerydslPagingItemReader() {
         setName(ClassUtils.getShortName(QuerydslPagingItemReader.class));
     }
@@ -85,7 +85,7 @@ public class QuerydslPagingItemReader<T> extends AbstractPagingItemReader<T> {
         if (transacted) {
             EntityTransaction tx = entityManager.getTransaction();
             tx.begin();
-//            entityManager.flush();
+            entityManager.flush();
             entityManager.clear();
             return tx;
         }

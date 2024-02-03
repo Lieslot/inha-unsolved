@@ -2,20 +2,14 @@ package com.project.inhaUnsolved.domain.problem.service;
 
 import com.project.inhaUnsolved.domain.problem.domain.SolvedProblem;
 import com.project.inhaUnsolved.domain.problem.domain.UnsolvedProblem;
-import com.project.inhaUnsolved.domain.problem.dto.ProblemNumberOnly;
 import com.project.inhaUnsolved.domain.problem.repository.ProblemRepository;
 import com.project.inhaUnsolved.domain.problem.repository.ProblemRepositoryCustom;
 import com.project.inhaUnsolved.domain.problem.repository.SolvedProblemRepository;
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 import java.util.Set;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.relational.core.sql.In;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 
@@ -36,7 +30,7 @@ public class ProblemService {
                                         .map(UnsolvedProblem::getNumber)
                                         .collect(Collectors.toList());
 
-        Set<Integer> existingProblems = unsolvedProblemRepositoryCustom.findAllByNumbersIn(numbers);
+        Set<Integer> existingProblems = unsolvedProblemRepositoryCustom.findAllNumbersIn(numbers);
 
         List<Integer> newSolvedNumber = numbers.stream()
                                              .filter(existingProblems::contains)
@@ -83,6 +77,14 @@ public class ProblemService {
 
     }
 
+    public List<UnsolvedProblem> findAllByIdIn(List<Integer> ids) {
+        return unsolvedProblemRepository.findAllByIdIn(ids);
+    }
+
+
+    public void save(UnsolvedProblem problem) {
+        unsolvedProblemRepository.save(problem);
+    }
 
     @Transactional(readOnly = true)
     public List<Integer> findAllUnsolvedProblemNumbers() {

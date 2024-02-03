@@ -67,14 +67,11 @@ public class UnsolvedProblem {
 
     public void renewTags(Set<ProblemTag> newProblemTags) {
 
-        System.out.println(this.tags);
 
         newProblemTags.forEach(newProblemTag -> newProblemTag.addProblem(this));
 
         this.tags.removeIf(existingTag -> !newProblemTags.contains(existingTag));
 
-        System.out.println(this.tags);
-        System.out.println(newProblemTags);
         this.tags.addAll(newProblemTags);
 
     }

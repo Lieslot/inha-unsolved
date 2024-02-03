@@ -87,7 +87,6 @@ public class ProblemServiceTransactionLockTest {
     }
 
 
-
     @Test
     void addDeleteProblemLockTest() throws InterruptedException {
 

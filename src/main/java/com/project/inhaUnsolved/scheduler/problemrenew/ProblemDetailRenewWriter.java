@@ -2,89 +2,48 @@ package com.project.inhaUnsolved.scheduler.problemrenew;
 
 import com.project.inhaUnsolved.domain.problem.api.ProblemRequestByNumber;
 import com.project.inhaUnsolved.domain.problem.domain.UnsolvedProblem;
+import com.project.inhaUnsolved.domain.problem.dto.ProblemMinDetail;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import java.util.List;
 import java.util.Map;
-import java.util.NoSuchElementException;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import org.springframework.batch.item.Chunk;
 import org.springframework.batch.item.ItemWriter;
-import org.springframework.batch.item.database.JpaItemWriter;
-import org.springframework.batch.item.database.JpaPagingItemReader;
-import org.springframework.batch.item.database.builder.JpaItemWriterBuilder;
 import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.orm.jpa.EntityManagerFactoryUtils;
 
 
-public class ProblemDetailRenewWriter implements ItemWriter<UnsolvedProblem> {
+public class ProblemDetailRenewWriter implements ItemWriter<ProblemMinDetail> {
 
     private final ProblemRequestByNumber request;
+    private final ProblemDetailRenewService service;
 
-    private final EntityManagerFactory entityManagerFactory;
-
-    ProblemDetailRenewWriter(ProblemRequestByNumber request, EntityManagerFactory emf) {
+    public ProblemDetailRenewWriter(ProblemRequestByNumber request, EntityManagerFactory emf,
+                             ProblemDetailRenewService service) {
         this.request = request;
-
-        this.entityManagerFactory = emf;
-
+        this.service = service;
     }
+
     @Override
-    public void write(Chunk<? extends UnsolvedProblem> chunk) throws Exception {
+    public void write(Chunk<? extends ProblemMinDetail> chunk) throws Exception {
 
-        EntityManager entityManager = EntityManagerFactoryUtils.getTransactionalEntityManager(entityManagerFactory);
-        if (entityManager == null) {
-            throw new DataAccessResourceFailureException("Unable to obtain a transactional EntityManager");
-        }
-
-        List<? extends UnsolvedProblem> items = chunk.getItems();
-
-
-
+        List<? extends ProblemMinDetail> items = chunk.getItems();
         List<UnsolvedProblem> newProblemDetails = getNewProblemDetails(items);
-        renewProblemDetails(items, newProblemDetails, entityManager);
+        service.renewProblemDetails(items, newProblemDetails);
 
-        entityManager.flush();
     }
 
-    private List<UnsolvedProblem> getNewProblemDetails(List<? extends UnsolvedProblem> newProblemDetails) {
+    private List<UnsolvedProblem> getNewProblemDetails(List<? extends ProblemMinDetail> newProblemDetails) {
         List<String> problemNumbers = newProblemDetails.stream()
-                                                       .map(UnsolvedProblem::getNumber)
+                                                       .map(ProblemMinDetail::getNumber)
                                                        .map(String::valueOf)
                                                        .toList();
-        ;
+
         return request.getProblemBy(problemNumbers);
     }
 
-    private void renewProblemDetails(List<? extends UnsolvedProblem> existingProblems,
-                                     List<UnsolvedProblem> newProblemDetails, EntityManager em) {
-
-        Map<Integer, UnsolvedProblem> problemMap = existingProblems
-                .stream()
-                .collect(Collectors.toMap(
-                        UnsolvedProblem::getNumber,
-                        Function.identity()));
-
-        for (UnsolvedProblem newProblemDetail : newProblemDetails) {
-            UnsolvedProblem existingProblem = problemMap.get(newProblemDetail.getNumber());
-
-            if (existingProblem == null) {
-                continue;
-            }
-            existingProblem.renewName(newProblemDetail.getName());
-            existingProblem.renewTags(newProblemDetail.getTags()); // 태그 정보가 갱신되지 않은 상태에서 문제 발생
-            existingProblem.renewTier(newProblemDetail.getTier());
-
-            if (!em.contains(existingProblem)) {
-
-                em.merge(existingProblem);
-
-            }
-        }
-
-
-    }
 
 
 }
