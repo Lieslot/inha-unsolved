@@ -3,8 +3,7 @@ package com.project.inhaUnsolved.scheduler.problemrenew;
 import static com.project.inhaUnsolved.domain.problem.domain.QUnsolvedProblem.unsolvedProblem;
 
 import com.project.inhaUnsolved.domain.problem.api.ProblemRequestByNumber;
-import com.project.inhaUnsolved.domain.problem.domain.UnsolvedProblem;
-import com.project.inhaUnsolved.domain.problem.dto.ProblemMinDetail;
+import com.project.inhaUnsolved.scheduler.dto.ProblemMinDetail;
 import com.querydsl.core.types.Projections;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.LockModeType;
@@ -34,7 +33,6 @@ import reader.options.QuerydslNoOffsetNumberOptions;
 public class ProblemDetailRenewJobConfig {
     public static final String JOB_NAME = "problemDetailRenewJob";
     private static final int chunkSize = 100;
-
     private final EntityManagerFactory emf;
 
 

@@ -1,4 +1,4 @@
-package com.project.inhaUnsolved.domain.problem.dto;
+package com.project.inhaUnsolved.scheduler.dto;
 
 
 import lombok.Getter;

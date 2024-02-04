@@ -1,5 +1,6 @@
-package com.project.inhaUnsolved.domain.problem.dto;
+package com.project.inhaUnsolved.scheduler.dto;
 
+import com.project.inhaUnsolved.domain.problem.dto.ProblemDetail;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.Getter;

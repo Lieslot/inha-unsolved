@@ -3,6 +3,7 @@ package com.project.inhaUnsolved.domain.problem.service;
 
 import com.project.inhaUnsolved.domain.problem.api.ProblemRequestByNumber;
 import com.project.inhaUnsolved.domain.problem.domain.UnsolvedProblem;
+import com.project.inhaUnsolved.scheduler.dto.NewUnsolvedProblems;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -32,9 +33,7 @@ public class NewProblemAddService {
     public void addNewProblem() {
         int number = getLastProcessedNumber();
 
-
         List<UnsolvedProblem> newProblems = new ArrayList<>();
-
         int lastProcessedNumber = number;
 
         for (; ; number += 100) {
@@ -47,17 +46,17 @@ public class NewProblemAddService {
             if (requestedProblems.isEmpty()) {
                 break;
             }
+            problemService.addProblems(newProblems);
+
 
             newProblems.addAll(requestedProblems);
 
             lastProcessedNumber = requestedProblems.get(requestedProblems.size() - 1)
                                            .getNumber();
-
+            reWriteLastProcessedNumber(lastProcessedNumber);
         }
 
-        problemService.addProblems(newProblems);
 
-        reWriteLastProcessedNumber(lastProcessedNumber);
     }
 
     private Integer getLastProcessedNumber() {

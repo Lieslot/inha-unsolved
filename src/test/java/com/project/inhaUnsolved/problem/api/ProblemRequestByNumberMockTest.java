@@ -4,7 +4,7 @@ package com.project.inhaUnsolved.problem.api;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.inhaUnsolved.domain.problem.domain.UnsolvedProblem;
-import com.project.inhaUnsolved.domain.problem.dto.ProblemDetails;
+import com.project.inhaUnsolved.scheduler.dto.ProblemDetails;
 import com.project.inhaUnsolved.domain.problem.api.ProblemRequestByNumber;
 import java.util.List;
 import java.util.stream.IntStream;

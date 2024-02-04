@@ -64,7 +64,7 @@ public class ProblemRepositoryCustomImpl implements ProblemRepositoryCustom {
     }
 
     @Override
-    public Set<Integer> findAllNumbersIn(Collection<Integer> numbers) {
+    public Set<Integer> findSetNumbersIn(Collection<Integer> numbers) {
 
         int batchSize = 50;
 
@@ -83,7 +83,13 @@ public class ProblemRepositoryCustomImpl implements ProblemRepositoryCustom {
 
     }
 
-
+    @Override
+    public List<Integer> findAllNumbersIn(Collection<Integer> numbers) {
+        return jpaQueryFactory.select(unsolvedProblem.number)
+                .from(unsolvedProblem)
+                .where(unsolvedProblem.id.in(numbers))
+                .fetch();
+    }
 
 //    @Override
 //    public List<Integer> findAllId(int batchSize) {

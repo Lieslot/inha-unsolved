@@ -3,7 +3,7 @@ package com.project.inhaUnsolved.problem.batch;
 
 import com.project.inhaUnsolved.domain.problem.api.ProblemRequestByNumber;
 import com.project.inhaUnsolved.domain.problem.domain.UnsolvedProblem;
-import com.project.inhaUnsolved.domain.problem.dto.ProblemMinDetail;
+import com.project.inhaUnsolved.scheduler.dto.ProblemMinDetail;
 import com.project.inhaUnsolved.domain.problem.repository.ProblemRepository;
 import com.project.inhaUnsolved.scheduler.problemrenew.ProblemDetailRenewService;
 import com.project.inhaUnsolved.scheduler.problemrenew.ProblemDetailRenewWriter;
@@ -24,7 +24,6 @@ import org.springframework.batch.test.context.SpringBatchTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.transaction.support.TransactionTemplate;
 
 
 @SpringBootTest

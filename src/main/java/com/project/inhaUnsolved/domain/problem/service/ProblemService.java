@@ -5,6 +5,7 @@ import com.project.inhaUnsolved.domain.problem.domain.UnsolvedProblem;
 import com.project.inhaUnsolved.domain.problem.repository.ProblemRepository;
 import com.project.inhaUnsolved.domain.problem.repository.ProblemRepositoryCustom;
 import com.project.inhaUnsolved.domain.problem.repository.SolvedProblemRepository;
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -30,7 +31,7 @@ public class ProblemService {
                                         .map(UnsolvedProblem::getNumber)
                                         .collect(Collectors.toList());
 
-        Set<Integer> existingProblems = unsolvedProblemRepositoryCustom.findAllNumbersIn(numbers);
+        Set<Integer> existingProblems = unsolvedProblemRepositoryCustom.findSetNumbersIn(numbers);
 
         List<Integer> newSolvedNumber = numbers.stream()
                                              .filter(existingProblems::contains)
@@ -81,10 +82,22 @@ public class ProblemService {
         return unsolvedProblemRepository.findAllByIdIn(ids);
     }
 
-
     public void save(UnsolvedProblem problem) {
         unsolvedProblemRepository.save(problem);
     }
+
+    public List<Integer> findProblemNumbersIn(Collection<Integer> numbers) {
+        return unsolvedProblemRepositoryCustom.findAllNumbersIn(numbers);
+    }
+
+    public List<Integer> findSolvedProblemNumbersIn(Collection<Integer> numbers) {
+        return solvedProblemRepository.findAllByNumberIn(numbers)
+                .stream()
+                .map(SolvedProblem::getNumber)
+                .toList();
+    }
+
+
 
     @Transactional(readOnly = true)
     public List<Integer> findAllUnsolvedProblemNumbers() {
