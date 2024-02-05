@@ -6,15 +6,16 @@ import com.project.inhaUnsolved.scheduler.dto.ProblemMinDetail;
 import jakarta.persistence.EntityManagerFactory;
 import java.util.List;
 import org.springframework.batch.item.Chunk;
+import org.springframework.batch.item.ItemStreamWriter;
 import org.springframework.batch.item.ItemWriter;
 
 
-public class ProblemDetailRenewWriter implements ItemWriter<ProblemMinDetail> {
+public class ProblemDetailRenewWriter implements ItemStreamWriter<ProblemMinDetail> {
 
     private final ProblemRequestByNumber request;
     private final ProblemDetailRenewService service;
 
-    public ProblemDetailRenewWriter(ProblemRequestByNumber request, EntityManagerFactory emf,
+    public ProblemDetailRenewWriter(ProblemRequestByNumber request,
                                     ProblemDetailRenewService service) {
         this.request = request;
         this.service = service;

@@ -3,6 +3,7 @@ package com.project.inhaUnsolved.scheduler.problemrenew;
 import static com.project.inhaUnsolved.domain.problem.domain.QUnsolvedProblem.unsolvedProblem;
 
 import com.project.inhaUnsolved.domain.problem.api.ProblemRequestByNumber;
+import com.project.inhaUnsolved.domain.problem.domain.UnsolvedProblem;
 import com.project.inhaUnsolved.scheduler.dto.ProblemMinDetail;
 import com.querydsl.core.types.Projections;
 import jakarta.persistence.EntityManagerFactory;
@@ -16,7 +17,11 @@ import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.core.job.builder.JobBuilder;
 import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.step.builder.StepBuilder;
+import org.springframework.batch.item.ItemStreamWriter;
 import org.springframework.batch.item.ItemWriter;
+import org.springframework.batch.item.database.JpaItemWriter;
+import org.springframework.batch.item.database.JpaPagingItemReader;
+import org.springframework.batch.item.database.builder.JpaItemWriterBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -26,32 +31,33 @@ import reader.QuerydslNoOffsetPagingItemReader;
 import reader.expression.Expression;
 import reader.options.QuerydslNoOffsetNumberOptions;
 
-
 @Slf4j
-@RequiredArgsConstructor
 @Configuration
+@RequiredArgsConstructor
 public class ProblemDetailRenewJobConfig {
     public static final String JOB_NAME = "problemDetailRenewJob";
     private static final int chunkSize = 100;
-    private final EntityManagerFactory emf;
 
+    private final EntityManagerFactory emf;
+    private final PlatformTransactionManager transactionManager;
+    private final JobRepository jobRepository;
+    private final ProblemRequestByNumber request;
+    private final ProblemDetailRenewService service;
 
     @Bean
-    public Job problemDetailRenewJob(PlatformTransactionManager transactionManager, JobRepository jobRepository,
-                                     ProblemRequestByNumber request, ProblemDetailRenewService service) {
+    public Job problemDetailRenewJob() {
         return new JobBuilder(JOB_NAME, jobRepository)
-                .start(problemDetailRenewStep(transactionManager, jobRepository, request, service))
+                .start(problemDetailRenewStep())
                 .build();
     }
 
     @Bean
     @JobScope
-    public Step problemDetailRenewStep(PlatformTransactionManager transactionManager, JobRepository jobRepository,
-                                       ProblemRequestByNumber request, ProblemDetailRenewService service) {
+    public Step problemDetailRenewStep() {
         return new StepBuilder("problemDetailRenewStep", jobRepository)
                 .<ProblemMinDetail, ProblemMinDetail>chunk(chunkSize, transactionManager)
-                .reader(reader())
-                .writer(writer(request, service))
+                .reader(problemDetailRenewReader())
+                .writer(problemDetailRenewWriter())
                 .transactionAttribute(
                         new DefaultTransactionAttribute(DefaultTransactionDefinition.PROPAGATION_NOT_SUPPORTED))
                 .build();
@@ -59,21 +65,19 @@ public class ProblemDetailRenewJobConfig {
 
     @Bean
     @StepScope
-    public QuerydslNoOffsetPagingItemReader<ProblemMinDetail> reader() {
-        // 1. No Offset 옵션
-        QuerydslNoOffsetNumberOptions <ProblemMinDetail, Integer> options =
+    public QuerydslNoOffsetPagingItemReader<ProblemMinDetail> problemDetailRenewReader() {
+        QuerydslNoOffsetNumberOptions<ProblemMinDetail, Integer> options =
                 new QuerydslNoOffsetNumberOptions<>(unsolvedProblem.id, Expression.ASC);
 
         return new QuerydslNoOffsetPagingItemReader<>(emf, chunkSize, options, queryFactory -> queryFactory
                 .select(Projections.constructor(ProblemMinDetail.class, unsolvedProblem.id, unsolvedProblem.number))
                 .from(unsolvedProblem)
                 .setLockMode(LockModeType.PESSIMISTIC_WRITE));
-
     }
 
     @Bean
     @StepScope
-    public ItemWriter<ProblemMinDetail> writer(ProblemRequestByNumber request, ProblemDetailRenewService service) {
-        return new ProblemDetailRenewWriter(request, emf, service);
+    public ItemStreamWriter<ProblemMinDetail> problemDetailRenewWriter() {
+        return new ProblemDetailRenewWriter(request, service);
     }
 }

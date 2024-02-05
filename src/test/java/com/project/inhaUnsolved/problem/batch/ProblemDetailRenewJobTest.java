@@ -5,6 +5,7 @@ import com.project.inhaUnsolved.domain.problem.api.ProblemRequestByNumber;
 import com.project.inhaUnsolved.domain.problem.domain.UnsolvedProblem;
 import com.project.inhaUnsolved.scheduler.dto.ProblemMinDetail;
 import com.project.inhaUnsolved.domain.problem.repository.ProblemRepository;
+import com.project.inhaUnsolved.scheduler.problemrenew.ProblemDetailRenewJobConfig;
 import com.project.inhaUnsolved.scheduler.problemrenew.ProblemDetailRenewService;
 import com.project.inhaUnsolved.scheduler.problemrenew.ProblemDetailRenewWriter;
 import jakarta.persistence.EntityManager;
@@ -23,16 +24,14 @@ import org.springframework.batch.test.JobLauncherTestUtils;
 import org.springframework.batch.test.context.SpringBatchTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
 
-@SpringBootTest
-@SpringBatchTest
-public class ProblemDetailRenewJobTest {
 
+@ActiveProfiles("dbtest")
+public class ProblemDetailRenewJobTest extends BatchTestSupport {
 
-    @Autowired
-    private JobLauncherTestUtils jobLauncherTestUtils;
     @Autowired
     private ProblemRequestByNumber request;
     @Autowired
@@ -40,7 +39,7 @@ public class ProblemDetailRenewJobTest {
     @Autowired
     private ProblemRepository problemRepository;
     @Autowired
-    private EntityManagerFactory emf;
+    private ProblemDetailRenewJobConfig jobConfig;
 
     @Test
     void 실행_테스트() throws Exception {
@@ -49,7 +48,7 @@ public class ProblemDetailRenewJobTest {
                 .addLong("date", new Date().getTime())
                 .toJobParameters();
 
-        JobExecution jobExecution = jobLauncherTestUtils.launchStep("problemDetailRenewStep", jobParameter);
+        launchJob(jobConfig.problemDetailRenewJob(), jobParameter);
 
         StepExecution stepExecution = (StepExecution) ((List) jobExecution.getStepExecutions()).get(0);
         System.out.println(stepExecution.getCommitCount());
@@ -61,10 +60,7 @@ public class ProblemDetailRenewJobTest {
     @Test
     void 쓰기_테스트() throws Exception {
 
-        ProblemDetailRenewWriter renewWriter = new ProblemDetailRenewWriter(request, emf, service);
-
-        EntityManager entityManager = emf.createEntityManager();
-        EntityTransaction tx = entityManager.getTransaction();
+        ProblemDetailRenewWriter renewWriter = new ProblemDetailRenewWriter(request, service);
 
         List<UnsolvedProblem> problems = problemRepository.findAllByNumberIn(List.of(1000, 1001));
         problems.forEach(problem -> problem.renewName("test"));

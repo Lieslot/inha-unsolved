@@ -4,20 +4,25 @@ import com.project.inhaUnsolved.domain.problem.api.ProblemRequestByNumber;
 import com.project.inhaUnsolved.domain.problem.domain.UnsolvedProblem;
 import com.project.inhaUnsolved.scheduler.dto.NewUnsolvedProblems;
 import com.project.inhaUnsolved.scheduler.domain.LastUpdatedProblemNumber;
-import com.project.inhaUnsolved.scheduler.domain.LastUpdatedProblemNumberRepository;
+import com.project.inhaUnsolved.scheduler.repository.LastUpdatedProblemNumberRepository;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.IntStream;
-import org.springframework.batch.item.ItemReader;
+import lombok.NoArgsConstructor;
+import org.springframework.batch.item.ItemStreamReader;
 import org.springframework.batch.item.NonTransientResourceException;
 import org.springframework.batch.item.ParseException;
 import org.springframework.batch.item.UnexpectedInputException;
+import org.springframework.beans.factory.annotation.Autowired;
 
-public class NewUnsolvedProblemsReader implements ItemReader<NewUnsolvedProblems> {
+
+
+public class NewUnsolvedProblemsReader implements ItemStreamReader<NewUnsolvedProblems> {
 
     private static final int DEFAULT_NUMBER = 999;
     private final LastUpdatedProblemNumberRepository repository;
     private final ProblemRequestByNumber request;
+
 
     public NewUnsolvedProblemsReader(LastUpdatedProblemNumberRepository repository, ProblemRequestByNumber request) {
         this.repository = repository;

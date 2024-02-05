@@ -21,7 +21,6 @@ public class LastUpdatedProblemNumber {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
     private Integer number;
 
     @CreatedDate
@@ -33,5 +32,7 @@ public class LastUpdatedProblemNumber {
 
     public LastUpdatedProblemNumber(Integer number) {
         this.number = number;
+        created_at = LocalDate.now();
+        updated_at = LocalDate.now();
     }
 }

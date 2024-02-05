@@ -1,20 +1,19 @@
 package com.project.inhaUnsolved.problem.batch.config;
 
-
-import com.project.inhaUnsolved.domain.problem.api.ProblemRequestByNumber;
 import com.project.inhaUnsolved.domain.problem.config.QuerydslConfig;
-import com.project.inhaUnsolved.domain.problem.repository.ProblemRepository;
-import java.util.Queue;
-import org.hibernate.annotations.Immutable;
+import com.project.inhaUnsolved.scheduler.repository.LastUpdatedProblemNumberRepository;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.Profile;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 
 @Configuration
 @EnableAutoConfiguration
-@Import({QuerydslConfig.class, ProblemRequestByNumber.class})
+@Profile("dbtest")
 public class TestBatchConfig {
 
 }

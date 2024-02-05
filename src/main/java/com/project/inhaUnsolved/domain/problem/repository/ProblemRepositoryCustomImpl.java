@@ -87,7 +87,7 @@ public class ProblemRepositoryCustomImpl implements ProblemRepositoryCustom {
     public List<Integer> findAllNumbersIn(Collection<Integer> numbers) {
         return jpaQueryFactory.select(unsolvedProblem.number)
                 .from(unsolvedProblem)
-                .where(unsolvedProblem.id.in(numbers))
+                .where(unsolvedProblem.number.in(numbers))
                 .fetch();
     }
 

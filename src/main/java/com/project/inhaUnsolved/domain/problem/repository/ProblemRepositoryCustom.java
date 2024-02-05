@@ -3,6 +3,9 @@ package com.project.inhaUnsolved.domain.problem.repository;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
+import org.springframework.stereotype.Repository;
+
+
 
 public interface ProblemRepositoryCustom {
 
