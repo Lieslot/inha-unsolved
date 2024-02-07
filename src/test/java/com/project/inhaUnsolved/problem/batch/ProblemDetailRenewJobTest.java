@@ -26,7 +26,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
-
+import org.springframework.util.StopWatch;
 
 
 @ActiveProfiles("dbtest")
@@ -47,9 +47,12 @@ public class ProblemDetailRenewJobTest extends BatchTestSupport {
         JobParameters jobParameter = new JobParametersBuilder()
                 .addLong("date", new Date().getTime())
                 .toJobParameters();
+        StopWatch stopWatch = new StopWatch();
 
+        stopWatch.start();
         launchJob(jobConfig.problemDetailRenewJob(), jobParameter);
-
+        stopWatch.stop();
+        System.out.println(stopWatch.prettyPrint());
         StepExecution stepExecution = (StepExecution) ((List) jobExecution.getStepExecutions()).get(0);
         System.out.println(stepExecution.getCommitCount());
         System.out.println(stepExecution.getReadCount());

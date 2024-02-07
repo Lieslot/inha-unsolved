@@ -19,8 +19,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.Transactional;
 
-@SpringBootTest
+
 @ActiveProfiles("dbtest")
 public class NewProblemAddJobTest extends BatchTestSupport {
 
@@ -50,6 +51,8 @@ public class NewProblemAddJobTest extends BatchTestSupport {
 
     }
 
-
+    // 트랜잭션 롤백 테스트
+    // 네트워크 에러 시 대응 테스트
+    //
 
 }

@@ -43,7 +43,7 @@ public class UnsolvedProblem {
     @Enumerated(EnumType.ORDINAL)
     private Tier tier;
 
-    @BatchSize(size = 5)
+    @BatchSize(size = 100)
     @OneToMany(mappedBy = "problem", orphanRemoval = true, cascade = CascadeType.ALL)
     private Set<ProblemTag> tags;
 

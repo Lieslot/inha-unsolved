@@ -32,9 +32,10 @@ public class NewProblemAddJobConfig {
     private final NewProblemAddService newProblemAddService;
 
     private final ProblemRequestByNumber request;
-    PlatformTransactionManager transactionManager;
 
-    JobRepository jobRepository;
+    private final PlatformTransactionManager transactionManager;
+
+    private final JobRepository jobRepository;
 
     @Bean
     public Job newProblemAddJob() {
