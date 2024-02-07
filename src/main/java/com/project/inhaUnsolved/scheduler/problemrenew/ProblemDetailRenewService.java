@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 @Slf4j
 @Service
@@ -22,6 +23,8 @@ public class ProblemDetailRenewService {
     @Transactional
     public void renewProblemDetails(List<Integer> problemIds,
                                      List<UnsolvedProblem> newProblemDetails) {
+
+
 
         List<UnsolvedProblem> existingProblems = problemService.findAllByIdIn(problemIds);
 

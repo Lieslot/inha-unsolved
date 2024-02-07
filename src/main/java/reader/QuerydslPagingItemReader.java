@@ -11,10 +11,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.function.Function;
+import org.springframework.batch.core.step.item.ChunkOrientedTasklet;
 import org.springframework.batch.core.step.item.ChunkProcessor;
 import org.springframework.batch.item.database.AbstractPagingItemReader;
 import org.springframework.batch.item.database.JpaPagingItemReader;
 import org.springframework.dao.DataAccessResourceFailureException;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
 import org.springframework.util.ClassUtils;
 import org.springframework.util.CollectionUtils;
 
@@ -85,6 +87,8 @@ public class QuerydslPagingItemReader<T> extends AbstractPagingItemReader<T> {
         if (transacted) {
             EntityTransaction tx = entityManager.getTransaction();
             tx.begin();
+
+            System.out.println();
             entityManager.flush();
             entityManager.clear();
             return tx;

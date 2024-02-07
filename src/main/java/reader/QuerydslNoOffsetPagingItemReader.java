@@ -5,8 +5,6 @@ import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityTransaction;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.function.Function;
 import org.springframework.util.ClassUtils;
 import org.springframework.util.CollectionUtils;
@@ -54,7 +52,6 @@ public class QuerydslNoOffsetPagingItemReader<T> extends QuerydslPagingItemReade
 
         return options.createQuery(query, getPage());
     }
-
 
 
     private void resetCurrentIdIfNotLastPage() {

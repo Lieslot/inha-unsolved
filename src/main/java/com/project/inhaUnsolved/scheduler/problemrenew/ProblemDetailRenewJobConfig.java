@@ -25,6 +25,7 @@ import org.springframework.batch.item.database.builder.JpaItemWriterBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.interceptor.DefaultTransactionAttribute;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 import reader.QuerydslNoOffsetPagingItemReader;
@@ -58,8 +59,7 @@ public class ProblemDetailRenewJobConfig {
                 .<ProblemMinDetail, ProblemMinDetail>chunk(chunkSize, transactionManager)
                 .reader(problemDetailRenewReader())
                 .writer(problemDetailRenewWriter())
-                .transactionAttribute(
-                        new DefaultTransactionAttribute(DefaultTransactionDefinition.PROPAGATION_NOT_SUPPORTED))
+                .transactionAttribute(new DefaultTransactionAttribute(TransactionDefinition.PROPAGATION_NOT_SUPPORTED))
                 .build();
     }
 
