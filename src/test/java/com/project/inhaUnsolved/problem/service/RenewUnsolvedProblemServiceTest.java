@@ -41,7 +41,7 @@ public class RenewUnsolvedProblemServiceTest {
         List<UnsolvedProblem> problems = new ArrayList<>();
 
 
-        problemStore.addSolvedProblems(problems);
+        problemStore.storeSolvedProblems(problems);
 
         service.saveTransaction(problemStore.flushProblems(), userBuffer);
 

@@ -1,7 +1,6 @@
 package com.project.inhaUnsolved.domain.problem.service;
 
 
-import com.project.inhaUnsolved.domain.problem.api.ProblemRequestByNumber;
 import com.project.inhaUnsolved.domain.problem.api.ProblemRequestSolvedByUser;
 import com.project.inhaUnsolved.domain.problem.domain.UnsolvedProblem;
 import com.project.inhaUnsolved.domain.problem.vo.NewSolvedProblemStore;
@@ -10,11 +9,8 @@ import com.project.inhaUnsolved.domain.user.api.UserDetailRequest;
 import com.project.inhaUnsolved.domain.user.service.UserService;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.IntStream;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.support.TransactionTemplate;
@@ -52,7 +48,7 @@ public class ProblemRenewService {
             log.info("유저가 푼 모든 문제 api request");
 
             userBuffer.add(user);
-            solvedProblemStore.addSolvedProblems(problems);
+            solvedProblemStore.storeSolvedProblems(problems);
             log.info(String.format("%s 유저가 해결 문제 추가", user.getHandle()));
 
             if (solvedProblemStore.needTransaction()) {

@@ -16,9 +16,9 @@ public class DeclarativeTransactionService {
 
     @Transactional
     public boolean transactionExecute() {
-
         return TransactionSynchronizationManager.isActualTransactionActive();
-
     }
+
+
 
 }

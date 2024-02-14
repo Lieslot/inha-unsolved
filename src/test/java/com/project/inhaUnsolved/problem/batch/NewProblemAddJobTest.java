@@ -13,6 +13,7 @@ import org.springframework.batch.core.JobParametersBuilder;
 import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.batch.core.repository.JobRepository;
+import org.springframework.batch.item.database.JpaPagingItemReader;
 import org.springframework.batch.test.JobLauncherTestUtils;
 import org.springframework.batch.test.JobRepositoryTestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,8 +52,8 @@ public class NewProblemAddJobTest extends BatchTestSupport {
 
     }
 
+
     // 트랜잭션 롤백 테스트
     // 네트워크 에러 시 대응 테스트
     //
-
 }
