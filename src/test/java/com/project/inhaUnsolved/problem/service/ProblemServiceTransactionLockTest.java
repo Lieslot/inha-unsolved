@@ -1,22 +1,24 @@
 package com.project.inhaUnsolved.problem.service;
 
 
+import com.project.inhaUnsolved.domain.problem.domain.SolvedProblem;
 import com.project.inhaUnsolved.domain.problem.domain.Tier;
 import com.project.inhaUnsolved.domain.problem.domain.UnsolvedProblem;
 import com.project.inhaUnsolved.domain.problem.repository.ProblemRepository;
 import com.project.inhaUnsolved.domain.problem.repository.SolvedProblemRepository;
 import com.project.inhaUnsolved.domain.problem.service.ProblemService;
+import com.project.inhaUnsolved.problem.getdata.ProblemRenewServiceTest;
+import com.project.inhaUnsolved.scheduler.deletecheck.NewSolvedProblemService;
+import com.project.inhaUnsolved.scheduler.dto.NewUnsolvedProblems;
+import com.project.inhaUnsolved.scheduler.newproblemadd.NewProblemAddService;
+import com.project.inhaUnsolved.scheduler.problemrenew.ProblemDetailRenewService;
 import com.zaxxer.hikari.HikariDataSource;
-import com.zaxxer.hikari.HikariPoolMXBean;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.function.Consumer;
-import java.util.function.Supplier;
 import java.util.stream.IntStream;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
@@ -26,7 +28,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.support.TransactionCallback;
 import org.springframework.transaction.support.TransactionTemplate;
 
 
@@ -39,7 +40,11 @@ public class ProblemServiceTransactionLockTest {
     @Autowired
     private HikariDataSource dataSource;
     @Autowired
-    private ProblemService service;
+    private ProblemService problemService;
+    @Autowired
+    private NewProblemAddService newProblemAddService;
+    @Autowired
+    ProblemDetailRenewService problemDetailRenewService;
     @Autowired
     private ProblemRepository unsolvedProblemRepository;
     @Autowired
@@ -93,8 +98,14 @@ public class ProblemServiceTransactionLockTest {
         ExecutorService executorService = Executors.newFixedThreadPool(5);
         CountDownLatch latch = new CountDownLatch(2);
 
-        addThread(() -> service.renewUnsolvedProblem(test1), latch, executorService);
-        addThread(() -> service.addProblems(test1), latch, executorService);
+        List<Integer> numbers = test1.stream()
+                                  .map(UnsolvedProblem::getNumber)
+                                  .toList();
+
+        NewUnsolvedProblems newUnsolvedProblems = new NewUnsolvedProblems(test1);
+
+        addThread(() ->  problemService.deleteAllUnsolvedProblemByNumbers(numbers), latch, executorService);
+        addThread(() -> newProblemAddService.addProblems(newUnsolvedProblems), latch, executorService);
 
         latch.await();
 
@@ -113,8 +124,17 @@ public class ProblemServiceTransactionLockTest {
         ExecutorService executorService = Executors.newFixedThreadPool(5);
         CountDownLatch latch = new CountDownLatch(2);
 
-        addThread(() -> service.renewUnsolvedProblem(test1), latch, executorService);
-        addThread(() -> service.addProblems(test1), latch, executorService);
+        List<UnsolvedProblem> problems = problemService.saveAllUnsolvedProblems(test1);
+
+        List<Integer> problemNumbers = problems.stream()
+                                     .map(UnsolvedProblem::getNumber)
+                                     .toList();
+        List<Integer> problemIds = problems.stream()
+                                     .map(UnsolvedProblem::getId)
+                                     .toList();
+
+        addThread(() ->  problemService.deleteAllUnsolvedProblemByNumbers(problemNumbers), latch, executorService);
+        addThread(() -> problemDetailRenewService.renewProblemDetails(problemIds, problems), latch, executorService);
 
         latch.await();
 
