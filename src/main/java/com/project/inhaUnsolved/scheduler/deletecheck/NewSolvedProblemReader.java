@@ -50,6 +50,7 @@ public class NewSolvedProblemReader implements ItemReader<ProblemAndUser> {
 
             newSolvedProblemStore.storeSolvedProblems(problemSolvedByUser);
             newSolvedProblemStore.storeNextSavedUser(user);
+            userBuffer.remove(user);
 
             if (newSolvedProblemStore.needTransaction()) {
                 break;

@@ -1,10 +1,12 @@
 package com.project.inhaUnsolved.domain.user;
 
+import com.project.inhaUnsolved.domain.problem.domain.UnsolvedProblem;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import java.util.Objects;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -35,6 +37,24 @@ public class User {
 
         solvingProblemCount = solvedCount;
 
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        User other = (User) obj;
+
+        return this.handle.equals(other.handle);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.handle);
     }
 
     @Override
