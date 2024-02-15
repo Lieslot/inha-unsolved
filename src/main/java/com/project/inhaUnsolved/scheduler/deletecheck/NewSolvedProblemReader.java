@@ -1,7 +1,6 @@
 package com.project.inhaUnsolved.scheduler.deletecheck;
 
 
-import com.project.inhaUnsolved.domain.problem.domain.SolvedProblem;
 import com.project.inhaUnsolved.domain.problem.domain.UnsolvedProblem;
 import com.project.inhaUnsolved.domain.problem.vo.NewSolvedProblemStore;
 import com.project.inhaUnsolved.domain.user.User;
@@ -38,7 +37,7 @@ public class NewSolvedProblemReader implements ItemReader<ProblemAndUser> {
 
     @Override
     public ProblemAndUser read()
-            throws Exception, UnexpectedInputException, ParseException, NonTransientResourceException {
+            throws Exception {
 
         if (userBuffer.isEmpty()) {
             return null;

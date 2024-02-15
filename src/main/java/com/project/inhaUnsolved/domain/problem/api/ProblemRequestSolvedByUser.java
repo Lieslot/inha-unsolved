@@ -15,7 +15,6 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -36,7 +35,6 @@ public class ProblemRequestSolvedByUser {
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(API_URL)
                                                            .queryParam("query", "s@" + handle)
                                                            .queryParam("page", String.valueOf(pageNumber));
-
 
         HttpHeaders headers = new HttpHeaders();
         headers.set(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE);

@@ -3,8 +3,8 @@ package com.project.inhaUnsolved.scheduler.newproblemadd;
 import com.project.inhaUnsolved.domain.problem.domain.UnsolvedProblem;
 import com.project.inhaUnsolved.domain.problem.service.ProblemService;
 import com.project.inhaUnsolved.scheduler.domain.LastUpdatedProblemNumber;
-import com.project.inhaUnsolved.scheduler.repository.LastUpdatedProblemNumberRepository;
 import com.project.inhaUnsolved.scheduler.dto.NewUnsolvedProblems;
+import com.project.inhaUnsolved.scheduler.repository.LastUpdatedProblemNumberRepository;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -23,7 +23,8 @@ public class NewProblemAddService {
     @Transactional
     public void addProblems(NewUnsolvedProblems newProblems) {
 
-        List<Integer> numbers = newProblems.getUnsolvedProblems().stream()
+        List<Integer> numbers = newProblems.getUnsolvedProblems()
+                                           .stream()
                                            .map(UnsolvedProblem::getNumber)
                                            .sorted()
                                            .toList();
@@ -42,8 +43,7 @@ public class NewProblemAddService {
             problemService.save(newProblem);
         }
 
-        int lastNumber = numbers.get(numbers.size()-1);
-
+        int lastNumber = numbers.get(numbers.size() - 1);
 
         repository.save(new LastUpdatedProblemNumber(lastNumber));
 

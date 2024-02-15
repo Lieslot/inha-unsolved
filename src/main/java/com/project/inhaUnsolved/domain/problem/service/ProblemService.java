@@ -41,9 +41,9 @@ public class ProblemService {
 
     public void saveAll(Collection<SolvedProblem> newSolvedProblems) {
 
-        Set<Integer> numbers =  newSolvedProblems.stream()
-                                     .map(SolvedProblem::getNumber)
-                                     .collect(Collectors.toSet());
+        Set<Integer> numbers = newSolvedProblems.stream()
+                                                .map(SolvedProblem::getNumber)
+                                                .collect(Collectors.toSet());
         List<SolvedProblem> existingSolvedProblems = solvedProblemRepository.findAllByNumberIn(numbers);
 
         newSolvedProblems.removeAll(existingSolvedProblems);
@@ -57,9 +57,9 @@ public class ProblemService {
 
     public List<Integer> findSolvedProblemNumbersIn(Collection<Integer> numbers) {
         return solvedProblemRepository.findAllByNumberIn(numbers)
-                .stream()
-                .map(SolvedProblem::getNumber)
-                .toList();
+                                      .stream()
+                                      .map(SolvedProblem::getNumber)
+                                      .toList();
     }
 
 
@@ -69,21 +69,20 @@ public class ProblemService {
         AtomicInteger lastId = new AtomicInteger(-1);
 
         return IntStream.iterate(0, n -> n + 1)
-                 .mapToObj(page -> {
-                     List<Integer> numbers = solvedProblemRepositoryCustom.findNumbers(batchSize, lastId.get());
-                     lastId.set(numbers.get(numbers.size() - 1));
-                     return numbers;
-                 })
-                 .takeWhile(batch -> !batch.isEmpty())
-                 .flatMap(List::stream)
-                 .toList();
+                        .mapToObj(page -> {
+                            List<Integer> numbers = solvedProblemRepositoryCustom.findNumbers(batchSize, lastId.get());
+                            lastId.set(numbers.get(numbers.size() - 1));
+                            return numbers;
+                        })
+                        .takeWhile(batch -> !batch.isEmpty())
+                        .flatMap(List::stream)
+                        .toList();
     }
 
 
     public void deleteAllUnsolvedProblemByNumbers(List<Integer> numbers) {
         unsolvedProblemRepository.deleteAllByNumberIn(numbers);
     }
-
 
 
 }

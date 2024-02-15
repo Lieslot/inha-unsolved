@@ -13,7 +13,6 @@ import java.util.Objects;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 @Getter
 @Entity
@@ -47,16 +46,16 @@ public class ProblemTag {
     @Override
     public boolean equals(Object obj) {
 
-            if (this == obj) {
-                return true;
-            }
-            if (obj == null || getClass() != obj.getClass()) {
-                return false;
-            }
-            ProblemTag other = (ProblemTag) obj;
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        ProblemTag other = (ProblemTag) obj;
 
-            return this.tag.getNumber() == other.tag.getNumber()
-                    && this.problem.getNumber() == other.problem.getNumber();
+        return this.tag.getNumber() == other.tag.getNumber()
+                && this.problem.getNumber() == other.problem.getNumber();
     }
 
     @Override

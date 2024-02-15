@@ -10,7 +10,8 @@ import org.springframework.util.ClassUtils;
 import org.springframework.util.CollectionUtils;
 import reader.options.QuerydslNoOffsetNumberOptions;
 
-public class QuerydslNoOffsetIdPagingItemReader<T, N extends Number & Comparable<?>> extends QuerydslPagingItemReader<T> {
+public class QuerydslNoOffsetIdPagingItemReader<T, N extends Number & Comparable<?>> extends
+        QuerydslPagingItemReader<T> {
 
     private QuerydslNoOffsetNumberOptions<T, N> options;
 

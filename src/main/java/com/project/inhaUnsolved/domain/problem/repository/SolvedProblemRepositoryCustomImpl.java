@@ -19,11 +19,11 @@ public class SolvedProblemRepositoryCustomImpl implements SolvedProblemRepositor
     public List<Integer> findNumbers(int batchSize, int lastId) {
 
         return jpaQueryFactory.select(solvedProblem.number)
-                       .from(solvedProblem)
-                       .where(ltId(lastId))
-                       .orderBy(solvedProblem.id.desc())
-                .limit(batchSize)
-                .fetch();
+                              .from(solvedProblem)
+                              .where(ltId(lastId))
+                              .orderBy(solvedProblem.id.desc())
+                              .limit(batchSize)
+                              .fetch();
     }
 
     private BooleanExpression ltId(int id) {
@@ -33,13 +33,14 @@ public class SolvedProblemRepositoryCustomImpl implements SolvedProblemRepositor
         }
         return solvedProblem.id.lt(id);
     }
+
     @Override
     public List<SolvedProblem> filterNumberNotIn(List<Integer> numbers) {
 
         return jpaQueryFactory.select(solvedProblem)
-                .from(solvedProblem)
-                .where(solvedProblem.number.in(numbers))
-                .fetch();
+                              .from(solvedProblem)
+                              .where(solvedProblem.number.in(numbers))
+                              .fetch();
 
     }
 }

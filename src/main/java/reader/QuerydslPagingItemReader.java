@@ -11,12 +11,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.function.Function;
-import org.springframework.batch.core.step.item.ChunkOrientedTasklet;
-import org.springframework.batch.core.step.item.ChunkProcessor;
 import org.springframework.batch.item.database.AbstractPagingItemReader;
-import org.springframework.batch.item.database.JpaPagingItemReader;
 import org.springframework.dao.DataAccessResourceFailureException;
-import org.springframework.transaction.support.TransactionSynchronizationManager;
 import org.springframework.util.ClassUtils;
 import org.springframework.util.CollectionUtils;
 
@@ -27,6 +23,7 @@ public class QuerydslPagingItemReader<T> extends AbstractPagingItemReader<T> {
     protected EntityManager entityManager;
     protected Function<JPAQueryFactory, JPAQuery<T>> queryFunction;
     protected boolean transacted = true; // default value
+
     protected QuerydslPagingItemReader() {
         setName(ClassUtils.getShortName(QuerydslPagingItemReader.class));
     }
@@ -49,11 +46,8 @@ public class QuerydslPagingItemReader<T> extends AbstractPagingItemReader<T> {
     }
 
     /**
-     * Reader의 트랜잭션격리 옵션 <br/>
-     * - false: 격리 시키지 않고, Chunk 트랜잭션에 의존한다 <br/>
-     * (hibernate.default_batch_fetch_size 옵션 사용가능) <br/>
-     * - true: 격리 시킨다 <br/>
-     * (Reader 조회 결과를 삭제하고 다시 조회했을때 삭제된게 반영되고 조회되길 원할때 사용한다.)
+     * Reader의 트랜잭션격리 옵션 <br/> - false: 격리 시키지 않고, Chunk 트랜잭션에 의존한다 <br/> (hibernate.default_batch_fetch_size 옵션 사용가능)
+     * <br/> - true: 격리 시킨다 <br/> (Reader 조회 결과를 삭제하고 다시 조회했을때 삭제된게 반영되고 조회되길 원할때 사용한다.)
      */
     public void setTransacted(boolean transacted) {
         this.transacted = transacted;
@@ -75,7 +69,7 @@ public class QuerydslPagingItemReader<T> extends AbstractPagingItemReader<T> {
         EntityTransaction tx = getTxOrNull();
 
         JPQLQuery<T> query = createQuery()
-                .offset(getPage() * getPageSize())
+                .offset((long) getPage() * getPageSize())
                 .limit(getPageSize());
 
         initResults();
@@ -112,6 +106,7 @@ public class QuerydslPagingItemReader<T> extends AbstractPagingItemReader<T> {
 
     /**
      * where 의 조건은 id max/min 을 이용한 제한된 범위를 가지게 한다
+     *
      * @param query
      * @param tx
      */
@@ -119,7 +114,7 @@ public class QuerydslPagingItemReader<T> extends AbstractPagingItemReader<T> {
         if (transacted) {
             results.addAll(query.fetch());
 
-            if(tx != null) {
+            if (tx != null) {
                 tx.commit();
             }
         } else {
@@ -130,7 +125,6 @@ public class QuerydslPagingItemReader<T> extends AbstractPagingItemReader<T> {
             }
         }
     }
-
 
 
     @Override

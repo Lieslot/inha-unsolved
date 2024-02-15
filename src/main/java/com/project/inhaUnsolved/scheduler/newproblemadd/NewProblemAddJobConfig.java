@@ -2,8 +2,8 @@ package com.project.inhaUnsolved.scheduler.newproblemadd;
 
 import com.project.inhaUnsolved.domain.problem.api.ProblemRequestByNumber;
 import com.project.inhaUnsolved.domain.problem.domain.UnsolvedProblem;
-import com.project.inhaUnsolved.scheduler.repository.LastUpdatedProblemNumberRepository;
 import com.project.inhaUnsolved.scheduler.dto.NewUnsolvedProblems;
+import com.project.inhaUnsolved.scheduler.repository.LastUpdatedProblemNumberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.Job;
@@ -73,7 +73,6 @@ public class NewProblemAddJobConfig {
         itemWriterAdapter.setTargetMethod("addProblems");
         return itemWriterAdapter;
     }
-
 
 
 }

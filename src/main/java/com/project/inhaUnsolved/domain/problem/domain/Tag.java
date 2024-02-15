@@ -1,17 +1,14 @@
 package com.project.inhaUnsolved.domain.problem.domain;
 
 import com.project.inhaUnsolved.domain.bridge.ProblemTag;
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import java.util.Objects;
 import java.util.Set;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.BatchSize;
 
 @Getter
 @Entity

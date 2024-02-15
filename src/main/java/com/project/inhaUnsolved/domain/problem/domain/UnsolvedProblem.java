@@ -12,7 +12,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Index;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -20,7 +19,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.BatchSize;
-import org.springframework.batch.item.database.JpaItemWriter;
 
 
 @Getter
@@ -66,7 +64,6 @@ public class UnsolvedProblem {
     }
 
     public void renewTags(Set<ProblemTag> newProblemTags) {
-
 
         newProblemTags.forEach(newProblemTag -> newProblemTag.addProblem(this));
 

@@ -9,8 +9,8 @@ import lombok.Getter;
 @Getter
 public class ProblemAndUser {
 
-    private List<User> users;
-    private List<UnsolvedProblem> unsolvedProblems;
+    private final List<User> users;
+    private final List<UnsolvedProblem> unsolvedProblems;
 
 
     public ProblemAndUser(List<User> users, List<UnsolvedProblem> unsolvedProblems) {

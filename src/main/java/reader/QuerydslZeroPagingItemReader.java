@@ -9,9 +9,7 @@ import java.util.function.Function;
 import org.springframework.util.ClassUtils;
 
 /**
- * 배치의 형태가 삭제/수정으로 인해 조회 결과가 계속 동적으로 변경될때 사용할 Reader
- * 참고: https://jojoldu.tistory.com/337
- *
+ * 배치의 형태가 삭제/수정으로 인해 조회 결과가 계속 동적으로 변경될때 사용할 Reader 참고: https://jojoldu.tistory.com/337
  */
 public class QuerydslZeroPagingItemReader<T> extends QuerydslPagingItemReader<T> {
 

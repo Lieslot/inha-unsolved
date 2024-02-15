@@ -11,7 +11,6 @@ import java.util.Set;
 public class NewSolvedProblemStore {
 
 
-
     private static final int TRANSACTION_UNIT = 50;
 
     private final Set<Integer> check;

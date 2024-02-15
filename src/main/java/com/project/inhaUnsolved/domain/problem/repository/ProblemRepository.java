@@ -13,7 +13,6 @@ import org.springframework.data.jpa.repository.Lock;
 public interface ProblemRepository extends JpaRepository<UnsolvedProblem, Integer> {
 
 
-
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     List<UnsolvedProblem> findAllByNumberIn(Collection<Integer> number);
 

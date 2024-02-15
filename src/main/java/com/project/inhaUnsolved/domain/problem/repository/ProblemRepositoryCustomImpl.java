@@ -4,7 +4,6 @@ package com.project.inhaUnsolved.domain.problem.repository;
 import static com.project.inhaUnsolved.domain.bridge.QProblemTag.problemTag;
 import static com.project.inhaUnsolved.domain.problem.domain.QUnsolvedProblem.unsolvedProblem;
 
-import com.project.inhaUnsolved.domain.problem.domain.UnsolvedProblem;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.LockModeType;
 import java.util.Collection;
@@ -58,8 +57,8 @@ public class ProblemRepositoryCustomImpl implements ProblemRepositoryCustom {
     public void deleteAllByNumber(Collection<Integer> numbers) {
 
         jpaQueryFactory.delete(unsolvedProblem)
-                .where(unsolvedProblem.number.in(numbers))
-                .execute();
+                       .where(unsolvedProblem.number.in(numbers))
+                       .execute();
 
     }
 
@@ -86,9 +85,9 @@ public class ProblemRepositoryCustomImpl implements ProblemRepositoryCustom {
     @Override
     public List<Integer> findAllNumbersIn(Collection<Integer> numbers) {
         return jpaQueryFactory.select(unsolvedProblem.number)
-                .from(unsolvedProblem)
-                .where(unsolvedProblem.number.in(numbers))
-                .fetch();
+                              .from(unsolvedProblem)
+                              .where(unsolvedProblem.number.in(numbers))
+                              .fetch();
     }
 
 //    @Override

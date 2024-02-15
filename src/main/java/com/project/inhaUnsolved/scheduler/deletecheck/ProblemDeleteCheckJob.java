@@ -1,11 +1,7 @@
 package com.project.inhaUnsolved.scheduler.deletecheck;
 
-import com.project.inhaUnsolved.domain.problem.domain.UnsolvedProblem;
-import com.project.inhaUnsolved.domain.problem.vo.NewSolvedProblemStore;
-import com.project.inhaUnsolved.domain.user.User;
 import com.project.inhaUnsolved.scheduler.dto.ProblemAndUser;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.JobScope;
@@ -29,7 +25,6 @@ public class ProblemDeleteCheckJob {
     private final PlatformTransactionManager transactionManager;
     private final NewSolvedProblemService newSolvedProblemService;
     private final JobRepository jobRepository;
-
 
 
     public Job problemDeleteCheckJob() {
@@ -59,9 +54,6 @@ public class ProblemDeleteCheckJob {
     public ItemWriter<ProblemAndUser> newSolvedProblemWriter() {
         return new NewSolvedProblemWriter(newSolvedProblemService);
     }
-
-
-
 
 
 }

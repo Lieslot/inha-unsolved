@@ -31,12 +31,12 @@ public class QuerydslNoOffsetStringOptions<T> extends QuerydslNoOffsetOptions<T>
 
     @Override
     public void initKeys(JPAQuery<T> query, int page) {
-        if(page == 0) {
+        if (page == 0) {
             initFirstId(query);
             initLastId(query);
 
             if (logger.isDebugEnabled()) {
-                logger.debug("First Key= "+currentId+", Last Key= "+ lastId);
+                logger.debug("First Key= " + currentId + ", Last Key= " + lastId);
             }
         }
     }
@@ -46,14 +46,14 @@ public class QuerydslNoOffsetStringOptions<T> extends QuerydslNoOffsetOptions<T>
         JPAQuery<T> clone = query.clone();
         boolean isGroupByQuery = isGroupByQuery(clone);
 
-        if(isGroupByQuery) {
+        if (isGroupByQuery) {
             currentId = clone
                     .select(field)
-                    .orderBy(expression.isAsc()? field.asc() : field.desc())
+                    .orderBy(expression.isAsc() ? field.asc() : field.desc())
                     .fetchFirst();
         } else {
             currentId = clone
-                    .select(expression.isAsc()? field.min(): field.max())
+                    .select(expression.isAsc() ? field.min() : field.max())
                     .fetchFirst();
         }
 
@@ -64,14 +64,14 @@ public class QuerydslNoOffsetStringOptions<T> extends QuerydslNoOffsetOptions<T>
         JPAQuery<T> clone = query.clone();
         boolean isGroupByQuery = isGroupByQuery(clone);
 
-        if(isGroupByQuery) {
+        if (isGroupByQuery) {
             lastId = clone
                     .select(field)
-                    .orderBy(expression.isAsc()? field.desc() : field.asc())
+                    .orderBy(expression.isAsc() ? field.desc() : field.asc())
                     .fetchFirst();
         } else {
             lastId = clone
-                    .select(expression.isAsc()? field.max(): field.min())
+                    .select(expression.isAsc() ? field.max() : field.min())
                     .fetchFirst();
         }
     }
@@ -89,7 +89,7 @@ public class QuerydslNoOffsetStringOptions<T> extends QuerydslNoOffsetOptions<T>
 
     private BooleanExpression whereExpression(int page) {
         return expression.where(field, page, currentId)
-                .and(expression.isAsc()? field.loe(lastId) : field.goe(lastId));
+                         .and(expression.isAsc() ? field.loe(lastId) : field.goe(lastId));
     }
 
     private OrderSpecifier<String> orderExpression() {

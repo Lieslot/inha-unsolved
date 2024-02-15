@@ -16,8 +16,9 @@ public abstract class QuerydslNoOffsetOptions<T> {
 
     public QuerydslNoOffsetOptions(@Nonnull Path field,
                                    @Nonnull Expression expression) {
-        String[] qField = field.toString().split("\\.");
-        this.fieldName = qField[qField.length-1];
+        String[] qField = field.toString()
+                               .split("\\.");
+        this.fieldName = qField[qField.length - 1];
         this.expression = expression;
 
         if (logger.isDebugEnabled()) {
@@ -32,6 +33,7 @@ public abstract class QuerydslNoOffsetOptions<T> {
     public abstract void initKeys(JPAQuery<T> query, int page);
 
     protected abstract void initFirstId(JPAQuery<T> query);
+
     protected abstract void initLastId(JPAQuery<T> query);
 
     public abstract JPAQuery<T> createQuery(JPAQuery<T> query, int page);
@@ -40,7 +42,8 @@ public abstract class QuerydslNoOffsetOptions<T> {
 
     protected Object getFiledValue(T item) {
         try {
-            Field field = item.getClass().getDeclaredField(fieldName);
+            Field field = item.getClass()
+                              .getDeclaredField(fieldName);
             field.setAccessible(true);
             return field.get(item);
         } catch (NoSuchFieldException | IllegalAccessException e) {

@@ -30,7 +30,7 @@ public class TagDetail {
                                                .orElse(new TagName())
                                                .getName()))
                   .number(bojTagId)
-                .problems(new HashSet<>())
+                  .problems(new HashSet<>())
                   .build();
     }
 }
