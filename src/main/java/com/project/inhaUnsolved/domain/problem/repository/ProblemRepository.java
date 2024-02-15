@@ -28,4 +28,6 @@ public interface ProblemRepository extends JpaRepository<UnsolvedProblem, Intege
 
     void deleteByNumber(int number);
 
+    void deleteAllByNumberIn(Collection<Integer> numbers);
+
 }

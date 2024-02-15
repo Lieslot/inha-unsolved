@@ -15,7 +15,7 @@ public interface SolvedProblemRepository extends JpaRepository<SolvedProblem, In
     Optional<ProblemNumberOnly> findTopByOrderByNumberDesc();
 
     List<SolvedProblem> findAllByNumberIn(Collection<Integer> number);
-
+    List<SolvedProblem> findAllByNumberNotIn(Collection<Integer> number);
     void deleteByNumber(int number);
 
 }

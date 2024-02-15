@@ -2,6 +2,7 @@ package com.project.inhaUnsolved.domain.problem.repository;
 
 import static com.project.inhaUnsolved.domain.problem.domain.QSolvedProblem.solvedProblem;
 
+import com.project.inhaUnsolved.domain.problem.domain.SolvedProblem;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;
@@ -21,6 +22,7 @@ public class SolvedProblemRepositoryCustomImpl implements SolvedProblemRepositor
                        .from(solvedProblem)
                        .where(ltId(lastId))
                        .orderBy(solvedProblem.id.desc())
+                .limit(batchSize)
                 .fetch();
     }
 
@@ -30,5 +32,14 @@ public class SolvedProblemRepositoryCustomImpl implements SolvedProblemRepositor
             return null;
         }
         return solvedProblem.id.lt(id);
+    }
+    @Override
+    public List<SolvedProblem> filterNumberNotIn(List<Integer> numbers) {
+
+        return jpaQueryFactory.select(solvedProblem)
+                .from(solvedProblem)
+                .where(solvedProblem.number.in(numbers))
+                .fetch();
+
     }
 }

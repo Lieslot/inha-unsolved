@@ -6,7 +6,6 @@ import com.project.inhaUnsolved.domain.problem.repository.ProblemRepository;
 import com.project.inhaUnsolved.domain.problem.repository.ProblemRepositoryCustom;
 import com.project.inhaUnsolved.domain.problem.repository.SolvedProblemRepository;
 import com.project.inhaUnsolved.domain.problem.repository.SolvedProblemRepositoryCustom;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
@@ -90,6 +89,19 @@ public class ProblemService {
         unsolvedProblemRepository.save(problem);
     }
 
+    public void saveAll(List<SolvedProblem> newSolvedProblems) {
+
+        Set<Integer> numbers =  newSolvedProblems.stream()
+                                     .map(SolvedProblem::getNumber)
+                                     .collect(Collectors.toSet());
+
+        List<SolvedProblem> existingSolvedProblems = solvedProblemRepository.findAllByNumberIn(numbers);
+
+        newSolvedProblems.removeAll(existingSolvedProblems);
+
+        solvedProblemRepository.saveAll(newSolvedProblems);
+    }
+
     public List<Integer> findProblemNumbersIn(Collection<Integer> numbers) {
         return unsolvedProblemRepositoryCustom.findAllNumbersIn(numbers);
     }
@@ -117,6 +129,12 @@ public class ProblemService {
                  .flatMap(List::stream)
                  .toList();
     }
+
+
+    public void deleteAllUnsolvedProblemByNumbers(List<Integer> numbers) {
+        unsolvedProblemRepository.deleteAllByNumberIn(numbers);
+    }
+
 
 
 }

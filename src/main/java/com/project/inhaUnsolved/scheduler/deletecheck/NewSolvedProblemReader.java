@@ -40,6 +40,10 @@ public class NewSolvedProblemReader implements ItemReader<ProblemAndUser> {
     public ProblemAndUser read()
             throws Exception, UnexpectedInputException, ParseException, NonTransientResourceException {
 
+        if (userBuffer.isEmpty()) {
+            return null;
+        }
+
         while (!userBuffer.isEmpty()) {
             int endIndex = userBuffer.size() - 1;
             User user = userBuffer.get(endIndex);
@@ -56,7 +60,7 @@ public class NewSolvedProblemReader implements ItemReader<ProblemAndUser> {
 
         List<User> nextSavedUsers = newSolvedProblemStore.flushUsers();
         List<UnsolvedProblem> nextSavedProblems = newSolvedProblemStore.flushProblems();
-
+        // null 처리 따로 해주기
         return new ProblemAndUser(nextSavedUsers, nextSavedProblems);
     }
 }

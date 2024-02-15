@@ -3,7 +3,10 @@ package com.project.inhaUnsolved.scheduler.dto;
 import com.project.inhaUnsolved.domain.problem.domain.UnsolvedProblem;
 import com.project.inhaUnsolved.domain.user.User;
 import java.util.List;
+import lombok.Getter;
 
+
+@Getter
 public class ProblemAndUser {
 
     private List<User> users;

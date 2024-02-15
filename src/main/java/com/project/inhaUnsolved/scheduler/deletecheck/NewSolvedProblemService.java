@@ -2,17 +2,17 @@ package com.project.inhaUnsolved.scheduler.deletecheck;
 
 
 import com.project.inhaUnsolved.domain.problem.api.ProblemRequestSolvedByUser;
+import com.project.inhaUnsolved.domain.problem.domain.SolvedProblem;
 import com.project.inhaUnsolved.domain.problem.domain.UnsolvedProblem;
 import com.project.inhaUnsolved.domain.problem.service.ProblemService;
-import com.project.inhaUnsolved.domain.problem.vo.NewSolvedProblemStore;
 import com.project.inhaUnsolved.domain.user.User;
 import com.project.inhaUnsolved.domain.user.api.UserDetailRequest;
 import com.project.inhaUnsolved.domain.user.service.UserService;
-import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -37,6 +37,23 @@ public class NewSolvedProblemService {
 
     public List<UnsolvedProblem> getProblemsSolvedBy(User user) {
         return problemRequestSolvedByUserRequest.getProblems(user.getHandle());
+    }
+
+    @Transactional
+    public void commitChunkTransaction(List<User> savedUsers, List<UnsolvedProblem> solvedProblems) {
+
+        List<Integer> numbers = solvedProblems.stream()
+                                              .map(UnsolvedProblem::getNumber)
+                                              .toList();
+        problemService.deleteAllUnsolvedProblemByNumbers(numbers);
+
+        List<SolvedProblem> newSolvedProblems = numbers.stream()
+                                                       .map(SolvedProblem::new)
+                                                       .toList();
+        problemService.saveAll(newSolvedProblems);
+
+        userService.saveAll(savedUsers);
+
     }
 
 

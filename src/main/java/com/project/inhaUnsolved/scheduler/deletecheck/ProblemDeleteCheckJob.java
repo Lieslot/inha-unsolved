@@ -14,6 +14,7 @@ import org.springframework.batch.core.job.builder.JobBuilder;
 import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.step.builder.StepBuilder;
 import org.springframework.batch.item.ItemReader;
+import org.springframework.batch.item.ItemWriter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -41,9 +42,9 @@ public class ProblemDeleteCheckJob {
     @JobScope
     public Step problemDeleteCheckStep() {
         return new StepBuilder("problemDeleteCheckStep", jobRepository)
-                .<ProblemAndUser, UnsolvedProblem>chunk(100, transactionManager)
+                .<ProblemAndUser, ProblemAndUser>chunk(1, transactionManager)
                 .reader(newSolvedProblemReader())
-                .writer()
+                .writer(newSolvedProblemWriter())
                 .build();
     }
 
@@ -51,6 +52,12 @@ public class ProblemDeleteCheckJob {
     @StepScope
     public ItemReader<ProblemAndUser> newSolvedProblemReader() {
         return new NewSolvedProblemReader(newSolvedProblemService);
+    }
+
+    @Bean
+    @StepScope
+    public ItemWriter<ProblemAndUser> newSolvedProblemWriter() {
+        return new NewSolvedProblemWriter(newSolvedProblemService);
     }
 
 
