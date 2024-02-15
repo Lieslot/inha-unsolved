@@ -26,6 +26,7 @@ public class NewSolvedProblemService {
     private final UserDetailRequest userDetailRequest;
     private final ProblemRequestSolvedByUser problemRequestSolvedByUserRequest;
 
+
     public List<User> requestAndFilterRenewedUsers() {
         List<User> userDetail = userDetailRequest.getUserDetail();
         return userService.getRenewedUser(userDetail);

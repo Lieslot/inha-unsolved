@@ -25,7 +25,7 @@ import org.springframework.context.annotation.Profile;
 @RequiredArgsConstructor
 @Configuration
 @Slf4j
-@Profile("!dbtest")
+@Profile("!test")
 public class SchedulerConfig {
 
     private final Scheduler scheduler;

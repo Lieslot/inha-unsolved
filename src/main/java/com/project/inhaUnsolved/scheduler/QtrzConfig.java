@@ -19,7 +19,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 
 @Configuration
 @RequiredArgsConstructor
-@Profile("!dbtest")
+@Profile("!test")
 @Slf4j
 public class QtrzConfig {
 

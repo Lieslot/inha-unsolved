@@ -1,14 +1,11 @@
 package com.project.inhaUnsolved.problem.service;
 
 
-import com.project.inhaUnsolved.domain.problem.domain.SolvedProblem;
 import com.project.inhaUnsolved.domain.problem.domain.Tier;
 import com.project.inhaUnsolved.domain.problem.domain.UnsolvedProblem;
 import com.project.inhaUnsolved.domain.problem.repository.ProblemRepository;
 import com.project.inhaUnsolved.domain.problem.repository.SolvedProblemRepository;
 import com.project.inhaUnsolved.domain.problem.service.ProblemService;
-import com.project.inhaUnsolved.problem.getdata.ProblemRenewServiceTest;
-import com.project.inhaUnsolved.scheduler.deletecheck.NewSolvedProblemService;
 import com.project.inhaUnsolved.scheduler.dto.NewUnsolvedProblems;
 import com.project.inhaUnsolved.scheduler.newproblemadd.NewProblemAddService;
 import com.project.inhaUnsolved.scheduler.problemrenew.ProblemDetailRenewService;
