@@ -16,14 +16,13 @@ public class SolvedProblemRepositoryCustomImpl implements SolvedProblemRepositor
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public List<Integer> findNumbers(int batchSize, int lastId) {
+    public List<SolvedProblem> findSolvedProblems(int batchSize, int lastId) {
+        return jpaQueryFactory.selectFrom(solvedProblem)
+                                                      .where(ltId(lastId))
+                                                      .orderBy(solvedProblem.id.desc())
+                                                      .limit(batchSize)
+                                                      .fetch();
 
-        return jpaQueryFactory.select(solvedProblem.number)
-                              .from(solvedProblem)
-                              .where(ltId(lastId))
-                              .orderBy(solvedProblem.id.desc())
-                              .limit(batchSize)
-                              .fetch();
     }
 
     private BooleanExpression ltId(int id) {

@@ -45,13 +45,13 @@ public class ProblemDeleteCheckJob {
 
     @Bean
     @StepScope
-    public ItemReader<ProblemAndUser> newSolvedProblemReader() {
+    public NewSolvedProblemReader newSolvedProblemReader() {
         return new NewSolvedProblemReader(newSolvedProblemService);
     }
 
     @Bean
     @StepScope
-    public ItemWriter<ProblemAndUser> newSolvedProblemWriter() {
+    public NewSolvedProblemWriter newSolvedProblemWriter() {
         return new NewSolvedProblemWriter(newSolvedProblemService);
     }
 

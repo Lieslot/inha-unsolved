@@ -6,6 +6,7 @@ import com.project.inhaUnsolved.domain.problem.repository.ProblemRepository;
 import com.project.inhaUnsolved.domain.problem.repository.ProblemRepositoryCustom;
 import com.project.inhaUnsolved.domain.problem.repository.SolvedProblemRepository;
 import com.project.inhaUnsolved.domain.problem.repository.SolvedProblemRepositoryCustom;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
@@ -13,6 +14,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.relational.core.sql.In;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -70,9 +72,15 @@ public class ProblemService {
 
         return IntStream.iterate(0, n -> n + 1)
                         .mapToObj(page -> {
-                            List<Integer> numbers = solvedProblemRepositoryCustom.findNumbers(batchSize, lastId.get());
-                            lastId.set(numbers.get(numbers.size() - 1));
-                            return numbers;
+                            List<SolvedProblem> numbers = solvedProblemRepositoryCustom.findSolvedProblems(batchSize, lastId.get());
+                            if (numbers.isEmpty()) {
+                                return new ArrayList<Integer>();
+                            }
+                            
+                            lastId.set(numbers.get(numbers.size()-1).getId());
+                            return numbers.stream()
+                                          .map(SolvedProblem::getNumber)
+                                          .collect(Collectors.toList());
                         })
                         .takeWhile(batch -> !batch.isEmpty())
                         .flatMap(List::stream)
