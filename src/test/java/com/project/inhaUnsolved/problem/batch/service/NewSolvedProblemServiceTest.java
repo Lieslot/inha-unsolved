@@ -2,10 +2,15 @@ package com.project.inhaUnsolved.problem.batch.service;
 
 import static org.mockito.Mockito.*;
 
+import com.mysql.cj.protocol.x.XProtocolRow;
 import com.mysql.cj.protocol.x.XProtocolRowInputStream;
 import com.project.inhaUnsolved.domain.problem.api.ProblemRequestSolvedByUser;
+import com.project.inhaUnsolved.domain.problem.domain.SolvedProblem;
+import com.project.inhaUnsolved.domain.problem.domain.Tier;
+import com.project.inhaUnsolved.domain.problem.domain.UnsolvedProblem;
 import com.project.inhaUnsolved.domain.problem.repository.ProblemRepository;
 import com.project.inhaUnsolved.domain.problem.repository.SolvedProblemRepository;
+import com.project.inhaUnsolved.domain.problem.service.ProblemService;
 import com.project.inhaUnsolved.domain.user.User;
 import com.project.inhaUnsolved.domain.user.api.UserDetailRequest;
 import com.project.inhaUnsolved.domain.user.repository.UserRepository;
@@ -14,6 +19,8 @@ import com.project.inhaUnsolved.problem.batch.config.TestBatchConfig;
 import com.project.inhaUnsolved.scheduler.deletecheck.NewSolvedProblemService;
 import java.net.URI;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -43,8 +50,13 @@ public class NewSolvedProblemServiceTest {
     private NewSolvedProblemService newSolvedProblemService;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private ProblemRepository problemRepository;
+    @Autowired
+    private SolvedProblemRepository solvedProblemRepository;
     @MockBean
     private UserDetailRequest userDetailRequest;
+
 
 
     @Test
@@ -83,6 +95,77 @@ public class NewSolvedProblemServiceTest {
 
         Assertions.assertThat(users).doesNotContain(expectedNotContainedUser);
         Assertions.assertThat(users).containsAll(expectedContainedUsers);
+
+    }
+
+    @Test
+    void commitChunkTransaction_저장테스트() {
+
+        List<UnsolvedProblem> newSolvedProblems = new ArrayList<>();
+
+        for (int i = 1000; i < 1010; i++) {
+            UnsolvedProblem problem = UnsolvedProblem.builder()
+                                                   .number(i)
+                                                   .tags(new HashSet<>())
+                                                   .tier(Tier.BRONZE_IV)
+                                                   .name(String.valueOf(i))
+                                                   .build();
+            problemRepository.save(problem);
+            if (i < 1007) newSolvedProblems.add(problem);
+        }
+
+        List<User> users = new ArrayList<>();
+
+        newSolvedProblemService.commitChunkTransaction(users, newSolvedProblems);
+
+        List<UnsolvedProblem> remainedUnsolvedProblems = problemRepository.findAll();
+        List<SolvedProblem> solvedProblems = solvedProblemRepository.findAll();
+
+        remainedUnsolvedProblems.forEach(
+                problem ->  Assertions.assertThat(newSolvedProblems).allMatch(
+                        newSolvedProblem -> !newSolvedProblem.hasEqual(problem.getNumber()))
+        );
+
+        solvedProblems.forEach(
+                problem -> Assertions.assertThat(newSolvedProblems).anyMatch(
+                        newSolvedProblem -> newSolvedProblem.hasEqual(problem.getNumber()))
+        );
+
+        Assertions.assertThat(remainedUnsolvedProblems.size()).isEqualTo(3);
+        Assertions.assertThat(solvedProblems.size()).isEqualTo(7);
+
+    }
+
+    @Test
+    void commitChunkTransaction_트랜잭션_롤백_테스트() {
+
+        List<UnsolvedProblem> newSolvedProblems = new ArrayList<>();
+
+        for (int i = 1000; i < 1010; i++) {
+            UnsolvedProblem problem = UnsolvedProblem.builder()
+                                                     .number(i)
+                                                     .tags(new HashSet<>())
+                                                     .tier(Tier.BRONZE_IV)
+                                                     .name(String.valueOf(i))
+                                                     .build();
+            problemRepository.save(problem);
+            if (i < 1007) newSolvedProblems.add(problem);
+        }
+
+        List<User> nullUserList = null;
+
+        try {
+            newSolvedProblemService.commitChunkTransaction(nullUserList, newSolvedProblems);
+        } catch (NullPointerException e) {
+
+        }
+
+        List<UnsolvedProblem> remainedUnsolvedProblems = problemRepository.findAll();
+        List<SolvedProblem> solvedProblems = solvedProblemRepository.findAll();
+
+        Assertions.assertThat(remainedUnsolvedProblems.size()).isEqualTo(10);
+        Assertions.assertThat(solvedProblems.size()).isEqualTo(0);
+
 
     }
 

@@ -9,6 +9,7 @@ import com.project.inhaUnsolved.domain.user.User;
 import com.project.inhaUnsolved.domain.user.api.UserDetailRequest;
 import com.project.inhaUnsolved.domain.user.service.UserService;
 import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -50,7 +51,7 @@ public class NewSolvedProblemService {
 
         List<SolvedProblem> newSolvedProblems = numbers.stream()
                                                        .map(SolvedProblem::new)
-                                                       .toList();
+                                                       .collect(Collectors.toList());
         problemService.saveAll(newSolvedProblems);
 
         userService.saveAll(savedUsers);

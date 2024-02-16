@@ -26,7 +26,7 @@ public class NewSolvedProblemReader implements ItemReader<ProblemAndUser> {
     }
 
     @PostConstruct
-    void init() {
+    public void init() {
         List<User> renewedUsers = newSolvedProblemService.requestAndFilterRenewedUsers();
         userBuffer = new ArrayList<>(renewedUsers);
 
