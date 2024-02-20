@@ -29,6 +29,11 @@ public class Tag {
     }
 
 
+    public void renewName(String newName) {
+        this.name = newName;
+    }
+
+
     @Override
     public boolean equals(Object obj) {
 

@@ -67,11 +67,12 @@ public class NewSolvedProblemReaderTest {
 
         List<UnsolvedProblem> expectedProblems = new ArrayList<>(newSolvedProblems);
 
-        if (result != null) {
-            List<UnsolvedProblem> unsolvedProblems = result.getUnsolvedProblems();
-        }
+
+        List<UnsolvedProblem> unsolvedProblems = result.getUnsolvedProblems();
+
         expectedProblems.forEach(problem ->
-                Assertions.assertThat(storedSolvedProblemNumbers).doesNotContain(problem.getNumber())
+                Assertions.assertThat(unsolvedProblems).anyMatch(
+                        unsolvedProblem -> problem.hasEqual(unsolvedProblem.getNumber()))
         );
         Assertions.assertThat(expectedProblems.size()).isEqualTo(300);
 
