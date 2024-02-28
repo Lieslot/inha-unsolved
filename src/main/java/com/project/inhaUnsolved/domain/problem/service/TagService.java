@@ -18,20 +18,6 @@ public class TagService {
     private final TagRepository tagRepository;
     private final TagRequest request;
 
-    public void renewTagDetails() {
-        List<Tag> tagDetails = request.getTagDetails();
-
-        List<Tag> tags = tagRepository.findAll();
-
-        for (Tag tag : tags) {
-            int number = tag.getNumber();
-            String name = tag.getName();
-        }
-
-
-    }
-
-
     @Transactional(readOnly = true)
     public List<Tag> findAll() {
         return tagRepository.findAll();

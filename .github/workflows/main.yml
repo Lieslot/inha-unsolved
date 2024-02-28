@@ -28,12 +28,9 @@ jobs:
        run: |
            cd ./src/main/resources
            touch ./application.yml
-           touch ./application-db.yml
-           touch ./quartz.properties
+           touch ./application-deployDB.yml
            echo "${{ secrets.PROJECT_CONFIG }}" > ./application.yml
-           echo "${{ secrets.DB_CONFIG }}" > ./application-db.yml
-           echo "${{ secrets.SCHEDULER_CONFIG }}" > ./quartz.properties
-           echo "${{ secrets.SCHEDULER_INIT_SQL }}" > ./init_quartz.sql
+           echo "${{ secrets.DB_CONFIG }}" > ./application-deployDB.yml
        shell: bash
 
 
@@ -63,3 +60,4 @@ jobs:
           sudo docker pull ${{ secrets.DOCKER_REPO }}/inha-unsolved
           sudo docker compose up -d
           sudo docker image prune -f
+      

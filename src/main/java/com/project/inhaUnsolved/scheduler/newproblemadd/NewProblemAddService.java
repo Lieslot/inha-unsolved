@@ -45,6 +45,8 @@ public class NewProblemAddService {
 
         int lastNumber = numbers.get(numbers.size() - 1);
 
+
+
         repository.save(new LastUpdatedProblemNumber(lastNumber));
 
     }
