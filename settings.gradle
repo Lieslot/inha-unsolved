@@ -1,4 +1,6 @@
 rootProject.name = 'inhaUnsolved'
 include 'batch'
-include 'batch'
+include 'domain'
+include 'external-api'
+include 'querydsl-reader'
 

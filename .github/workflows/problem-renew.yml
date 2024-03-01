@@ -1,8 +1,8 @@
-name: New problem add job
+name: problem detail renew job
 
 on:
   schedule:
-    - cron: "0 0 0 * * "
+    - cron: "0 0 0/12 * * "
 
 jobs:
   batch-job-build:
@@ -37,4 +37,3 @@ jobs:
           --job.name=newProblemAddJob \
           version = ${{GITHUB_RUN_ID}}
           
-      
