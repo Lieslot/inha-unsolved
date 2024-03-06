@@ -6,8 +6,8 @@ on:
     - cron: "0 0 */1 * *"
   workflow_dispatch:
 
-  concurrency:
-    group : ${{secrets.BATCH_TAG}}
+concurrency:
+  group : ${{secrets.BATCH_TAG}}
 
 jobs:
   batch-job-build:
