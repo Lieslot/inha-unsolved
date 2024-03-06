@@ -2,7 +2,7 @@ name: problem detail renew job
 
 on:
   schedule:
-    - cron: "0 0 0/12 * * *"
+    - cron: "0 0 0/12 * *"
   workflow_dispatch:
 
   concurrency:
