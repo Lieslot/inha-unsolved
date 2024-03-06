@@ -33,6 +33,12 @@ jobs:
         run: |
           chmod +x ./gradlew
           ./gradlew clean build -x test
+      - name: Execute renewing tagDetail job
+        run: |
+          java -jar ./batch/build/libs/*.jar \
+          --spring.profiles.active=prod \
+          --job.name=tagDetailRenewJobConfig \
+          version=${{ github.run_id }}
 
       - name: Execute Job
         run: |
