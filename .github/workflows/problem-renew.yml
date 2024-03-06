@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 concurrency:
-  group: ${{secrets.BATCH_TAG}}
+  group: ${{ secrets.BATCH_TAG }}
 
 
 jobs:
@@ -39,5 +39,5 @@ jobs:
           java -jar ./batch/build/libs/*.jar \
           --spring.profiles.active=prod \
           --job.name=problemDetailRenewJob \
-          version=${{GITHUB_RUN_ID}}
+          version=${{ GITHUB_RUN_ID }}
           
