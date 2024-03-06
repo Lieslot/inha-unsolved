@@ -1,8 +1,8 @@
 package com.project.api.api;
 
 
+import com.project.api.TagRequest;
 import com.project.inhaUnsolved.domain.problem.domain.Tag;
-import com.project.inhaUnsolved.domain.problem.api.TagRequest;
 import java.util.List;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;

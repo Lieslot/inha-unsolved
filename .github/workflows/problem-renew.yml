@@ -3,6 +3,10 @@ name: problem detail renew job
 on:
   schedule:
     - cron: "0 0 0/12 * * "
+  workflow_dispatch:
+
+  concurrency:
+    group: ${{secrets.BATCH_TAG}}
 
 jobs:
   batch-job-build:
@@ -17,12 +21,11 @@ jobs:
           distribution: "adopt"
 
       - name: Make config file
-        run: |
-          cd ./src/main/resources
+        run:
           touch ./application.yml
           touch ./application-deployDB.yml
-          echo "${{ secrets.PROJECT_CONFIG }}" > ./application.yml
-          echo "${{ secrets.DB_CONFIG }}" > ./application-deployDB.yml
+          echo "${{ secrets.BATCH_CONFIG }}" > ./application.yml
+          echo "${{ secrets.DOMAIN_CONFIG }}" > ./application-domain.yml
         shell: bash
 
       - name: Build with Gradle
@@ -34,6 +37,6 @@ jobs:
         run: |
           java -jar ./batch/build/libs/*.jar \
           --spring.profiles.active=prod \
-          --job.name=newProblemAddJob \
-          version = ${{GITHUB_RUN_ID}}
+          --job.name=problemDetailRenewJob \
+          version=${{GITHUB_RUN_ID}}
           
