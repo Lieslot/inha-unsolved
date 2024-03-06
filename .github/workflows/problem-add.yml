@@ -36,6 +36,6 @@ jobs:
           java -jar ./batch/build/libs/*.jar \
           --spring.profiles.active=prod \
           --job.name=newProblemAddJob \
-          version=${{ GITHUB_RUN_ID }}
+          version=${{ github.run_id }}
           
       
