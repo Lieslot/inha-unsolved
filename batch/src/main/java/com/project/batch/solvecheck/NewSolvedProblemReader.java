@@ -35,12 +35,13 @@ public class NewSolvedProblemReader implements ItemReader<ProblemAndUser> {
     @Override
     public ProblemAndUser read()
             throws Exception {
-        Thread.sleep(3);
+        Thread.sleep(3000);
         if (userBuffer.isEmpty()) {
             return null;
         }
 
         while (!userBuffer.isEmpty()) {
+
             int endIndex = userBuffer.size() - 1;
             User user = userBuffer.get(endIndex);
             List<UnsolvedProblem> problemSolvedByUser = newSolvedProblemService.getProblemsSolvedBy(user);
