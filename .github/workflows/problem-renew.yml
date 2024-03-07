@@ -15,7 +15,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          submodule: true
+          submodules: true
           token: ${{ secrets.ACTION_TOKEN}}
 
       - name: Set up JDK 17
@@ -27,7 +27,6 @@ jobs:
       - name: copy config file
         run: |
           cp -r inhaUnsolved-secrets/config ./
-        
         
 
         shell: bash
