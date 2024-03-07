@@ -4,7 +4,7 @@ import static org.mockito.Mockito.when;
 
 import com.project.api.ProblemRequestSolvedByUser;
 import com.project.api.UserDetailRequest;
-import com.project.batch.deletecheck.ProblemDeleteCheckJob;
+import com.project.batch.solvecheck.ProblemSolveCheckJobConfig;
 import com.project.inhaUnsolved.domain.problem.domain.Tier;
 import com.project.inhaUnsolved.domain.problem.domain.UnsolvedProblem;
 import com.project.inhaUnsolved.domain.problem.repository.ProblemRepository;
@@ -19,13 +19,12 @@ import org.junit.jupiter.api.Test;
 import org.springframework.batch.core.StepExecution;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.ActiveProfiles;
 
 
 public class ProblemDeleteCheckJobTest extends BatchTestSupport {
 
     @Autowired
-    private ProblemDeleteCheckJob job;
+    private ProblemSolveCheckJobConfig job;
     @Autowired
     private ProblemRepository problemRepository;
     @Autowired
@@ -72,7 +71,7 @@ public class ProblemDeleteCheckJobTest extends BatchTestSupport {
             when(problemRequestSolvedByUser.getProblems(user.getHandle())).thenReturn(newSolvedProblems);
         }
 
-        launchJob(job.problemDeleteCheckJob(), null);
+        launchJob(job.problemSolveCheckJob(), null);
 
         StepExecution stepExecution = (StepExecution) ((List) jobExecution.getStepExecutions()).get(0);
         long readCount = stepExecution.getReadCount();

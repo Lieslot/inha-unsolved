@@ -2,8 +2,8 @@ package com.project.batch.reader;
 
 import static org.mockito.Mockito.when;
 
-import com.project.batch.deletecheck.NewSolvedProblemReader;
-import com.project.batch.deletecheck.NewSolvedProblemService;
+import com.project.batch.solvecheck.NewSolvedProblemReader;
+import com.project.batch.solvecheck.NewSolvedProblemService;
 import com.project.batch.dto.ProblemAndUser;
 import com.project.inhaUnsolved.domain.problem.domain.Tier;
 import com.project.inhaUnsolved.domain.problem.domain.UnsolvedProblem;

@@ -1,4 +1,4 @@
-package com.project.batch.deletecheck;
+package com.project.batch.solvecheck;
 
 import com.project.batch.dto.ProblemAndUser;
 import com.project.inhaUnsolved.domain.problem.domain.UnsolvedProblem;

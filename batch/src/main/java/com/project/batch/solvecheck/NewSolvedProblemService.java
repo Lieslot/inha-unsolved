@@ -1,4 +1,4 @@
-package com.project.batch.deletecheck;
+package com.project.batch.solvecheck;
 
 
 import com.project.api.ProblemRequestSolvedByUser;

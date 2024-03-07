@@ -1,4 +1,4 @@
-package com.project.batch.deletecheck;
+package com.project.batch.solvecheck;
 
 import com.project.batch.dto.ProblemAndUser;
 import lombok.RequiredArgsConstructor;
@@ -16,16 +16,17 @@ import org.springframework.transaction.PlatformTransactionManager;
 
 @Configuration
 @RequiredArgsConstructor
-public class ProblemDeleteCheckJob {
+public class ProblemSolveCheckJobConfig {
 
-    private static final String JOB_NAME = "problemDeleteCheckJob";
+    private static final String JOB_NAME = "problemSolveCheckJob";
 
     private final PlatformTransactionManager transactionManager;
     private final NewSolvedProblemService newSolvedProblemService;
     private final JobRepository jobRepository;
 
 
-    public Job problemDeleteCheckJob() {
+    @Bean
+    public Job problemSolveCheckJob() {
         return new JobBuilder(JOB_NAME, jobRepository)
                 .start(problemDeleteCheckStep())
                 .build();

@@ -5,7 +5,6 @@ on:
     - cron: "0 0 */24 * *"
   workflow_dispatch:
 
-
 jobs:
   batch-job-build:
     runs-on: ubuntu-latest

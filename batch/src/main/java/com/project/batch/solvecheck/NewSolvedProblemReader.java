@@ -1,4 +1,4 @@
-package com.project.batch.deletecheck;
+package com.project.batch.solvecheck;
 
 
 import com.project.batch.dto.ProblemAndUser;
@@ -35,7 +35,7 @@ public class NewSolvedProblemReader implements ItemReader<ProblemAndUser> {
     @Override
     public ProblemAndUser read()
             throws Exception {
-
+        Thread.sleep(3);
         if (userBuffer.isEmpty()) {
             return null;
         }
