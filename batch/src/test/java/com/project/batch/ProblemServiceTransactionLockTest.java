@@ -8,7 +8,7 @@ import com.project.inhaUnsolved.domain.problem.domain.Tier;
 import com.project.inhaUnsolved.domain.problem.domain.UnsolvedProblem;
 import com.project.inhaUnsolved.domain.problem.repository.ProblemRepository;
 import com.project.inhaUnsolved.domain.problem.repository.SolvedProblemRepository;
-import com.project.inhaUnsolved.domain.problem.service.ProblemService;
+import com.project.inhaUnsolved.service.ProblemService;
 import com.zaxxer.hikari.HikariDataSource;
 import java.util.ArrayList;
 import java.util.HashSet;

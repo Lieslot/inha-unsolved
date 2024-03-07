@@ -2,7 +2,7 @@ package com.project.batch.tag;
 
 import com.project.api.TagRequest;
 import com.project.inhaUnsolved.domain.problem.domain.Tag;
-import com.project.inhaUnsolved.domain.problem.service.TagService;
+import com.project.inhaUnsolved.service.TagService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.Job;

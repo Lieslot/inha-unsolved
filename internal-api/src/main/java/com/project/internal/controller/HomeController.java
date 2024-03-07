@@ -1,8 +1,8 @@
 package com.project.internal.controller;
 
 import com.project.inhaUnsolved.domain.problem.domain.UnsolvedProblem;
-import com.project.inhaUnsolved.domain.problem.service.ProblemService;
-import com.project.inhaUnsolved.domain.user.service.UserService;
+import com.project.inhaUnsolved.service.ProblemService;
+import com.project.inhaUnsolved.service.UserService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;

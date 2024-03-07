@@ -4,7 +4,7 @@ import com.project.inhaUnsolved.domain.problem.domain.LastUpdatedProblemNumber;
 import com.project.batch.dto.NewUnsolvedProblems;
 import com.project.inhaUnsolved.domain.problem.repository.LastUpdatedProblemNumberRepository;
 import com.project.inhaUnsolved.domain.problem.domain.UnsolvedProblem;
-import com.project.inhaUnsolved.domain.problem.service.ProblemService;
+import com.project.inhaUnsolved.service.ProblemService;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;

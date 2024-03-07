@@ -1,4 +1,4 @@
-package com.project.inhaUnsolved.domain.problem.service;
+package com.project.inhaUnsolved.service;
 
 import com.project.inhaUnsolved.domain.problem.domain.Tag;
 import com.project.inhaUnsolved.domain.problem.repository.TagRepository;

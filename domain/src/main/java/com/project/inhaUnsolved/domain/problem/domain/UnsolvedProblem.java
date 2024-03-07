@@ -37,7 +37,6 @@ public class UnsolvedProblem {
 
     private String name;
 
-
     @Enumerated(EnumType.ORDINAL)
     private Tier tier;
 

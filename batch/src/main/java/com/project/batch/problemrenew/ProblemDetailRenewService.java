@@ -2,7 +2,7 @@ package com.project.batch.problemrenew;
 
 
 import com.project.inhaUnsolved.domain.problem.domain.UnsolvedProblem;
-import com.project.inhaUnsolved.domain.problem.service.ProblemService;
+import com.project.inhaUnsolved.service.ProblemService;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;

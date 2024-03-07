@@ -3,7 +3,7 @@
 //
 //import com.project.api.UserDetailRequest;
 //import com.project.inhaUnsolved.domain.user.User;
-//import com.project.inhaUnsolved.domain.user.service.UserService;
+//import com.project.inhaUnsolved.service.UserService;
 //import java.util.List;
 //import org.junit.jupiter.api.DisplayName;
 //import org.junit.jupiter.api.Test;
