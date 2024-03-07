@@ -21,13 +21,13 @@ jobs:
           java-version: '17'
           distribution: "adopt"
 
-#      - name: Make config file
-#        run:
-#          touch ./application.yml
-#          touch ./application-deployDB.yml
-#          echo "${{ secrets.BATCH_CONFIG }}" > ./application.yml
-#          echo "${{ secrets.DOMAIN_CONFIG }}" > ./application-domain.yml
-#        shell: bash
+      - name: copy config file
+        run: |
+          cp -r inhaUnsolved-secrets/config ./
+        
+        
+
+        shell: bash
 
       - name: Build with Gradle
         run: |
