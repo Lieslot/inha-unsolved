@@ -20,4 +20,6 @@ public interface SolvedProblemRepository extends JpaRepository<SolvedProblem, In
 
     void deleteByNumber(int number);
 
+
+
 }

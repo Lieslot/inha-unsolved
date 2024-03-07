@@ -3,4 +3,5 @@ include 'batch'
 include 'domain'
 include 'external-api'
 include 'querydsl-reader'
+include 'internal-api'
 

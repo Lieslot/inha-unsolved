@@ -9,6 +9,7 @@ import java.util.Optional;
 import java.util.Set;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Lock;
+import org.springframework.data.jpa.repository.Query;
 
 public interface ProblemRepository extends JpaRepository<UnsolvedProblem, Integer> {
 
@@ -28,5 +29,9 @@ public interface ProblemRepository extends JpaRepository<UnsolvedProblem, Intege
     void deleteByNumber(int number);
 
     void deleteAllByNumberIn(Collection<Integer> numbers);
+
+
+    @Query(value = "SELECT * FROM Unsolved_Problem ORDER BY RAND() LIMIT :limit", nativeQuery = true)
+    List<UnsolvedProblem> findRandomProblems(int limit);
 
 }

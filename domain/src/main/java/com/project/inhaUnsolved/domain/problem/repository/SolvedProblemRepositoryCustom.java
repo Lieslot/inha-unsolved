@@ -9,4 +9,6 @@ public interface SolvedProblemRepositoryCustom {
     List<SolvedProblem> findSolvedProblems(int batchSize, int lastId);
 
     List<SolvedProblem> filterNumberNotIn(List<Integer> numbers);
+
+    Long getSolvedProblemsCount();
 }

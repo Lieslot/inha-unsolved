@@ -92,5 +92,13 @@ public class ProblemService {
         unsolvedProblemRepository.deleteAllByNumberIn(numbers);
     }
 
+    public Long getSolvedProblemCount() {
+        return solvedProblemRepositoryCustom.getSolvedProblemsCount();
+    }
+
+    public List<UnsolvedProblem> findRandomUnsolvedProblems(int limit) {
+
+        return unsolvedProblemRepository.findRandomProblems(limit);
+    }
 
 }

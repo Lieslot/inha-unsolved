@@ -4,6 +4,7 @@ package com.project.inhaUnsolved.domain.problem.repository;
 import static com.project.inhaUnsolved.domain.bridge.QProblemTag.problemTag;
 import static com.project.inhaUnsolved.domain.problem.domain.QUnsolvedProblem.unsolvedProblem;
 
+import com.project.inhaUnsolved.domain.problem.domain.UnsolvedProblem;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.LockModeType;
 import java.util.Collection;
@@ -89,6 +90,7 @@ public class ProblemRepositoryCustomImpl implements ProblemRepositoryCustom {
                               .where(unsolvedProblem.number.in(numbers))
                               .fetch();
     }
+
 
 //    @Override
 //    public List<Integer> findAllId(int batchSize) {

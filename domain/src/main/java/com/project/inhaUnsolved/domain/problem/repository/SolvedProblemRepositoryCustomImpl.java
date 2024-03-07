@@ -42,4 +42,11 @@ public class SolvedProblemRepositoryCustomImpl implements SolvedProblemRepositor
                               .fetch();
 
     }
+
+    @Override
+    public Long getSolvedProblemsCount() {
+        return jpaQueryFactory.select(solvedProblem.count())
+                .from(solvedProblem)
+                .fetchOne();
+    }
 }
