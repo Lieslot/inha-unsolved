@@ -1,0 +1,3 @@
+[submodule "inhaUnsolved-secrets"]
+	path = inhaUnsolved-secrets
+	url = https://github.com/Lieslot/inhaUnsolved-secrets.git
