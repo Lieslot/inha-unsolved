@@ -1,4 +1,4 @@
-package com.project.controller;
+package com.project.internal.controller;
 
 import com.project.inhaUnsolved.domain.problem.domain.UnsolvedProblem;
 import com.project.inhaUnsolved.domain.problem.service.ProblemService;

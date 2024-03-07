@@ -10,7 +10,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     Optional<User> findByHandle(String handle);
 
-    @Query("SELECT COUNT(*) FROM User u")
+    @Query(nativeQuery = true, value= "SELECT COUNT(*) FROM users")
     Long getUserCount();
 
     List<User> findAllByHandleIn(List<String> handle);
