@@ -22,3 +22,6 @@ import org.springframework.stereotype.Repository;
 @ComponentScan(basePackageClasses = {DomainPackageLocation.class}, //repositoryCustomIml 스캔
         includeFilters = @Filter(type = FilterType.ANNOTATION, classes = Repository.class))
 public class JpaConfig {}
+
+
+

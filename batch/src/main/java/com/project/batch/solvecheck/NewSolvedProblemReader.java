@@ -8,9 +8,12 @@ import com.project.inhaUnsolved.domain.user.User;
 import jakarta.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.item.ItemReader;
 
+
 public class NewSolvedProblemReader implements ItemReader<ProblemAndUser> {
+
 
 
     private final NewSolvedProblemService newSolvedProblemService;
@@ -26,7 +29,6 @@ public class NewSolvedProblemReader implements ItemReader<ProblemAndUser> {
     public void init() {
         List<User> renewedUsers = newSolvedProblemService.requestAndFilterRenewedUsers();
         userBuffer = new ArrayList<>(renewedUsers);
-
         List<Integer> solvedProblemNumbers = newSolvedProblemService.findAllSolvedProblemNumber();
         newSolvedProblemStore = new NewSolvedProblemStore(solvedProblemNumbers);
 
@@ -35,7 +37,6 @@ public class NewSolvedProblemReader implements ItemReader<ProblemAndUser> {
     @Override
     public ProblemAndUser read()
             throws Exception {
-        Thread.sleep(3000);
         if (userBuffer.isEmpty()) {
             return null;
         }

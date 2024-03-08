@@ -41,6 +41,7 @@ public class UserService {
             }
 
             if (!existingUser.hasEqualSolvingCount(newUserDetail)) {
+                existingUser.renewSolvedCount(newUserDetail.getSolvingProblemCount());
                 renewedUsers.add(existingUser);
             }
         }

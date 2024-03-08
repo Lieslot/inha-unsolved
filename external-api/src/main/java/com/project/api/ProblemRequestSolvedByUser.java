@@ -32,6 +32,7 @@ public class ProblemRequestSolvedByUser {
 
     private ResponseEntity<String> requestProblem(String handle, int pageNumber) {
 
+
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(API_URL)
                                                            .queryParam("query", "s@" + handle)
                                                            .queryParam("page", String.valueOf(pageNumber));
@@ -53,7 +54,16 @@ public class ProblemRequestSolvedByUser {
 
         List<UnsolvedProblem> problems = new ArrayList<>();
 
+        log.info("{} 유저가 푼 문제 요청", handle);
+
         for (int pageNumber = 1; ; pageNumber++) {
+
+            try {
+                Thread.sleep(3500);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+
             ResponseEntity<String> response = requestProblem(handle, pageNumber);
 
             ProblemsDetailResponse problemsDetailResponse = ProblemDetailResponseParser.parse(response);
