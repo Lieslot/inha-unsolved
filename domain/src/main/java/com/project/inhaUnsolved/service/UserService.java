@@ -22,7 +22,7 @@ public class UserService {
     private final UserRepository userRepository;
 
 
-    @Transactional(readOnly = true)
+    @Transactional
     public List<User> getRenewedUser(List<User> newUserDetails) {
 
         Map<String, User> existingUsers = userRepository.findAll()
