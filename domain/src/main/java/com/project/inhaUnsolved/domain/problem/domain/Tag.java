@@ -23,7 +23,7 @@ public class Tag {
 
 
     @Builder
-    Tag(int number, String name, Set<ProblemTag> problems) {
+    Tag(int number, String name) {
         this.number = number;
         this.name = name;
     }

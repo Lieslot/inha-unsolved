@@ -42,7 +42,7 @@ public class NewSolvedProblemStore {
     }
 
     public boolean needTransaction() {
-        return problems.size() >= TRANSACTION_UNIT;
+        return users.size() >= TRANSACTION_UNIT;
     }
 
 
