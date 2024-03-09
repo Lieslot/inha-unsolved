@@ -16,17 +16,16 @@ public class ProblemRequestsByNumberTest {
     ProblemRequestByNumber request;
 
 
-
     @Test
     void requestNewProblemTest() {
 
-        List<String> problemNumbers= IntStream.range(31000, 31099)
-                                              .mapToObj(String::valueOf)
-                                              .toList();
+        List<String> problemNumbers = IntStream.range(31000, 31099)
+                                               .mapToObj(String::valueOf)
+                                               .toList();
 
         List<UnsolvedProblem> newProblems = request.getProblemBy(problemNumbers);
-        Assertions.assertThat((long) newProblems.size()).isEqualTo(100);
-
+        Assertions.assertThat((long) newProblems.size())
+                  .isEqualTo(100);
 
 
     }

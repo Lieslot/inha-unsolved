@@ -1,10 +1,8 @@
 package com.project.inhaUnsolved.domain.problem.repository;
 
 
-import static com.project.inhaUnsolved.domain.bridge.QProblemTag.problemTag;
 import static com.project.inhaUnsolved.domain.problem.domain.QUnsolvedProblem.unsolvedProblem;
 
-import com.project.inhaUnsolved.domain.problem.domain.UnsolvedProblem;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.LockModeType;
 import java.util.Collection;
@@ -25,18 +23,6 @@ public class ProblemRepositoryCustomImpl implements ProblemRepositoryCustom {
 
 
     @Override
-    public void deleteAllById(Collection<Integer> ids) {
-
-        jpaQueryFactory.delete(problemTag)
-                       .where(problemTag.problem.id.in(ids))
-                       .execute();
-
-        jpaQueryFactory.delete(unsolvedProblem)
-                       .where(unsolvedProblem.id.in(ids))
-                       .execute();
-    }
-
-    @Override
     public List<Integer> findAllNumber() {
 
         int batchSize = 100;
@@ -54,14 +40,6 @@ public class ProblemRepositoryCustomImpl implements ProblemRepositoryCustom {
 
     }
 
-    @Override
-    public void deleteAllByNumber(Collection<Integer> numbers) {
-
-        jpaQueryFactory.delete(unsolvedProblem)
-                       .where(unsolvedProblem.number.in(numbers))
-                       .execute();
-
-    }
 
     @Override
     public Set<Integer> findSetNumbersIn(Collection<Integer> numbers) {
@@ -90,7 +68,6 @@ public class ProblemRepositoryCustomImpl implements ProblemRepositoryCustom {
                               .where(unsolvedProblem.number.in(numbers))
                               .fetch();
     }
-
 
 //    @Override
 //    public List<Integer> findAllId(int batchSize) {

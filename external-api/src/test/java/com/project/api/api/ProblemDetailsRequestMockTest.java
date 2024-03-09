@@ -35,7 +35,7 @@ public class ProblemDetailsRequestMockTest {
     private ObjectMapper objectMapper;
 
     @BeforeEach
-    void setRequest() throws Exception{
+    void setRequest() throws Exception {
 
         String handle = "ditn258gh";
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(API_URL)
@@ -45,11 +45,12 @@ public class ProblemDetailsRequestMockTest {
         ProblemsDetailResponse problemsDetailResponse = new ProblemsDetailResponse(100);
         String expectedResponse = objectMapper.writeValueAsString(problemsDetailResponse);
 
-
-        server.expect(MockRestRequestMatchers.requestTo(builder.encode().build().toUri()))
-                .andExpect(MockRestRequestMatchers.method(HttpMethod.GET))
-                .andRespond(MockRestResponseCreators.withSuccess(
-                        expectedResponse, MediaType.APPLICATION_JSON));
+        server.expect(MockRestRequestMatchers.requestTo(builder.encode()
+                                                               .build()
+                                                               .toUri()))
+              .andExpect(MockRestRequestMatchers.method(HttpMethod.GET))
+              .andRespond(MockRestResponseCreators.withSuccess(
+                      expectedResponse, MediaType.APPLICATION_JSON));
 
 
     }
@@ -60,8 +61,6 @@ public class ProblemDetailsRequestMockTest {
 
         List<UnsolvedProblem> problem = request.getProblems("ditn258gh");
     }
-
-
 
 
 }

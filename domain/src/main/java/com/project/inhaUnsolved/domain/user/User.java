@@ -1,6 +1,5 @@
 package com.project.inhaUnsolved.domain.user;
 
-import com.project.inhaUnsolved.domain.problem.domain.UnsolvedProblem;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

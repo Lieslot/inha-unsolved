@@ -4,6 +4,9 @@ package com.project.batch.problemrenew;
 import com.project.api.ProblemRequestByNumber;
 import com.project.batch.dto.ProblemMinDetail;
 import com.project.inhaUnsolved.domain.problem.domain.QUnsolvedProblem;
+import com.project.reader.QuerydslNoOffsetPagingItemReader;
+import com.project.reader.expression.Expression;
+import com.project.reader.options.QuerydslNoOffsetNumberOptions;
 import com.querydsl.core.types.Projections;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.LockModeType;
@@ -22,9 +25,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.interceptor.DefaultTransactionAttribute;
-import com.project.reader.QuerydslNoOffsetPagingItemReader;
-import com.project.reader.expression.Expression;
-import com.project.reader.options.QuerydslNoOffsetNumberOptions;
 
 @Slf4j
 @Configuration

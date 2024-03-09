@@ -18,10 +18,10 @@ public class SolvedProblemRepositoryCustomImpl implements SolvedProblemRepositor
     @Override
     public List<SolvedProblem> findSolvedProblems(int batchSize, int lastId) {
         return jpaQueryFactory.selectFrom(solvedProblem)
-                                                      .where(ltId(lastId))
-                                                      .orderBy(solvedProblem.id.desc())
-                                                      .limit(batchSize)
-                                                      .fetch();
+                              .where(ltId(lastId))
+                              .orderBy(solvedProblem.id.desc())
+                              .limit(batchSize)
+                              .fetch();
 
     }
 
@@ -34,19 +34,9 @@ public class SolvedProblemRepositoryCustomImpl implements SolvedProblemRepositor
     }
 
     @Override
-    public List<SolvedProblem> filterNumberNotIn(List<Integer> numbers) {
-
-        return jpaQueryFactory.select(solvedProblem)
-                              .from(solvedProblem)
-                              .where(solvedProblem.number.in(numbers))
-                              .fetch();
-
-    }
-
-    @Override
     public Long getSolvedProblemsCount() {
         return jpaQueryFactory.select(solvedProblem.count())
-                .from(solvedProblem)
-                .fetchOne();
+                              .from(solvedProblem)
+                              .fetchOne();
     }
 }

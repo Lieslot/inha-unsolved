@@ -8,12 +8,10 @@ import com.project.inhaUnsolved.domain.user.User;
 import jakarta.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.item.ItemReader;
 
 
 public class NewSolvedProblemReader implements ItemReader<ProblemAndUser> {
-
 
 
     private final NewSolvedProblemService newSolvedProblemService;

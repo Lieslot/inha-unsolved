@@ -21,7 +21,8 @@ public class ProgrammaticTransactionService {
                                                             .getTransaction();
         transaction.begin();
         boolean isExecuted = TransactionSynchronizationManager.isActualTransactionActive();
-        transaction.commit();;
+        transaction.commit();
+        ;
 
         return isExecuted;
     }

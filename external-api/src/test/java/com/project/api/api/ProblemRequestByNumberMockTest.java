@@ -39,9 +39,9 @@ public class ProblemRequestByNumberMockTest {
     void setServer() throws JsonProcessingException {
 
         int startNumber = 1001;
-        List<String> problemNumbers = IntStream.range(startNumber, startNumber+100)
-                                  .mapToObj(String::valueOf)
-                                  .toList();
+        List<String> problemNumbers = IntStream.range(startNumber, startNumber + 100)
+                                               .mapToObj(String::valueOf)
+                                               .toList();
         System.out.println(String.join(",", problemNumbers));
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(API_URL)
                                                            .queryParam("problemIds", String.join(",", problemNumbers));
@@ -50,9 +50,10 @@ public class ProblemRequestByNumberMockTest {
         String expectedResponse = objectMapper.writeValueAsString(problemsDetailResponse);
 
         server.expect(MockRestRequestMatchers.requestTo(builder.encode()
-                                                               .build().toUri()))
-                .andExpect(MockRestRequestMatchers.method(HttpMethod.GET))
-                .andRespond(MockRestResponseCreators.withSuccess(expectedResponse, MediaType.APPLICATION_JSON));
+                                                               .build()
+                                                               .toUri()))
+              .andExpect(MockRestRequestMatchers.method(HttpMethod.GET))
+              .andRespond(MockRestResponseCreators.withSuccess(expectedResponse, MediaType.APPLICATION_JSON));
 
 
     }
@@ -61,9 +62,9 @@ public class ProblemRequestByNumberMockTest {
     @Test
     void requestNewProblemTest() {
 
-        List<String> problemNumbers= IntStream.range(1001, 1101)
-                                     .mapToObj(String::valueOf)
-                                     .toList();
+        List<String> problemNumbers = IntStream.range(1001, 1101)
+                                               .mapToObj(String::valueOf)
+                                               .toList();
 
         List<UnsolvedProblem> newProblems = request.getProblemBy(problemNumbers);
 

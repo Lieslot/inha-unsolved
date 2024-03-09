@@ -2,8 +2,8 @@ package com.project.batch.newproblemadd;
 
 import com.project.api.ProblemRequestByNumber;
 import com.project.batch.dto.NewUnsolvedProblems;
-import com.project.inhaUnsolved.domain.problem.repository.LastUpdatedProblemNumberRepository;
 import com.project.inhaUnsolved.domain.problem.domain.UnsolvedProblem;
+import com.project.inhaUnsolved.domain.problem.repository.LastUpdatedProblemNumberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.Job;

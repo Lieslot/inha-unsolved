@@ -20,7 +20,8 @@ public class TagDetailRequestTest {
 
         List<Tag> tagDetails = request.getTagDetails();
 
-        Assertions.assertThat(tagDetails).isNotEmpty();
+        Assertions.assertThat(tagDetails)
+                  .isNotEmpty();
 
     }
 }

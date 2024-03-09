@@ -1,7 +1,6 @@
+bootJar { enabled = true }
 
-bootJar {enabled = true}
-
-jar {enabled = false}
+jar { enabled = false }
 
 
 group = 'com.project'
@@ -12,6 +11,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation project(":domain")
 }
 

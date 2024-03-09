@@ -56,7 +56,7 @@ public class ProblemServiceTransactionLockTest {
         executorService.submit(() -> {
             TransactionTemplate template = new TransactionTemplate(transactionManager);
 
-            template.execute( status -> {
+            template.execute(status -> {
                 try {
                     logic.run();
                 } catch (Exception e) {
@@ -96,12 +96,12 @@ public class ProblemServiceTransactionLockTest {
         CountDownLatch latch = new CountDownLatch(2);
 
         List<Integer> numbers = test1.stream()
-                                  .map(UnsolvedProblem::getNumber)
-                                  .toList();
+                                     .map(UnsolvedProblem::getNumber)
+                                     .toList();
 
         NewUnsolvedProblems newUnsolvedProblems = new NewUnsolvedProblems(test1);
 
-        addThread(() ->  problemService.deleteAllUnsolvedProblemByNumbers(numbers), latch, executorService);
+        addThread(() -> problemService.deleteAllUnsolvedProblemByNumbers(numbers), latch, executorService);
         addThread(() -> newProblemAddService.addProblems(newUnsolvedProblems), latch, executorService);
 
         latch.await();
@@ -124,13 +124,13 @@ public class ProblemServiceTransactionLockTest {
         List<UnsolvedProblem> problems = problemService.saveAllUnsolvedProblems(test1);
 
         List<Integer> problemNumbers = problems.stream()
-                                     .map(UnsolvedProblem::getNumber)
-                                     .toList();
+                                               .map(UnsolvedProblem::getNumber)
+                                               .toList();
         List<Integer> problemIds = problems.stream()
-                                     .map(UnsolvedProblem::getId)
-                                     .toList();
+                                           .map(UnsolvedProblem::getId)
+                                           .toList();
 
-        addThread(() ->  problemService.deleteAllUnsolvedProblemByNumbers(problemNumbers), latch, executorService);
+        addThread(() -> problemService.deleteAllUnsolvedProblemByNumbers(problemNumbers), latch, executorService);
         addThread(() -> problemDetailRenewService.renewProblemDetails(problemIds, problems), latch, executorService);
 
         latch.await();
@@ -152,8 +152,8 @@ public class ProblemServiceTransactionLockTest {
         template.execute(status -> {
             IntStream.range(startNumber, startNumber + testcaseCount)
                      .forEach((number) -> {
-                         unsolvedProblemRepository.deleteByNumber(number);
-                         solvedProblemRepository.deleteByNumber(number);
+                                 unsolvedProblemRepository.deleteByNumber(number);
+                                 solvedProblemRepository.deleteByNumber(number);
                              }
                      );
             return null;

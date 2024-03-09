@@ -1,8 +1,6 @@
+bootJar { enabled = true }
 
-
-bootJar {enabled = true}
-
-jar {enabled = false}
+jar { enabled = false }
 
 
 group = 'com.project'

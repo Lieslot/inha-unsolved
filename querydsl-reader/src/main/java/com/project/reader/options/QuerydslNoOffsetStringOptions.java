@@ -1,11 +1,11 @@
 package com.project.reader.options;
 
+import com.project.reader.expression.Expression;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.StringPath;
 import com.querydsl.jpa.impl.JPAQuery;
 import jakarta.annotation.Nonnull;
-import com.project.reader.expression.Expression;
 
 
 public class QuerydslNoOffsetStringOptions<T> extends QuerydslNoOffsetOptions<T> {

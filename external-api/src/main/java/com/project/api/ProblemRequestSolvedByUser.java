@@ -32,7 +32,6 @@ public class ProblemRequestSolvedByUser {
 
     private ResponseEntity<String> requestProblem(String handle, int pageNumber) {
 
-
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(API_URL)
                                                            .queryParam("query", "s@" + handle)
                                                            .queryParam("page", String.valueOf(pageNumber));

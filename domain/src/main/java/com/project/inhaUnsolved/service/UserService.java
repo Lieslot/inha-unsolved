@@ -59,7 +59,6 @@ public class UserService {
     @Transactional
     public void saveAll(List<User> users) {
 
-
         for (User user : users) {
             Optional<User> searchResult = userRepository.findByHandle(user.getHandle());
 
@@ -67,7 +66,6 @@ public class UserService {
                 userRepository.save(user);
                 continue;
             }
-
 
             User existingUser = searchResult.get();
             existingUser.renewSolvedCount(user.getSolvingProblemCount());

@@ -14,7 +14,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.relational.core.sql.In;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -72,12 +74,14 @@ public class ProblemService {
 
         return IntStream.iterate(0, n -> n + 1)
                         .mapToObj(page -> {
-                            List<SolvedProblem> numbers = solvedProblemRepositoryCustom.findSolvedProblems(batchSize, lastId.get());
+                            List<SolvedProblem> numbers = solvedProblemRepositoryCustom.findSolvedProblems(batchSize,
+                                    lastId.get());
                             if (numbers.isEmpty()) {
                                 return new ArrayList<Integer>();
                             }
-                            
-                            lastId.set(numbers.get(numbers.size()-1).getId());
+
+                            lastId.set(numbers.get(numbers.size() - 1)
+                                              .getId());
                             return numbers.stream()
                                           .map(SolvedProblem::getNumber)
                                           .collect(Collectors.toList());
@@ -99,6 +103,16 @@ public class ProblemService {
     public List<UnsolvedProblem> findRandomUnsolvedProblems(int limit) {
 
         return unsolvedProblemRepository.findRandomProblems(limit);
+    }
+
+    public Page<UnsolvedProblem> getPageOf(int page, int chunk) {
+        Pageable pageable = PageRequest.of(page, chunk);
+        return unsolvedProblemRepository.findAll(pageable);
+    }
+
+    public Page<UnsolvedProblem> getPageOf(int page, int chunk, String title) {
+        Pageable pageable = PageRequest.of(page, chunk);
+        return unsolvedProblemRepository.findByNameContaining(title, pageable);
     }
 
 }

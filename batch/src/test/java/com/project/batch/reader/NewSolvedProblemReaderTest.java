@@ -2,13 +2,12 @@ package com.project.batch.reader;
 
 import static org.mockito.Mockito.when;
 
+import com.project.batch.dto.ProblemAndUser;
 import com.project.batch.solvecheck.NewSolvedProblemReader;
 import com.project.batch.solvecheck.NewSolvedProblemService;
-import com.project.batch.dto.ProblemAndUser;
 import com.project.inhaUnsolved.domain.problem.domain.Tier;
 import com.project.inhaUnsolved.domain.problem.domain.UnsolvedProblem;
 import com.project.inhaUnsolved.domain.user.User;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;

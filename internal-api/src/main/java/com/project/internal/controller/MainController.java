@@ -5,13 +5,15 @@ import com.project.inhaUnsolved.service.ProblemService;
 import com.project.inhaUnsolved.service.UserService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequiredArgsConstructor
-public class HomeController {
+public class MainController {
 
 
     private final ProblemService problemService;
@@ -31,5 +33,20 @@ public class HomeController {
 
     }
 
+    @GetMapping("/problems")
+    public String problems(Model model,
+                           @RequestParam(value = "page", defaultValue = "0") int page,
+                           @RequestParam(value = "title", required = false, defaultValue = "") String title) {
+        Page<UnsolvedProblem> paging;
+        if (title.isEmpty()) {
+            paging = problemService.getPageOf(page, 50);
+        } else {
+            model.addAttribute("title", title);
+            paging = problemService.getPageOf(page, 50, title);
+        }
+        model.addAttribute("paging", paging);
+
+        return "problems";
+    }
 
 }

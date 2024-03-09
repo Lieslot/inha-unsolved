@@ -1,10 +1,10 @@
 package com.project.batch.newproblemadd;
 
 import com.project.api.ProblemRequestByNumber;
-import com.project.inhaUnsolved.domain.problem.domain.LastUpdatedProblemNumber;
 import com.project.batch.dto.NewUnsolvedProblems;
-import com.project.inhaUnsolved.domain.problem.repository.LastUpdatedProblemNumberRepository;
+import com.project.inhaUnsolved.domain.problem.domain.LastUpdatedProblemNumber;
 import com.project.inhaUnsolved.domain.problem.domain.UnsolvedProblem;
+import com.project.inhaUnsolved.domain.problem.repository.LastUpdatedProblemNumberRepository;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.IntStream;

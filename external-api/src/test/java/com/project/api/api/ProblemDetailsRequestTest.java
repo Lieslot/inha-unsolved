@@ -12,7 +12,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 public class ProblemDetailsRequestTest {
 
 
-
     @Autowired
     private ProblemRequestSolvedByUser request;
 

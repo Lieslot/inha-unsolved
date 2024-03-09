@@ -2,8 +2,8 @@ plugins {
     id 'java'
 }
 
-bootJar {enabled = false}
-jar {enabled = true}
+bootJar { enabled = false }
+jar { enabled = true }
 
 group = 'com.project'
 version = '0.0.1-SNAPSHOT'
