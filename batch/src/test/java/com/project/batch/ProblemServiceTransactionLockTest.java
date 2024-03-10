@@ -36,8 +36,6 @@ public class ProblemServiceTransactionLockTest {
     int testcaseCount = 1000;
     int startNumber = 50000;
     @Autowired
-    private HikariDataSource dataSource;
-    @Autowired
     private ProblemService problemService;
     @Autowired
     private NewProblemAddService newProblemAddService;

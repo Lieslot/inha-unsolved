@@ -22,6 +22,8 @@ public class NewUnsolvedProblemWriter implements ItemWriter<NewUnsolvedProblems>
     @Override
     public void write(Chunk<? extends NewUnsolvedProblems> chunk) throws Exception {
         List<? extends NewUnsolvedProblems> items = chunk.getItems();
+        addProblems(items.get(0));
+
     }
 
     public void addProblems(NewUnsolvedProblems newProblems) {

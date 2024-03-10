@@ -14,14 +14,18 @@ import com.project.inhaUnsolved.domain.user.repository.UserRepository;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import net.bytebuddy.build.Plugin.Factory.UsingReflection.Priority;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.transaction.annotation.Transactional;
 
 
 @SpringBootTest
+@ActiveProfiles("test")
 public class NewSolvedProblemServiceTest {
 
     @Autowired
@@ -36,6 +40,8 @@ public class NewSolvedProblemServiceTest {
     private UserDetailRequest userDetailRequest;
 
 
+
+    @Transactional
     @Test
     void db에_없던_새로운_유저가_있는지_걸러지는지_테스트() {
 
@@ -51,6 +57,7 @@ public class NewSolvedProblemServiceTest {
 
     }
 
+    @Transactional
     @Test
     void db에_있지만_solvedCount가_변경된_유저가_걸러지는지_테스트() {
 
@@ -61,11 +68,11 @@ public class NewSolvedProblemServiceTest {
 
         userRepository.saveAll(savedUsers);
 
-        user1.renewSolvedCount(15);
-        user2.renewSolvedCount(16);
+        User user1change = new User("1", 16);
+        User user2change = new User("2", 16);
 
-        List<User> requestedUserDetail = List.of(user1, user2, user3);
-        when(userDetailRequest.getUserDetail()).thenReturn(savedUsers);
+        List<User> requestedUserDetail = List.of(user1change, user2change, user3);
+        when(userDetailRequest.getUserDetail()).thenReturn(requestedUserDetail);
 
         List<User> users = newSolvedProblemService.requestAndFilterRenewedUsers();
         List<User> expectedContainedUsers = List.of(user1, user2);
@@ -76,8 +83,9 @@ public class NewSolvedProblemServiceTest {
         Assertions.assertThat(users)
                   .containsAll(expectedContainedUsers);
 
+        Assertions.assertThat(userRepository.findAll().size()).isEqualTo(3);
     }
-
+    @Transactional
     @Test
     void commitChunkTransaction_저장테스트() {
 
