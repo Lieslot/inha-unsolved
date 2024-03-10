@@ -11,7 +11,6 @@ import java.util.Set;
 public class NewSolvedProblemStore {
 
 
-    private static final int TRANSACTION_UNIT = 50;
 
     private final Set<Integer> check;
     private final List<UnsolvedProblem> problems;
@@ -41,8 +40,8 @@ public class NewSolvedProblemStore {
         problems.addAll(newProblems);
     }
 
-    public boolean needTransaction() {
-        return users.size() >= TRANSACTION_UNIT;
+    public Integer getUserNumbers() {
+        return users.size();
     }
 
 

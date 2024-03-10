@@ -58,7 +58,7 @@ public class ProblemRequestSolvedByUser {
         for (int pageNumber = 1; ; pageNumber++) {
 
             try {
-                Thread.sleep(4000);
+                Thread.sleep(3500);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }

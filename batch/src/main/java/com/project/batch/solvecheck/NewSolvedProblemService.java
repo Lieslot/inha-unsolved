@@ -44,6 +44,7 @@ public class NewSolvedProblemService {
     @Transactional
     public void commitChunkTransaction(List<User> savedUsers, List<UnsolvedProblem> solvedProblems) {
 
+
         List<Integer> numbers = solvedProblems.stream()
                                               .map(UnsolvedProblem::getNumber)
                                               .toList();
@@ -55,6 +56,7 @@ public class NewSolvedProblemService {
         problemService.saveAll(newSolvedProblems);
 
         userService.saveAll(savedUsers);
+
 
     }
 

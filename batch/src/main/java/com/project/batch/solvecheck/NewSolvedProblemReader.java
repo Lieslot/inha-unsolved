@@ -13,6 +13,7 @@ import org.springframework.batch.item.ItemReader;
 
 public class NewSolvedProblemReader implements ItemReader<ProblemAndUser> {
 
+    private static final int TRANSACTION_UNIT = 10;
 
     private final NewSolvedProblemService newSolvedProblemService;
     private NewSolvedProblemStore newSolvedProblemStore;
@@ -49,7 +50,7 @@ public class NewSolvedProblemReader implements ItemReader<ProblemAndUser> {
             newSolvedProblemStore.storeNextSavedUser(user);
             userBuffer.remove(user);
 
-            if (newSolvedProblemStore.needTransaction()) {
+            if (needTransaction()) {
                 break;
             }
 
@@ -60,4 +61,11 @@ public class NewSolvedProblemReader implements ItemReader<ProblemAndUser> {
         // null 처리 따로 해주기
         return new ProblemAndUser(nextSavedUsers, nextSavedProblems);
     }
+
+
+    private boolean needTransaction() {
+        Integer userNumbers = newSolvedProblemStore.getUserNumbers();
+        return userNumbers >= TRANSACTION_UNIT;
+    }
+
 }
