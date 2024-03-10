@@ -90,13 +90,13 @@ public class UnsolvedProblem {
         }
         UnsolvedProblem other = (UnsolvedProblem) obj;
 
-        return this.name.equals(other.name) && this.tier == other.tier
-                && this.tags.equals(other.tags);
+        return this.number == other.number;
     }
+
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.name, this.tier, this.tags);
+        return Objects.hash(this.number);
     }
 
     @Override
