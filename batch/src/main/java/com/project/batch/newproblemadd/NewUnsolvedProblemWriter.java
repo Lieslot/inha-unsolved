@@ -37,6 +37,7 @@ public class NewUnsolvedProblemWriter implements ItemWriter<NewUnsolvedProblems>
         Set<Integer> existingUnsolvedOne = newProblemAddService.findProblemNumbersIn(numbers);
 
         Set<Integer> existingSolvedOne = newProblemAddService.findSolvedProblemNumbersIn(numbers);
+        
         for (UnsolvedProblem newProblem : newProblems) {
             int newProblemNumber = newProblem.getNumber();
 

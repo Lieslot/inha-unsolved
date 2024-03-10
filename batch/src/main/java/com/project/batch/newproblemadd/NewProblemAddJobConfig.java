@@ -13,7 +13,9 @@ import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.core.job.builder.JobBuilder;
 import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.step.builder.StepBuilder;
+import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemStreamReader;
+import org.springframework.batch.item.ItemWriter;
 import org.springframework.batch.item.adapter.ItemWriterAdapter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -48,7 +50,7 @@ public class NewProblemAddJobConfig {
     @JobScope
     public Step newProblemAddStep() {
         return new StepBuilder("newProblemAddStep", jobRepository)
-                .<NewUnsolvedProblems, UnsolvedProblem>chunk(chunkSize, transactionManager)
+                .<NewUnsolvedProblems, NewUnsolvedProblems>chunk(chunkSize, transactionManager)
                 .reader(newUnsolvedProblemsReader())
                 .writer(newUnsolvedProblemsWriter())
                 .build();
@@ -65,12 +67,9 @@ public class NewProblemAddJobConfig {
 
     @Bean
     @StepScope
-    public ItemWriterAdapter<UnsolvedProblem> newUnsolvedProblemsWriter() {
+    public ItemWriter<NewUnsolvedProblems> newUnsolvedProblemsWriter() {
 
-        ItemWriterAdapter<UnsolvedProblem> itemWriterAdapter = new ItemWriterAdapter<>();
-        itemWriterAdapter.setTargetObject(newProblemAddService);
-        itemWriterAdapter.setTargetMethod("addProblems");
-        return itemWriterAdapter;
+        return new NewUnsolvedProblemWriter(newProblemAddService);
     }
 
 
