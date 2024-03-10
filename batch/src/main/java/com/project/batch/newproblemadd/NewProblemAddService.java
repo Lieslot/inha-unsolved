@@ -1,53 +1,72 @@
 package com.project.batch.newproblemadd;
 
+import com.project.api.ProblemRequestByNumber;
 import com.project.batch.dto.NewUnsolvedProblems;
 import com.project.inhaUnsolved.domain.problem.domain.LastUpdatedProblemNumber;
 import com.project.inhaUnsolved.domain.problem.domain.UnsolvedProblem;
 import com.project.inhaUnsolved.domain.problem.repository.LastUpdatedProblemNumberRepository;
 import com.project.inhaUnsolved.service.ProblemService;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
+import java.util.stream.IntStream;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 
 @Service
 @RequiredArgsConstructor
 public class NewProblemAddService {
 
+    private static final int DEFAULT_NUMBER = 999;
+
     private final ProblemService problemService;
     private final LastUpdatedProblemNumberRepository repository;
+    private final ProblemRequestByNumber request;
 
-    @Transactional
-    public void addProblems(NewUnsolvedProblems newProblems) {
 
-        List<Integer> numbers = newProblems.getUnsolvedProblems()
-                                           .stream()
-                                           .map(UnsolvedProblem::getNumber)
-                                           .sorted()
-                                           .toList();
+    public Set<Integer> findProblemNumbersIn(Collection<Integer> numbers) {
+        return new HashSet<>(problemService.findProblemNumbersIn(numbers));
+    }
 
-        Set<Integer> existingUnsolvedOne = new HashSet<>(problemService.findProblemNumbersIn(numbers));
+    public Set<Integer> findSolvedProblemNumbersIn(Collection<Integer> numbers) {
+        return new HashSet<>(problemService.findSolvedProblemNumbersIn(numbers));
+    }
 
-        Set<Integer> existingSolvedOne = new HashSet<>(problemService.findSolvedProblemNumbersIn(numbers));
-        for (UnsolvedProblem newProblem : newProblems) {
-            int newProblemNumber = newProblem.getNumber();
+    public void save(UnsolvedProblem newProblem) {
+        problemService.save(newProblem);
+    }
+    public void save(LastUpdatedProblemNumber lastUpdatedProblemNumber) {
+        repository.save(lastUpdatedProblemNumber);
+    }
 
-            if (existingSolvedOne.contains(newProblemNumber) ||
-                    existingUnsolvedOne.contains(newProblemNumber)) {
-                continue;
-            }
+    public Integer getLastUpdatedProblemNumber() {
+        Optional<LastUpdatedProblemNumber> search = repository.findTopByOrderByNumberDesc();
 
-            problemService.save(newProblem);
+        if (search.isEmpty()) {
+            return DEFAULT_NUMBER;
         }
 
-        int lastNumber = numbers.get(numbers.size() - 1);
-
-        repository.save(new LastUpdatedProblemNumber(lastNumber));
-
+        return search.get()
+                     .getNumber();
     }
+
+    public NewUnsolvedProblems getProblemDetails(int number) {
+
+        List<String> requestedNumbers = IntStream.range(number + 1, number + 101)
+                                                 .mapToObj(String::valueOf)
+                                                 .toList();
+        List<UnsolvedProblem> newProblems = request.getProblemBy(requestedNumbers);
+        //reader가 null 값을 반환하면 step 종료
+        if (newProblems.isEmpty()) {
+            return null;
+        }
+
+        return new NewUnsolvedProblems(newProblems);
+    }
+
 
 
 }

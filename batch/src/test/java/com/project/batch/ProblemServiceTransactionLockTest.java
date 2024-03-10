@@ -3,6 +3,7 @@ package com.project.batch;
 
 import com.project.batch.dto.NewUnsolvedProblems;
 import com.project.batch.newproblemadd.NewProblemAddService;
+import com.project.batch.newproblemadd.NewUnsolvedProblemWriter;
 import com.project.batch.problemrenew.ProblemDetailRenewService;
 import com.project.inhaUnsolved.domain.problem.domain.Tier;
 import com.project.inhaUnsolved.domain.problem.domain.UnsolvedProblem;
@@ -28,7 +29,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.support.TransactionTemplate;
 
 
-@ActiveProfiles("dbtest")
+@ActiveProfiles("test")
 @SpringBootTest
 public class ProblemServiceTransactionLockTest {
 
@@ -91,6 +92,7 @@ public class ProblemServiceTransactionLockTest {
 
     @Test
     void addDeleteProblemLockTest() throws InterruptedException {
+        NewUnsolvedProblemWriter newUnsolvedProblemWriter = new NewUnsolvedProblemWriter(newProblemAddService);
 
         ExecutorService executorService = Executors.newFixedThreadPool(5);
         CountDownLatch latch = new CountDownLatch(2);
@@ -102,7 +104,7 @@ public class ProblemServiceTransactionLockTest {
         NewUnsolvedProblems newUnsolvedProblems = new NewUnsolvedProblems(test1);
 
         addThread(() -> problemService.deleteAllUnsolvedProblemByNumbers(numbers), latch, executorService);
-        addThread(() -> newProblemAddService.addProblems(newUnsolvedProblems), latch, executorService);
+        addThread(() -> newUnsolvedProblemWriter.addProblems(newUnsolvedProblems), latch, executorService);
 
         latch.await();
 

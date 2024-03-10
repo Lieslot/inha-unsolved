@@ -31,7 +31,6 @@ public class NewProblemAddJobConfig {
 
     private final NewProblemAddService newProblemAddService;
 
-    private final ProblemRequestByNumber request;
 
     private final PlatformTransactionManager transactionManager;
 
@@ -60,7 +59,7 @@ public class NewProblemAddJobConfig {
     @Bean
     @StepScope
     public ItemStreamReader<NewUnsolvedProblems> newUnsolvedProblemsReader() {
-        return new NewUnsolvedProblemsReader(numberRepository, request);
+        return new NewUnsolvedProblemsReader(newProblemAddService);
 
     }
 
