@@ -40,7 +40,6 @@ public class ProblemDetailRenewService {
             existingProblem.renewName(newProblemDetail.getName());
             existingProblem.renewTags(newProblemDetail.getTags()); // 태그 정보가 갱신되지 않은 상태에서 문제 발생
             existingProblem.renewTier(newProblemDetail.getTier());
-            problemService.save(existingProblem);
         }
 
 

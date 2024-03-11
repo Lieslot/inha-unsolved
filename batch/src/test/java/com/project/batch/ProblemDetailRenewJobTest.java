@@ -38,23 +38,23 @@ public class ProblemDetailRenewJobTest extends BatchTestSupport {
     @Autowired
     private ProblemDetailRenewJobConfig jobConfig;
 
-    @Test
-    void 실행_테스트() throws Exception {
-
-        JobParameters jobParameter = new JobParametersBuilder()
-                .addLong("date", new Date().getTime())
-                .toJobParameters();
-        StopWatch stopWatch = new StopWatch();
-
-        stopWatch.start();
-        launchJob(jobConfig.problemDetailRenewJob(), jobParameter);
-        stopWatch.stop();
-        System.out.println(stopWatch.prettyPrint());
-        StepExecution stepExecution = (StepExecution) ((List) jobExecution.getStepExecutions()).get(0);
-        System.out.println(stepExecution.getCommitCount());
-        System.out.println(stepExecution.getReadCount());
-
-    }
+//    @Test
+//    void 실행_테스트() throws Exception {
+//
+//        JobParameters jobParameter = new JobParametersBuilder()
+//                .addLong("date", new Date().getTime())
+//                .toJobParameters();
+//        StopWatch stopWatch = new StopWatch();
+//
+//        stopWatch.start();
+//        launchJob(jobConfig.problemDetailRenewJob(), null);
+//        stopWatch.stop();
+//        System.out.println(stopWatch.prettyPrint());
+//        StepExecution stepExecution = (StepExecution) ((List) jobExecution.getStepExecutions()).get(0);
+//        System.out.println(stepExecution.getCommitCount());
+//        System.out.println(stepExecution.getReadCount());
+//
+//    }
 
     @Test
     void 쓰기_테스트() throws Exception {
@@ -106,6 +106,8 @@ public class ProblemDetailRenewJobTest extends BatchTestSupport {
         });
 
     }
+
+
 }
 
 

@@ -34,15 +34,12 @@ public class NewUnsolvedProblemWriter implements ItemWriter<NewUnsolvedProblems>
                                            .sorted()
                                            .toList();
 
-        Set<Integer> existingUnsolvedOne = newProblemAddService.findProblemNumbersIn(numbers);
-
         Set<Integer> existingSolvedOne = newProblemAddService.findSolvedProblemNumbersIn(numbers);
         
         for (UnsolvedProblem newProblem : newProblems) {
             int newProblemNumber = newProblem.getNumber();
 
-            if (existingSolvedOne.contains(newProblemNumber) ||
-                    existingUnsolvedOne.contains(newProblemNumber)) {
+            if (existingSolvedOne.contains(newProblemNumber)) {
                 continue;
             }
             newProblemAddService.save(newProblem);
