@@ -1,4 +1,4 @@
-package com.project.inhaUnsolved.domain.problem.vo;
+package com.project.inhaUnsolved.domain.problem.collection;
 
 import com.project.inhaUnsolved.domain.problem.domain.UnsolvedProblem;
 import com.project.inhaUnsolved.domain.user.User;

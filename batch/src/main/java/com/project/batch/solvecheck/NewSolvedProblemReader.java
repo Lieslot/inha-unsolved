@@ -3,7 +3,7 @@ package com.project.batch.solvecheck;
 
 import com.project.batch.dto.ProblemAndUser;
 import com.project.inhaUnsolved.domain.problem.domain.UnsolvedProblem;
-import com.project.inhaUnsolved.domain.problem.vo.NewSolvedProblemStore;
+import com.project.inhaUnsolved.domain.problem.collection.NewSolvedProblemStore;
 import com.project.inhaUnsolved.domain.user.User;
 import jakarta.annotation.PostConstruct;
 import java.util.ArrayList;
