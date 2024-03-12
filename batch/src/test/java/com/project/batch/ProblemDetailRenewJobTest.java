@@ -11,6 +11,7 @@ import com.project.batch.problemrenew.ProblemDetailRenewWriter;
 import com.project.inhaUnsolved.domain.problem.domain.Tier;
 import com.project.inhaUnsolved.domain.problem.domain.UnsolvedProblem;
 import com.project.inhaUnsolved.domain.problem.repository.ProblemRepository;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -23,6 +24,7 @@ import org.springframework.batch.item.Chunk;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StopWatch;
 
 
@@ -56,44 +58,38 @@ public class ProblemDetailRenewJobTest extends BatchTestSupport {
 //
 //    }
 
+
     @Test
     void 쓰기_테스트() throws Exception {
 
         ProblemDetailRenewWriter renewWriter = new ProblemDetailRenewWriter(request, service);
-        UnsolvedProblem test1 = UnsolvedProblem.builder()
-                                               .number(1000)
-                                               .tags(new HashSet<>())
-                                               .tier(Tier.BRONZE_IV)
-                                               .name(String.valueOf("test1"))
-                                               .build();
-        UnsolvedProblem test2 = UnsolvedProblem.builder()
-                                               .number(1001)
-                                               .tags(new HashSet<>())
-                                               .tier(Tier.BRONZE_IV)
-                                               .name("test2")
-                                               .build();
-        List<UnsolvedProblem> problems = List.of(test1, test2);
-        problemRepository.saveAll(problems);
-        UnsolvedProblem test3 = UnsolvedProblem.builder()
-                                               .number(1000)
-                                               .tags(new HashSet<>())
-                                               .tier(Tier.BRONZE_IV)
-                                               .name(String.valueOf("test"))
-                                               .build();
-        UnsolvedProblem test4 = UnsolvedProblem.builder()
-                                               .number(1001)
-                                               .tags(new HashSet<>())
-                                               .tier(Tier.BRONZE_IV)
-                                               .name("test")
-                                               .build();
+        List<ProblemMinDetail> problemMinDetails = new ArrayList<>();
+        for (int i = 1000; i <= 1001; i++) {
+            UnsolvedProblem test = UnsolvedProblem.builder()
+                                                   .number(i)
+                                                   .tags(new HashSet<>())
+                                                   .tier(Tier.BRONZE_IV)
+                                                   .name(String.format("test %d", i))
+                                                   .build();
+            problemRepository.save(test);
+            problemMinDetails.add(new ProblemMinDetail(
+                                                  test.getId()
+                                                  , test.getNumber()));
 
-        List<? extends ProblemMinDetail> problemMinDetails = problems.stream()
-                                                                     .map(problem -> new ProblemMinDetail(
-                                                                             problem.getId()
-                                                                             , problem.getNumber()))
-                                                                     .toList();
+        }
 
-        List<UnsolvedProblem> newProblemDetail = List.of(test3, test4);
+        List<UnsolvedProblem> newProblemDetail = new ArrayList<>();
+        for (int i = 1000; i <= 1001; i++) {
+            UnsolvedProblem test = UnsolvedProblem.builder()
+                                                   .number(i)
+                                                   .tags(new HashSet<>())
+                                                   .tier(Tier.BRONZE_IV)
+                                                   .name("test")
+                                                   .build();
+
+            newProblemDetail.add(test);
+        }
+
         when(request.getProblemBy(List.of("1000", "1001"))).thenReturn(newProblemDetail);
 
         renewWriter.write(new Chunk<>(problemMinDetails));

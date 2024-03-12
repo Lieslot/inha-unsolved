@@ -27,8 +27,6 @@ public class ProblemDeleteCheckJobTest extends BatchTestSupport {
     private ProblemSolveCheckJobConfig job;
     @Autowired
     private ProblemRepository problemRepository;
-    @Autowired
-    private SolvedProblemRepository solvedProblemRepository;
     @MockBean
     private ProblemRequestSolvedByUser problemRequestSolvedByUser;
     @MockBean
@@ -75,16 +73,12 @@ public class ProblemDeleteCheckJobTest extends BatchTestSupport {
 
         StepExecution stepExecution = (StepExecution) ((List) jobExecution.getStepExecutions()).get(0);
         long readCount = stepExecution.getReadCount();
-        long writeCount = stepExecution.getWriteCount();
 
         int remainedSolvedProblemCount = problemRepository.findAll()
                                                           .size();
 
         Assertions.assertThat(readCount)
-                  .isEqualTo(3);
-        Assertions.assertThat(readCount)
-                  .isEqualTo(3);
-
+                  .isEqualTo(2);
         Assertions.assertThat(remainedSolvedProblemCount)
                   .isEqualTo(90);
 

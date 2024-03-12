@@ -14,7 +14,6 @@ import org.springframework.stereotype.Repository;
 
 //
 @Configuration
-@EnableJpaAuditing
 @EntityScan(basePackageClasses = DomainPackageLocation.class)
 @EnableJpaRepositories(basePackageClasses = DomainPackageLocation.class)
 @ComponentScan(basePackageClasses = {DomainPackageLocation.class}, //repositoryCustomIml 스캔
