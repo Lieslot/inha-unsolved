@@ -11,8 +11,10 @@ import com.project.inhaUnsolved.domain.problem.repository.ProblemRepository;
 import com.project.inhaUnsolved.domain.problem.repository.SolvedProblemRepository;
 import com.project.inhaUnsolved.domain.user.User;
 import jakarta.persistence.EntityManager;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import org.assertj.core.api.Assertions;
@@ -98,7 +100,7 @@ public class ProblemDeleteCheckJobTest extends BatchTestSupport {
 
         int start = 1000;
 
-        problemRepository.saveAll(savedProblems);
+        saveAll(savedProblems);
 
         List<User> users = IntStream.range(1, 12)
                                     .mapToObj(name -> new User(String.valueOf(name), 10))
@@ -137,16 +139,24 @@ public class ProblemDeleteCheckJobTest extends BatchTestSupport {
         Assertions.assertThat(remainedSolvedProblemCount)
                   .isEqualTo(90);
 
+        List<User> allUsers = new ArrayList<>();
+
         for (int i = 1; i <= 11; i++) {
             EntityManager entityManager1 = getEntityManager();
             User user = entityManager1.find(User.class, i);
+            allUsers.add(user);
             Assertions.assertThat(user.getSolvingProblemCount())
                       .isEqualTo(10);
         }
+        AtomicInteger handle = new AtomicInteger(1);
 
-
-
-
+        allUsers.forEach(
+          user -> {
+              Assertions.assertThat(allUsers).anyMatch((user1) -> user1.getHandle()
+                                                           .equals(String.valueOf(handle)));
+              handle.incrementAndGet();
+          }
+        );
     }
 
 
