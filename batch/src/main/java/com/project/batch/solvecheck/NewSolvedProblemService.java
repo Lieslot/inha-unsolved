@@ -76,10 +76,6 @@ public class NewSolvedProblemService {
                                               .toList();
         problemService.deleteAllUnsolvedProblemByNumbers(numbers);
 
-        List<SolvedProblem> newSolvedProblems = numbers.stream()
-                                                       .map(SolvedProblem::new)
-                                                       .collect(Collectors.toList());
-
         userService.saveAll(savedUsers);
 
 

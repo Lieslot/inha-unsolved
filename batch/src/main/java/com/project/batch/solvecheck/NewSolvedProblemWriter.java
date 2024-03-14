@@ -14,17 +14,10 @@ import org.springframework.batch.item.ItemWriter;
 public class NewSolvedProblemWriter implements ItemWriter<User> {
 
     private final NewSolvedProblemService newSolvedProblemService;
-    private NewSolvedProblemStore newSolvedProblemStore;
+    private final NewSolvedProblemStore newSolvedProblemStore;
     public NewSolvedProblemWriter(NewSolvedProblemService newSolvedProblemService) {
-
+        newSolvedProblemStore = new NewSolvedProblemStore();
         this.newSolvedProblemService = newSolvedProblemService;
-    }
-
-    @PostConstruct
-    void init() {
-        List<SolvedProblem> solvedProblems = new ArrayList<>();
-        NewSolvedProblemStore newSolvedProblemStore = new NewSolvedProblemStore();
-
     }
 
     @Override
