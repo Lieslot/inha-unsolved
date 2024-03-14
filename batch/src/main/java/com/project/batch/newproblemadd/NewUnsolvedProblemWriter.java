@@ -34,7 +34,7 @@ public class NewUnsolvedProblemWriter implements ItemWriter<NewUnsolvedProblems>
                                            .toList();
 
         Set<Integer> existingSolvedOne = newProblemAddService.findSolvedProblemNumbersIn(numbers);
-        
+
         for (UnsolvedProblem newProblem : newProblems) {
             int newProblemNumber = newProblem.getNumber();
 
@@ -47,7 +47,7 @@ public class NewUnsolvedProblemWriter implements ItemWriter<NewUnsolvedProblems>
 
         int lastNumber = numbers.get(numbers.size() - 1);
 
-       newProblemAddService.save(new LastUpdatedProblemNumber(lastNumber));
+        newProblemAddService.save(new LastUpdatedProblemNumber(lastNumber));
 
 
     }

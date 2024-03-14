@@ -14,7 +14,6 @@ import com.project.inhaUnsolved.domain.user.repository.UserRepository;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import net.bytebuddy.build.Plugin.Factory.UsingReflection.Priority;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +37,6 @@ public class NewSolvedProblemServiceTest {
     private SolvedProblemRepository solvedProblemRepository;
     @MockBean
     private UserDetailRequest userDetailRequest;
-
 
 
     @Transactional
@@ -83,8 +81,11 @@ public class NewSolvedProblemServiceTest {
         Assertions.assertThat(users)
                   .containsAll(expectedContainedUsers);
 
-        Assertions.assertThat(userRepository.findAll().size()).isEqualTo(3);
+        Assertions.assertThat(userRepository.findAll()
+                                            .size())
+                  .isEqualTo(3);
     }
+
     @Transactional
     @Test
     void commitChunkTransaction_저장테스트() {

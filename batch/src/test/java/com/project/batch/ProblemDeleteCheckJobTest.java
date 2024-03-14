@@ -8,7 +8,6 @@ import com.project.batch.solvecheck.ProblemSolveCheckJobConfig;
 import com.project.inhaUnsolved.domain.problem.domain.Tier;
 import com.project.inhaUnsolved.domain.problem.domain.UnsolvedProblem;
 import com.project.inhaUnsolved.domain.problem.repository.ProblemRepository;
-import com.project.inhaUnsolved.domain.problem.repository.SolvedProblemRepository;
 import com.project.inhaUnsolved.domain.user.User;
 import jakarta.persistence.EntityManager;
 import java.util.ArrayList;
@@ -106,8 +105,8 @@ public class ProblemDeleteCheckJobTest extends BatchTestSupport {
                                     .mapToObj(name -> new User(String.valueOf(name), 10))
                                     .collect(Collectors.toList());
         List<User> existingUsers = IntStream.range(1, 5)
-                                    .mapToObj(name -> new User(String.valueOf(name), 5))
-                                    .collect(Collectors.toList());
+                                            .mapToObj(name -> new User(String.valueOf(name), 5))
+                                            .collect(Collectors.toList());
         saveAll(existingUsers);
 
         when(userDetailRequest.getUserDetail()).thenReturn(users);
@@ -151,11 +150,12 @@ public class ProblemDeleteCheckJobTest extends BatchTestSupport {
         AtomicInteger handle = new AtomicInteger(1);
 
         allUsers.forEach(
-          user -> {
-              Assertions.assertThat(allUsers).anyMatch((user1) -> user1.getHandle()
-                                                           .equals(String.valueOf(handle)));
-              handle.incrementAndGet();
-          }
+                user -> {
+                    Assertions.assertThat(allUsers)
+                              .anyMatch((user1) -> user1.getHandle()
+                                                        .equals(String.valueOf(handle)));
+                    handle.incrementAndGet();
+                }
         );
     }
 

@@ -9,7 +9,6 @@ import com.project.inhaUnsolved.domain.user.User;
 import com.project.inhaUnsolved.service.ProblemService;
 import com.project.inhaUnsolved.service.UserService;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -32,15 +31,13 @@ public class NewSolvedProblemService {
     private final ProblemRequestSolvedByUser problemSolvedByUserRequest;
 
 
-
     public List<User> requestAndFilterRenewedUsers() {
         List<User> newUserDetails = userDetailRequest.getUserDetail();
 
-
         Map<String, User> existingUsers = userService.findAll()
-                                                        .stream()
-                                                        .collect(
-                                                                Collectors.toMap(User::getHandle, Function.identity()));
+                                                     .stream()
+                                                     .collect(
+                                                             Collectors.toMap(User::getHandle, Function.identity()));
 
         List<User> renewedUsers = new ArrayList<>();
 
@@ -62,7 +59,6 @@ public class NewSolvedProblemService {
     }
 
 
-
     public List<Integer> findAllSolvedProblemNumber() {
         return problemService.findAllSolvedProblemNumbers(batchSize);
     }
@@ -72,10 +68,8 @@ public class NewSolvedProblemService {
     }
 
 
-
     @Transactional
     public void commitChunkTransaction(List<User> savedUsers, List<UnsolvedProblem> solvedProblems) {
-
 
         List<Integer> numbers = solvedProblems.stream()
                                               .map(UnsolvedProblem::getNumber)

@@ -13,14 +13,9 @@ import java.util.HashSet;
 import java.util.List;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.transaction.annotation.Transactional;
 
 
 @SpringBootTest
@@ -48,11 +43,11 @@ public class ProblemDetailRenewServiceTest {
         transaction.begin();
         for (int i = 1000; i <= 1003; i++) {
             UnsolvedProblem test = UnsolvedProblem.builder()
-                                                   .number(i)
-                                                   .tags(new HashSet<>())
-                                                   .tier(Tier.BRONZE_IV)
-                                                   .name(String.format("test %d", i))
-                                                   .build();
+                                                  .number(i)
+                                                  .tags(new HashSet<>())
+                                                  .tier(Tier.BRONZE_IV)
+                                                  .name(String.format("test %d", i))
+                                                  .build();
             UnsolvedProblem savedOne = entityManager.merge(test);
             if (i == 1003) {
                 break;
@@ -80,10 +75,12 @@ public class ProblemDetailRenewServiceTest {
         transaction2.begin();
         for (int i = 1; i <= 3; i++) {
             UnsolvedProblem problem = entityManager.find(UnsolvedProblem.class, i);
-            Assertions.assertThat(problem.getName()).isEqualTo("test");
+            Assertions.assertThat(problem.getName())
+                      .isEqualTo("test");
         }
-        Assertions.assertThat(entityManager.find(UnsolvedProblem.class, 4).getName())
-                .isNotEqualTo("test");
+        Assertions.assertThat(entityManager.find(UnsolvedProblem.class, 4)
+                                           .getName())
+                  .isNotEqualTo("test");
         transaction2.commit();
 
     }

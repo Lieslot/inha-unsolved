@@ -3,14 +3,9 @@ package com.project.batch.solvecheck;
 import com.project.inhaUnsolved.domain.user.User;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Stack;
-import java.util.Vector;
 import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 import org.springframework.batch.item.database.AbstractPagingItemReader;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ClassUtils;
 import org.springframework.util.CollectionUtils;
 
@@ -45,8 +40,7 @@ public class RenewedUserPagingItemReader extends AbstractPagingItemReader<User> 
 
         if (CollectionUtils.isEmpty(results)) {
             results = new CopyOnWriteArrayList<>();
-        }
-        else {
+        } else {
             results.clear();
         }
 

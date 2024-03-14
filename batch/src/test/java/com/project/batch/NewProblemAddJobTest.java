@@ -41,7 +41,6 @@ public class NewProblemAddJobTest extends BatchTestSupport {
     @Test
     void 문제_추가테스트() throws Exception {
 
-
         launchJob(newProblemAddJobConfig.newProblemAddJob(), null);
 
         StepExecution stepExecution = ((List<StepExecution>) jobExecution.getStepExecutions()).get(0);

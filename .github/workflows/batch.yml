@@ -27,6 +27,7 @@ jobs:
           cp -r inhaUnsolved-secrets/config ./
 
       - name: Build with Gradle
+
         run: |
           chmod +x ./gradlew
           ./gradlew clean build -x test

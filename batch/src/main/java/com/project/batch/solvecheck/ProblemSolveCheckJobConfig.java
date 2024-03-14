@@ -1,6 +1,5 @@
 package com.project.batch.solvecheck;
 
-import com.project.batch.dto.ProblemAndUser;
 import com.project.inhaUnsolved.domain.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.Job;
@@ -20,7 +19,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 public class ProblemSolveCheckJobConfig {
 
     private static final String JOB_NAME = "problemSolveCheckJob";
-    private static final int chunkSize= 10;
+    private static final int chunkSize = 10;
 
     private final PlatformTransactionManager transactionManager;
     private final NewSolvedProblemService newSolvedProblemService;

@@ -60,26 +60,26 @@ public class ProblemDetailRenewJobTest extends BatchTestSupport {
         List<ProblemIdNumber> problemMinDetails = new ArrayList<>();
         for (int i = 1000; i <= 1001; i++) {
             UnsolvedProblem test = UnsolvedProblem.builder()
-                                                   .number(i)
-                                                   .tags(new HashSet<>())
-                                                   .tier(Tier.BRONZE_IV)
-                                                   .name(String.format("test %d", i))
-                                                   .build();
+                                                  .number(i)
+                                                  .tags(new HashSet<>())
+                                                  .tier(Tier.BRONZE_IV)
+                                                  .name(String.format("test %d", i))
+                                                  .build();
             problemRepository.save(test);
             problemMinDetails.add(new ProblemIdNumber(
-                                                  test.getId()
-                                                  , test.getNumber()));
+                    test.getId()
+                    , test.getNumber()));
 
         }
 
         List<UnsolvedProblem> newProblemDetail = new ArrayList<>();
         for (int i = 1000; i <= 1001; i++) {
             UnsolvedProblem test = UnsolvedProblem.builder()
-                                                   .number(i)
-                                                   .tags(new HashSet<>())
-                                                   .tier(Tier.BRONZE_IV)
-                                                   .name("test")
-                                                   .build();
+                                                  .number(i)
+                                                  .tags(new HashSet<>())
+                                                  .tier(Tier.BRONZE_IV)
+                                                  .name("test")
+                                                  .build();
 
             newProblemDetail.add(test);
         }

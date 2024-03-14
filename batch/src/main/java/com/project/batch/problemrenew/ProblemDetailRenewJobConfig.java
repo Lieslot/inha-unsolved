@@ -10,7 +10,6 @@ import com.project.reader.options.QuerydslNoOffsetNumberOptions;
 import com.querydsl.core.types.Projections;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.LockModeType;
-import java.util.Vector;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.Job;

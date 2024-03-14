@@ -11,7 +11,6 @@ import java.util.Set;
 public class NewSolvedProblemStore {
 
 
-
     private final Set<Integer> check;
     private final List<UnsolvedProblem> problems;
     private final List<User> users;

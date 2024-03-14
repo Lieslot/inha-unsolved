@@ -38,6 +38,7 @@ public class NewUnsolvedProblemAddService {
     public void save(UnsolvedProblem newProblem) {
         problemService.save(newProblem);
     }
+
     public void save(LastUpdatedProblemNumber lastUpdatedProblemNumber) {
         repository.save(lastUpdatedProblemNumber);
     }
@@ -66,7 +67,6 @@ public class NewUnsolvedProblemAddService {
 
         return new NewUnsolvedProblems(newProblems);
     }
-
 
 
 }
