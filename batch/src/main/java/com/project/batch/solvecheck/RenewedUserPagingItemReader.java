@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Stack;
 import java.util.concurrent.CopyOnWriteArrayList;
 import org.springframework.batch.item.database.AbstractPagingItemReader;
+import org.springframework.batch.item.database.JpaPagingItemReader;
 import org.springframework.util.ClassUtils;
 import org.springframework.util.CollectionUtils;
 
@@ -45,11 +46,9 @@ public class RenewedUserPagingItemReader extends AbstractPagingItemReader<User> 
         }
 
         int currentPageSize = Math.min(getPageSize(), userBuffer.size());
-        List<User> tmp = new ArrayList<>();
         for (int i = 0; i < currentPageSize; i++) {
-            tmp.add(userBuffer.pop());
+            results.add(userBuffer.pop());
         }
-        results.addAll(tmp);
     }
 
 
