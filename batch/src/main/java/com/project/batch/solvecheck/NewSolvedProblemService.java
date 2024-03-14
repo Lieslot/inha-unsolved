@@ -9,6 +9,7 @@ import com.project.inhaUnsolved.domain.user.User;
 import com.project.inhaUnsolved.service.ProblemService;
 import com.project.inhaUnsolved.service.UserService;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -28,7 +29,7 @@ public class NewSolvedProblemService {
     private final ProblemService problemService;
     private final UserService userService;
     private final UserDetailRequest userDetailRequest;
-    private final ProblemRequestSolvedByUser problemRequestSolvedByUserRequest;
+    private final ProblemRequestSolvedByUser problemSolvedByUserRequest;
 
 
 
@@ -60,13 +61,17 @@ public class NewSolvedProblemService {
 
     }
 
+
+
     public List<Integer> findAllSolvedProblemNumber() {
         return problemService.findAllSolvedProblemNumbers(batchSize);
     }
 
     public List<UnsolvedProblem> getProblemsSolvedBy(User user) {
-        return problemRequestSolvedByUserRequest.getProblems(user.getHandle());
+        return problemSolvedByUserRequest.getProblems(user.getHandle());
     }
+
+
 
     @Transactional
     public void commitChunkTransaction(List<User> savedUsers, List<UnsolvedProblem> solvedProblems) {

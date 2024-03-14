@@ -4,7 +4,7 @@ package com.project.batch;
 import static org.mockito.Mockito.when;
 
 import com.project.api.ProblemRequestByNumber;
-import com.project.batch.dto.ProblemMinDetail;
+import com.project.batch.dto.ProblemIdNumber;
 import com.project.batch.problemrenew.ProblemDetailRenewJobConfig;
 import com.project.batch.problemrenew.ProblemDetailRenewService;
 import com.project.batch.problemrenew.ProblemDetailRenewWriter;
@@ -12,20 +12,14 @@ import com.project.inhaUnsolved.domain.problem.domain.Tier;
 import com.project.inhaUnsolved.domain.problem.domain.UnsolvedProblem;
 import com.project.inhaUnsolved.domain.problem.repository.ProblemRepository;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.springframework.batch.core.JobParameters;
-import org.springframework.batch.core.JobParametersBuilder;
-import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.item.Chunk;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StopWatch;
 
 
 @ActiveProfiles("test")
@@ -63,7 +57,7 @@ public class ProblemDetailRenewJobTest extends BatchTestSupport {
     void 쓰기_테스트() throws Exception {
 
         ProblemDetailRenewWriter renewWriter = new ProblemDetailRenewWriter(request, service);
-        List<ProblemMinDetail> problemMinDetails = new ArrayList<>();
+        List<ProblemIdNumber> problemMinDetails = new ArrayList<>();
         for (int i = 1000; i <= 1001; i++) {
             UnsolvedProblem test = UnsolvedProblem.builder()
                                                    .number(i)
@@ -72,7 +66,7 @@ public class ProblemDetailRenewJobTest extends BatchTestSupport {
                                                    .name(String.format("test %d", i))
                                                    .build();
             problemRepository.save(test);
-            problemMinDetails.add(new ProblemMinDetail(
+            problemMinDetails.add(new ProblemIdNumber(
                                                   test.getId()
                                                   , test.getNumber()));
 

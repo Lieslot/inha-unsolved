@@ -55,6 +55,7 @@ public class ProblemService {
         solvedProblemRepository.saveAll(newSolvedProblems);
     }
 
+
     public List<Integer> findProblemNumbersIn(Collection<Integer> numbers) {
         return unsolvedProblemRepositoryCustom.findAllNumbersIn(numbers);
     }

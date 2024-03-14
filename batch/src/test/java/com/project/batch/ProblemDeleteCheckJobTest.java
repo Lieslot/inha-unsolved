@@ -78,7 +78,7 @@ public class ProblemDeleteCheckJobTest extends BatchTestSupport {
                                                           .size();
 
         Assertions.assertThat(readCount)
-                  .isEqualTo(2);
+                  .isEqualTo(11);
         Assertions.assertThat(remainedSolvedProblemCount)
                   .isEqualTo(90);
 

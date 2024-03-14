@@ -8,9 +8,9 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class ProblemMinDetail {
+public class ProblemIdNumber {
 
-    public ProblemMinDetail(Integer id, Integer number) {
+    public ProblemIdNumber(Integer id, Integer number) {
         this.id = id;
         this.number = number;
     }

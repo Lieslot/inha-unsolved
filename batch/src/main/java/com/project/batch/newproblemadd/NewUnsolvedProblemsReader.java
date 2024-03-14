@@ -1,19 +1,16 @@
 package com.project.batch.newproblemadd;
 
 import com.project.batch.dto.NewUnsolvedProblems;
-import com.project.inhaUnsolved.domain.problem.domain.UnsolvedProblem;
-import java.util.List;
-import java.util.stream.IntStream;
 import org.springframework.batch.item.ItemStreamReader;
 
 
 public class NewUnsolvedProblemsReader implements ItemStreamReader<NewUnsolvedProblems> {
 
 
-    private final NewProblemAddService newProblemAddService;
+    private final NewUnsolvedProblemAddService newProblemAddService;
 
 
-    public NewUnsolvedProblemsReader(NewProblemAddService newProblemAddService) {
+    public NewUnsolvedProblemsReader(NewUnsolvedProblemAddService newProblemAddService) {
 
         this.newProblemAddService = newProblemAddService;
     }

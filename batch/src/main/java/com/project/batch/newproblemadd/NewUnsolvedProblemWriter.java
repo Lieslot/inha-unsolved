@@ -7,14 +7,13 @@ import java.util.List;
 import java.util.Set;
 import org.springframework.batch.item.Chunk;
 import org.springframework.batch.item.ItemWriter;
-import org.springframework.transaction.annotation.Transactional;
 
 public class NewUnsolvedProblemWriter implements ItemWriter<NewUnsolvedProblems> {
 
 
-    private final NewProblemAddService newProblemAddService;
+    private final NewUnsolvedProblemAddService newProblemAddService;
 
-    public NewUnsolvedProblemWriter(NewProblemAddService  newSolvedProblemService) {
+    public NewUnsolvedProblemWriter(NewUnsolvedProblemAddService newSolvedProblemService) {
 
         this.newProblemAddService = newSolvedProblemService;
     }

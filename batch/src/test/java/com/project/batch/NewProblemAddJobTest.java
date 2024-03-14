@@ -1,7 +1,7 @@
 package com.project.batch;
 
 import com.project.api.ProblemRequestByNumber;
-import com.project.batch.newproblemadd.NewProblemAddJobConfig;
+import com.project.batch.newproblemadd.NewUnsolvedProblemAddJobConfig;
 import java.util.Date;
 import java.util.List;
 import org.junit.jupiter.api.Test;
@@ -9,18 +9,16 @@ import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.JobParametersBuilder;
 import org.springframework.batch.core.StepExecution;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.PlatformTransactionManager;
 
 
 public class NewProblemAddJobTest extends BatchTestSupport {
 
 
     @Autowired
-    NewProblemAddJobConfig newProblemAddJobConfig;
+    private NewUnsolvedProblemAddJobConfig newProblemAddJobConfig;
+
     @Autowired
-    PlatformTransactionManager transactionManager;
-    @Autowired
-    ProblemRequestByNumber request;
+    private ProblemRequestByNumber request;
 
 
     @Test
@@ -39,7 +37,17 @@ public class NewProblemAddJobTest extends BatchTestSupport {
 
     }
 
-    // 트랜잭션 롤백 테스트
-    // 네트워크 에러 시 대응 테스트
-    //
+
+    @Test
+    void 문제_추가테스트() throws Exception {
+
+
+        launchJob(newProblemAddJobConfig.newProblemAddJob(), null);
+
+        StepExecution stepExecution = ((List<StepExecution>) jobExecution.getStepExecutions()).get(0);
+
+
+    }
+
+
 }

@@ -18,7 +18,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class NewProblemAddService {
+public class NewUnsolvedProblemAddService {
 
     private static final int DEFAULT_NUMBER = 999;
 

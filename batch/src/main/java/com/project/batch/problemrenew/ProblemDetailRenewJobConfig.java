@@ -2,7 +2,7 @@ package com.project.batch.problemrenew;
 
 
 import com.project.api.ProblemRequestByNumber;
-import com.project.batch.dto.ProblemMinDetail;
+import com.project.batch.dto.ProblemIdNumber;
 import com.project.inhaUnsolved.domain.problem.domain.QUnsolvedProblem;
 import com.project.reader.QuerydslNoOffsetPagingItemReader;
 import com.project.reader.expression.Expression;
@@ -10,6 +10,7 @@ import com.project.reader.options.QuerydslNoOffsetNumberOptions;
 import com.querydsl.core.types.Projections;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.LockModeType;
+import java.util.Vector;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.Job;
@@ -50,7 +51,7 @@ public class ProblemDetailRenewJobConfig {
     @JobScope
     public Step problemDetailRenewStep() {
         return new StepBuilder("problemDetailRenewStep", jobRepository)
-                .<ProblemMinDetail, ProblemMinDetail>chunk(chunkSize, transactionManager)
+                .<ProblemIdNumber, ProblemIdNumber>chunk(chunkSize, transactionManager)
                 .reader(problemDetailRenewReader())
                 .writer(problemDetailRenewWriter())
                 .transactionAttribute(new DefaultTransactionAttribute(TransactionDefinition.PROPAGATION_NOT_SUPPORTED))
@@ -59,12 +60,12 @@ public class ProblemDetailRenewJobConfig {
 
     @Bean
     @StepScope
-    public QuerydslNoOffsetPagingItemReader<ProblemMinDetail> problemDetailRenewReader() {
-        QuerydslNoOffsetNumberOptions<ProblemMinDetail, Integer> options =
+    public QuerydslNoOffsetPagingItemReader<ProblemIdNumber> problemDetailRenewReader() {
+        QuerydslNoOffsetNumberOptions<ProblemIdNumber, Integer> options =
                 new QuerydslNoOffsetNumberOptions<>(QUnsolvedProblem.unsolvedProblem.id, Expression.ASC);
 
         return new QuerydslNoOffsetPagingItemReader<>(emf, chunkSize, options, queryFactory -> queryFactory
-                .select(Projections.constructor(ProblemMinDetail.class, QUnsolvedProblem.unsolvedProblem.id,
+                .select(Projections.constructor(ProblemIdNumber.class, QUnsolvedProblem.unsolvedProblem.id,
                         QUnsolvedProblem.unsolvedProblem.number))
                 .from(QUnsolvedProblem.unsolvedProblem)
                 .setLockMode(LockModeType.PESSIMISTIC_WRITE));
@@ -72,7 +73,7 @@ public class ProblemDetailRenewJobConfig {
 
     @Bean
     @StepScope
-    public ItemStreamWriter<ProblemMinDetail> problemDetailRenewWriter() {
+    public ItemStreamWriter<ProblemIdNumber> problemDetailRenewWriter() {
         return new ProblemDetailRenewWriter(request, service);
     }
 }

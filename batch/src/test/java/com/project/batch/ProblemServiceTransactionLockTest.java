@@ -2,7 +2,7 @@ package com.project.batch;
 
 
 import com.project.batch.dto.NewUnsolvedProblems;
-import com.project.batch.newproblemadd.NewProblemAddService;
+import com.project.batch.newproblemadd.NewUnsolvedProblemAddService;
 import com.project.batch.newproblemadd.NewUnsolvedProblemWriter;
 import com.project.batch.problemrenew.ProblemDetailRenewService;
 import com.project.inhaUnsolved.domain.problem.domain.Tier;
@@ -10,7 +10,6 @@ import com.project.inhaUnsolved.domain.problem.domain.UnsolvedProblem;
 import com.project.inhaUnsolved.domain.problem.repository.ProblemRepository;
 import com.project.inhaUnsolved.domain.problem.repository.SolvedProblemRepository;
 import com.project.inhaUnsolved.service.ProblemService;
-import com.zaxxer.hikari.HikariDataSource;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -38,7 +37,7 @@ public class ProblemServiceTransactionLockTest {
     @Autowired
     private ProblemService problemService;
     @Autowired
-    private NewProblemAddService newProblemAddService;
+    private NewUnsolvedProblemAddService newProblemAddService;
     @Autowired
     ProblemDetailRenewService problemDetailRenewService;
     @Autowired

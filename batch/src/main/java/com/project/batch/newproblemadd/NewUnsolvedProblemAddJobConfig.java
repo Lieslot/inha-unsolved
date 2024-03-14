@@ -1,8 +1,6 @@
 package com.project.batch.newproblemadd;
 
-import com.project.api.ProblemRequestByNumber;
 import com.project.batch.dto.NewUnsolvedProblems;
-import com.project.inhaUnsolved.domain.problem.domain.UnsolvedProblem;
 import com.project.inhaUnsolved.domain.problem.repository.LastUpdatedProblemNumberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -13,10 +11,8 @@ import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.core.job.builder.JobBuilder;
 import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.step.builder.StepBuilder;
-import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemStreamReader;
 import org.springframework.batch.item.ItemWriter;
-import org.springframework.batch.item.adapter.ItemWriterAdapter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -24,14 +20,14 @@ import org.springframework.transaction.PlatformTransactionManager;
 @Slf4j
 @RequiredArgsConstructor
 @Configuration
-public class NewProblemAddJobConfig {
+public class NewUnsolvedProblemAddJobConfig {
 
     public static final String JOB_NAME = "newProblemAddJob";
     private static final int chunkSize = 1;
 
     private final LastUpdatedProblemNumberRepository numberRepository;
 
-    private final NewProblemAddService newProblemAddService;
+    private final NewUnsolvedProblemAddService newProblemAddService;
 
 
     private final PlatformTransactionManager transactionManager;
