@@ -25,6 +25,7 @@ jobs:
       - name: copy config file
         run: |
           cp -r inhaUnsolved-secrets/config ./
+        shell: bash
 
       - name: Build with Gradle
 
