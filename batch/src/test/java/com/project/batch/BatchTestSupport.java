@@ -74,7 +74,7 @@ public abstract class BatchTestSupport {
         then(batchStatus).isEqualTo(jobExecution.getStatus());
     }
 
-    @Transactional
+
     protected <T> T save(T entity) {
         EntityManager em = getEntityManager();
         em.getTransaction()
@@ -86,7 +86,7 @@ public abstract class BatchTestSupport {
         return entity;
     }
 
-    @Transactional
+
     protected <T> List<T> saveAll(List<T> entities) {
         EntityManager em = getEntityManager();
         EntityTransaction transaction = em.getTransaction();
