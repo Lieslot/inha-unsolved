@@ -1,7 +1,10 @@
 package com.project.batch.solvecheck;
 
+import com.project.inhaUnsolved.domain.problem.collection.NewSolvedProblemStore;
+import com.project.inhaUnsolved.domain.problem.domain.SolvedProblem;
 import com.project.inhaUnsolved.domain.problem.domain.UnsolvedProblem;
 import com.project.inhaUnsolved.domain.user.User;
+import jakarta.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.batch.item.Chunk;
@@ -11,10 +14,17 @@ import org.springframework.batch.item.ItemWriter;
 public class NewSolvedProblemWriter implements ItemWriter<User> {
 
     private final NewSolvedProblemService newSolvedProblemService;
-
+    private NewSolvedProblemStore newSolvedProblemStore;
     public NewSolvedProblemWriter(NewSolvedProblemService newSolvedProblemService) {
 
         this.newSolvedProblemService = newSolvedProblemService;
+    }
+
+    @PostConstruct
+    void init() {
+        List<SolvedProblem> solvedProblems = new ArrayList<>();
+        NewSolvedProblemStore newSolvedProblemStore = new NewSolvedProblemStore();
+
     }
 
     @Override
@@ -25,12 +35,14 @@ public class NewSolvedProblemWriter implements ItemWriter<User> {
         }
 
         List<User> items = (List<User>) chunk.getItems();
-        List<UnsolvedProblem> newSolvedProblems = new ArrayList<>();
+
 
         for (User user : items) {
             List<UnsolvedProblem> problemsSolvedByUser = newSolvedProblemService.getProblemsSolvedBy(user);
-            newSolvedProblems.addAll(problemsSolvedByUser);
+            newSolvedProblemStore.storeAllProblems(problemsSolvedByUser);
         }
+
+        List<UnsolvedProblem> newSolvedProblems = newSolvedProblemStore.flushProblems();
 
         newSolvedProblemService.commitChunkTransaction(items, newSolvedProblems);
 

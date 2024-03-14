@@ -79,7 +79,6 @@ public class NewSolvedProblemService {
         List<SolvedProblem> newSolvedProblems = numbers.stream()
                                                        .map(SolvedProblem::new)
                                                        .collect(Collectors.toList());
-        problemService.saveAll(newSolvedProblems);
 
         userService.saveAll(savedUsers);
 
