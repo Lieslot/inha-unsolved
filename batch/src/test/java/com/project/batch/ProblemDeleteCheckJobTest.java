@@ -17,12 +17,15 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.batch.core.StepExecution;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.ActiveProfiles;
 
 
+@ActiveProfiles("test")
 public class ProblemDeleteCheckJobTest extends BatchTestSupport {
 
     @Autowired
@@ -33,6 +36,12 @@ public class ProblemDeleteCheckJobTest extends BatchTestSupport {
     private ProblemRequestSolvedByUser problemRequestSolvedByUser;
     @MockBean
     private UserDetailRequest userDetailRequest;
+
+    @AfterEach
+    void init() {
+        deleteAll(UnsolvedProblem.class);
+        deleteAll(User.class);
+    }
 
 
     @Test

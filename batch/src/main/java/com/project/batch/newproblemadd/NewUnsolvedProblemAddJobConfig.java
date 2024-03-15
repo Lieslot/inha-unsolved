@@ -11,6 +11,7 @@ import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.core.job.builder.JobBuilder;
 import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.step.builder.StepBuilder;
+import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemStreamReader;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.context.annotation.Bean;
@@ -56,7 +57,7 @@ public class NewUnsolvedProblemAddJobConfig {
 
     @Bean
     @StepScope
-    public ItemStreamReader<NewUnsolvedProblems> newUnsolvedProblemsReader() {
+    public ItemReader<NewUnsolvedProblems> newUnsolvedProblemsReader() {
         return new NewUnsolvedProblemsReader(newProblemAddService);
 
     }

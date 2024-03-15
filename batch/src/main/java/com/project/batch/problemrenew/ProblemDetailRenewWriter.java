@@ -6,9 +6,10 @@ import com.project.inhaUnsolved.domain.problem.domain.UnsolvedProblem;
 import java.util.List;
 import org.springframework.batch.item.Chunk;
 import org.springframework.batch.item.ItemStreamWriter;
+import org.springframework.batch.item.ItemWriter;
 
 
-public class ProblemDetailRenewWriter implements ItemStreamWriter<ProblemIdNumber> {
+public class ProblemDetailRenewWriter implements ItemWriter<ProblemIdNumber> {
 
     private final ProblemRequestByNumber request;
     private final ProblemDetailRenewService service;

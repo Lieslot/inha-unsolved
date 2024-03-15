@@ -21,6 +21,7 @@ import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.step.builder.StepBuilder;
 import org.springframework.batch.core.step.tasklet.TaskletStep;
 import org.springframework.batch.item.ItemStreamWriter;
+import org.springframework.batch.item.ItemWriter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -73,7 +74,7 @@ public class ProblemDetailRenewJobConfig {
 
     @Bean
     @StepScope
-    public ItemStreamWriter<ProblemIdNumber> problemDetailRenewWriter() {
+    public ItemWriter<ProblemIdNumber> problemDetailRenewWriter() {
         return new ProblemDetailRenewWriter(request, service);
     }
 }

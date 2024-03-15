@@ -9,6 +9,8 @@ import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.core.job.builder.JobBuilder;
 import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.step.builder.StepBuilder;
+import org.springframework.batch.item.ItemStreamReader;
+import org.springframework.batch.item.ItemWriter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -45,13 +47,13 @@ public class ProblemSolveCheckJobConfig {
 
     @Bean
     @StepScope
-    public RenewedUserPagingItemReader renewedUserPagingItemReader() {
+    public ItemStreamReader<User> renewedUserPagingItemReader() {
         return new RenewedUserPagingItemReader(chunkSize, newSolvedProblemService);
     }
 
     @Bean
     @StepScope
-    public NewSolvedProblemWriter newSolvedProblemWriter() {
+    public ItemWriter<User> newSolvedProblemWriter() {
         return new NewSolvedProblemWriter(newSolvedProblemService);
     }
 
