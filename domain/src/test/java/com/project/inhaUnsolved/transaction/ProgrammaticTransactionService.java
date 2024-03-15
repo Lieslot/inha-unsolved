@@ -6,7 +6,6 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityTransaction;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.orm.jpa.EntityManagerFactoryUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 
@@ -27,21 +26,15 @@ public class ProgrammaticTransactionService {
         return isExecuted;
     }
 
-    public Object getCreateEntityManagerTransactionName() {
+    public boolean isTransacted() {
         EntityManager em = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = em.getTransaction();
         transaction.begin();
         em.persist(new SolvedProblem(999999));
-        var resource = TransactionSynchronizationManager.getResource(transaction);
+        boolean isTransacted = TransactionSynchronizationManager.isActualTransactionActive();
         transaction.commit();
-        return resource;
+        return isTransacted;
     }
 
-    public Object getUtilsTransaction() {
-        EntityManager em = EntityManagerFactoryUtils.getTransactionalEntityManager(entityManagerFactory);
-        assert em != null;
-        em.persist(new SolvedProblem(1000000));
 
-        return TransactionSynchronizationManager.getCurrentTransactionName();
-    }
 }
