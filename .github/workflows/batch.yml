@@ -9,7 +9,8 @@ on:
 env:
   # aws s3 버킷이름
   S3_BUCKET_NAME: inha-unsolved-bucket
-
+  CODE_DEPLOY_APP_NAME: inha-unsolved
+  CODE_DEPLOY_GROUP_NAME: deploy-group
 
 jobs:
   batch-job-build:
@@ -30,6 +31,7 @@ jobs:
       - name: copy config file
         run: |
           cp -r inhaUnsolved-secrets/config ./
+
         shell: bash
       # 권한 설정 및 빌드
       - name: Build with Gradle
@@ -39,7 +41,7 @@ jobs:
           ./gradlew clean build -x test
       # 압축
       - name: Make zip file
-        run: zip -r ./deploy.zip .
+        run: zip -r ./practice-deploy.zip .
         shell: bash
 
       # aws 접근 인증
@@ -53,3 +55,9 @@ jobs:
       # 압축된 파일을 옮기기
       - name: Upload to S3
         run: aws s3 cp --region ap-northeast-2 ./deploy.zip s3://$S3_BUCKET_NAME/deploy.zip
+
+      - name: Code Deploy
+        run: aws deploy create-deployment --application-name $CODE_DEPLOY_APP_NAME \
+          --deployment-config-name CodeDeployDefault.AllAtOnce \
+          --deployment-group-name $CODE_DEPLOY_GROUP_NAME \
+          --s3-location bucket=$S3_BUCKET_NAME,bundleType=zip,key=$PROJECT_NAME.zip
