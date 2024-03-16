@@ -41,7 +41,7 @@ jobs:
           ./gradlew clean build -x test
       # 압축
       - name: Make zip file
-        run: zip -r ./practice-deploy.zip .
+        run: zip -r ./deploy.zip .
         shell: bash
 
       # aws 접근 인증
