@@ -4,11 +4,9 @@ import static org.mockito.Mockito.when;
 
 import com.project.api.UserDetailRequest;
 import com.project.batch.solvecheck.NewSolvedProblemService;
-import com.project.inhaUnsolved.domain.problem.domain.SolvedProblem;
 import com.project.inhaUnsolved.domain.problem.domain.Tier;
 import com.project.inhaUnsolved.domain.problem.domain.UnsolvedProblem;
 import com.project.inhaUnsolved.domain.problem.repository.ProblemRepository;
-import com.project.inhaUnsolved.domain.problem.repository.SolvedProblemRepository;
 import com.project.inhaUnsolved.domain.user.User;
 import com.project.inhaUnsolved.domain.user.repository.UserRepository;
 import java.util.ArrayList;
@@ -33,8 +31,6 @@ public class NewSolvedProblemServiceTest {
     private UserRepository userRepository;
     @Autowired
     private ProblemRepository problemRepository;
-    @Autowired
-    private SolvedProblemRepository solvedProblemRepository;
     @MockBean
     private UserDetailRequest userDetailRequest;
 
@@ -110,7 +106,6 @@ public class NewSolvedProblemServiceTest {
         newSolvedProblemService.commitChunkTransaction(users, newSolvedProblems);
 
         List<UnsolvedProblem> remainedUnsolvedProblems = problemRepository.findAll();
-        List<SolvedProblem> solvedProblems = solvedProblemRepository.findAll();
 
         remainedUnsolvedProblems.forEach(
                 problem -> Assertions.assertThat(newSolvedProblems)
@@ -118,16 +113,10 @@ public class NewSolvedProblemServiceTest {
                                              newSolvedProblem -> !newSolvedProblem.hasEqual(problem.getNumber()))
         );
 
-        solvedProblems.forEach(
-                problem -> Assertions.assertThat(newSolvedProblems)
-                                     .anyMatch(
-                                             newSolvedProblem -> newSolvedProblem.hasEqual(problem.getNumber()))
-        );
 
         Assertions.assertThat(remainedUnsolvedProblems.size())
                   .isEqualTo(3);
-        Assertions.assertThat(solvedProblems.size())
-                  .isEqualTo(7);
+
 
     }
 
@@ -158,12 +147,9 @@ public class NewSolvedProblemServiceTest {
         }
 
         List<UnsolvedProblem> remainedUnsolvedProblems = problemRepository.findAll();
-        List<SolvedProblem> solvedProblems = solvedProblemRepository.findAll();
 
         Assertions.assertThat(remainedUnsolvedProblems.size())
                   .isEqualTo(10);
-        Assertions.assertThat(solvedProblems.size())
-                  .isEqualTo(0);
 
 
     }

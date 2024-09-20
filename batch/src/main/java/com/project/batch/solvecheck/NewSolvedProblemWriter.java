@@ -1,11 +1,8 @@
 package com.project.batch.solvecheck;
 
 import com.project.inhaUnsolved.domain.problem.collection.NewSolvedProblemStore;
-import com.project.inhaUnsolved.domain.problem.domain.SolvedProblem;
 import com.project.inhaUnsolved.domain.problem.domain.UnsolvedProblem;
 import com.project.inhaUnsolved.domain.user.User;
-import jakarta.annotation.PostConstruct;
-import java.util.ArrayList;
 import java.util.List;
 import org.springframework.batch.item.Chunk;
 import org.springframework.batch.item.ItemWriter;

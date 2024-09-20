@@ -3,7 +3,6 @@ package com.project.batch.solvecheck;
 
 import com.project.api.ProblemRequestSolvedByUser;
 import com.project.api.UserDetailRequest;
-import com.project.inhaUnsolved.domain.problem.domain.SolvedProblem;
 import com.project.inhaUnsolved.domain.problem.domain.UnsolvedProblem;
 import com.project.inhaUnsolved.domain.user.User;
 import com.project.inhaUnsolved.service.ProblemService;
@@ -59,9 +58,7 @@ public class NewSolvedProblemService {
     }
 
 
-    public List<Integer> findAllSolvedProblemNumber() {
-        return problemService.findAllSolvedProblemNumbers(batchSize);
-    }
+
 
     public List<UnsolvedProblem> getProblemsSolvedBy(User user) {
         return problemSolvedByUserRequest.getProblems(user.getHandle());

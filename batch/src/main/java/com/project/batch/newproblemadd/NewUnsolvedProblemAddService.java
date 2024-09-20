@@ -27,14 +27,6 @@ public class NewUnsolvedProblemAddService {
     private final ProblemRequestByNumber request;
 
 
-    public Set<Integer> findProblemNumbersIn(Collection<Integer> numbers) {
-        return new HashSet<>(problemService.findProblemNumbersIn(numbers));
-    }
-
-    public Set<Integer> findSolvedProblemNumbersIn(Collection<Integer> numbers) {
-        return new HashSet<>(problemService.findSolvedProblemNumbersIn(numbers));
-    }
-
     public void save(UnsolvedProblem newProblem) {
         problemService.save(newProblem);
     }
@@ -69,4 +61,8 @@ public class NewUnsolvedProblemAddService {
     }
 
 
+    public Set<Integer> findSolvedProblemNumbersIn(List<Integer> numbers) {
+        //TODO problem에서 isSolved를 가진 문제의 수를 반환하도록 변경
+        return null;
+    }
 }

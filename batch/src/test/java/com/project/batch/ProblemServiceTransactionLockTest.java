@@ -8,7 +8,6 @@ import com.project.batch.problemrenew.ProblemDetailRenewService;
 import com.project.inhaUnsolved.domain.problem.domain.Tier;
 import com.project.inhaUnsolved.domain.problem.domain.UnsolvedProblem;
 import com.project.inhaUnsolved.domain.problem.repository.ProblemRepository;
-import com.project.inhaUnsolved.domain.problem.repository.SolvedProblemRepository;
 import com.project.inhaUnsolved.service.ProblemService;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -42,8 +41,6 @@ public class ProblemServiceTransactionLockTest {
     ProblemDetailRenewService problemDetailRenewService;
     @Autowired
     private ProblemRepository unsolvedProblemRepository;
-    @Autowired
-    private SolvedProblemRepository solvedProblemRepository;
     @Autowired
     private PlatformTransactionManager transactionManager;
     private List<UnsolvedProblem> test1 = new ArrayList<>();
@@ -152,7 +149,6 @@ public class ProblemServiceTransactionLockTest {
             IntStream.range(startNumber, startNumber + testcaseCount)
                      .forEach((number) -> {
                                  unsolvedProblemRepository.deleteByNumber(number);
-                                 solvedProblemRepository.deleteByNumber(number);
                              }
                      );
             return null;

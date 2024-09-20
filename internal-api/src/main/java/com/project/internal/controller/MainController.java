@@ -22,11 +22,9 @@ public class MainController {
 
     @GetMapping("/home")
     public String home(Model model) {
-        Long problemCount = problemService.getSolvedProblemCount();
         Long userCount = userService.getUserCount();
         List<UnsolvedProblem> randomProblems = problemService.findRandomUnsolvedProblems(10);
 
-        model.addAttribute("problemCount", problemCount);
         model.addAttribute("userCount", userCount);
         model.addAttribute("randomProblems", randomProblems);
         return "home";

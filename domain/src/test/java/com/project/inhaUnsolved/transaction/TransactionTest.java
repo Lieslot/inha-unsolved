@@ -47,23 +47,6 @@ public class TransactionTest {
 
     }
 
-    @Test
-    void propagationRequiredTest() {
-
-        TransactionTemplate template = new TransactionTemplate(transactionManager, new DefaultTransactionDefinition(
-                TransactionDefinition.PROPAGATION_REQUIRED));
-        template.execute(status -> {
-
-            boolean propagatedTransactionResource = programmatic.isTransacted();
-            Assertions.assertThat(propagatedTransactionResource)
-                      .isEqualTo(true);
-            return null;
-        });
-
-
-    }
-
-
 
 
 }

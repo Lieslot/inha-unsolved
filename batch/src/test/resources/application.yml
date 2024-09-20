@@ -15,9 +15,7 @@ spring:
       enabled: false
     jdbc:
       initialize-schema: always
-  sql:
-    init:
-      schema-locations: classpath:test_db_init.sql
+
 
 
   jpa:
