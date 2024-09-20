@@ -3,7 +3,7 @@ package com.project.api.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.api.ProblemRequestSolvedByUser;
-import com.project.inhaUnsolved.domain.problem.domain.UnsolvedProblem;
+import com.project.inhaUnsolved.domain.problem.domain.Problem;
 import com.project.inhaUnsolved.domain.problem.dto.ProblemsDetailResponse;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -59,7 +59,7 @@ public class ProblemDetailsRequestMockTest {
     @Test
     void problemSolvedByUserRequestTest() {
 
-        List<UnsolvedProblem> problem = request.getProblems("ditn258gh");
+        List<Problem> problem = request.getProblems("ditn258gh");
     }
 
 

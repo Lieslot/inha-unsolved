@@ -3,7 +3,7 @@ package com.project.batch.solvecheck;
 
 import com.project.api.ProblemRequestSolvedByUser;
 import com.project.api.UserDetailRequest;
-import com.project.inhaUnsolved.domain.problem.domain.UnsolvedProblem;
+import com.project.inhaUnsolved.domain.problem.domain.Problem;
 import com.project.inhaUnsolved.domain.user.User;
 import com.project.inhaUnsolved.service.ProblemService;
 import com.project.inhaUnsolved.service.UserService;
@@ -22,7 +22,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Slf4j
 public class NewSolvedProblemService {
 
-    private static final int batchSize = 1000;
 
     private final ProblemService problemService;
     private final UserService userService;
@@ -60,21 +59,20 @@ public class NewSolvedProblemService {
 
 
 
-    public List<UnsolvedProblem> getProblemsSolvedBy(User user) {
+    public List<Problem> getProblemsSolvedBy(User user) {
         return problemSolvedByUserRequest.getProblems(user.getHandle());
     }
 
 
     @Transactional
-    public void commitChunkTransaction(List<User> savedUsers, List<UnsolvedProblem> solvedProblems) {
+    public void commitChunkTransaction(List<User> savedUsers, List<Problem> solvedProblems) {
 
         List<Integer> numbers = solvedProblems.stream()
-                                              .map(UnsolvedProblem::getNumber)
+                                              .map(Problem::getNumber)
                                               .toList();
-        problemService.deleteAllUnsolvedProblemByNumbers(numbers);
+        problemService.changeToSolved(numbers);
 
         userService.saveAll(savedUsers);
-
 
     }
 

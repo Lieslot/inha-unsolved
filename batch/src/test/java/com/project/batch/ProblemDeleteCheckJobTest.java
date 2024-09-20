@@ -5,10 +5,11 @@ import static org.mockito.Mockito.when;
 import com.project.api.ProblemRequestSolvedByUser;
 import com.project.api.UserDetailRequest;
 import com.project.batch.solvecheck.ProblemSolveCheckJobConfig;
+import com.project.inhaUnsolved.domain.problem.domain.Problem;
 import com.project.inhaUnsolved.domain.problem.domain.Tier;
-import com.project.inhaUnsolved.domain.problem.domain.UnsolvedProblem;
 import com.project.inhaUnsolved.domain.problem.repository.ProblemRepository;
 import com.project.inhaUnsolved.domain.user.User;
+import com.project.inhaUnsolved.domain.user.repository.UserRepository;
 import jakarta.persistence.EntityManager;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -32,6 +33,8 @@ public class ProblemDeleteCheckJobTest extends BatchTestSupport {
     private ProblemSolveCheckJobConfig job;
     @Autowired
     private ProblemRepository problemRepository;
+    @Autowired
+    private UserRepository userRepository;
     @MockBean
     private ProblemRequestSolvedByUser problemRequestSolvedByUser;
     @MockBean
@@ -39,16 +42,16 @@ public class ProblemDeleteCheckJobTest extends BatchTestSupport {
 
     @AfterEach
     void init() {
-        deleteAll(UnsolvedProblem.class);
-        deleteAll(User.class);
+        problemRepository.deleteAll();
+        userRepository.deleteAll();
     }
 
 
     @Test
     void 동작_테스트() throws Exception {
 
-        List<UnsolvedProblem> savedProblems = IntStream.range(1000, 1200)
-                                                       .mapToObj(number -> UnsolvedProblem.builder()
+        List<Problem> savedProblems = IntStream.range(1000, 1200)
+                                                       .mapToObj(number -> Problem.builder()
                                                                                           .number(number)
                                                                                           .tags(new HashSet<>())
                                                                                           .tier(Tier.BRONZE_IV)
@@ -67,8 +70,8 @@ public class ProblemDeleteCheckJobTest extends BatchTestSupport {
         when(userDetailRequest.getUserDetail()).thenReturn(users);
 
         for (User user : users) {
-            List<UnsolvedProblem> newSolvedProblems = IntStream.range(start, start + 10)
-                                                               .mapToObj(number -> UnsolvedProblem.builder()
+            List<Problem> newSolvedProblems = IntStream.range(start, start + 10)
+                                                               .mapToObj(number -> Problem.builder()
                                                                                                   .number(number)
                                                                                                   .tags(new HashSet<>())
                                                                                                   .tier(Tier.BRONZE_IV)
@@ -97,8 +100,8 @@ public class ProblemDeleteCheckJobTest extends BatchTestSupport {
 
     @Test
     void 기존_유저가_있을_경우_동작_테스트() throws Exception {
-        List<UnsolvedProblem> savedProblems = IntStream.range(1000, 1200)
-                                                       .mapToObj(number -> UnsolvedProblem.builder()
+        List<Problem> savedProblems = IntStream.range(1000, 1200)
+                                                       .mapToObj(number -> Problem.builder()
                                                                                           .number(number)
                                                                                           .tags(new HashSet<>())
                                                                                           .tier(Tier.BRONZE_IV)
@@ -121,8 +124,8 @@ public class ProblemDeleteCheckJobTest extends BatchTestSupport {
         when(userDetailRequest.getUserDetail()).thenReturn(users);
 
         for (User user : users) {
-            List<UnsolvedProblem> newSolvedProblems = IntStream.range(start, start + 10)
-                                                               .mapToObj(number -> UnsolvedProblem.builder()
+            List<Problem> newSolvedProblems = IntStream.range(start, start + 10)
+                                                               .mapToObj(number -> Problem.builder()
                                                                                                   .number(number)
                                                                                                   .tags(new HashSet<>())
                                                                                                   .tier(Tier.BRONZE_IV)

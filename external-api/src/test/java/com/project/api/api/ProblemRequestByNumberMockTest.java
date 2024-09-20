@@ -5,7 +5,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.api.ProblemDetails;
 import com.project.api.ProblemRequestByNumber;
-import com.project.inhaUnsolved.domain.problem.domain.UnsolvedProblem;
+import com.project.inhaUnsolved.domain.problem.domain.Problem;
+
 import java.util.List;
 import java.util.stream.IntStream;
 import org.junit.jupiter.api.BeforeEach;
@@ -66,7 +67,7 @@ public class ProblemRequestByNumberMockTest {
                                                .mapToObj(String::valueOf)
                                                .toList();
 
-        List<UnsolvedProblem> newProblems = request.getProblemBy(problemNumbers);
+        List<Problem> newProblems = request.getProblemBy(problemNumbers);
 
         System.out.println(newProblems);
 

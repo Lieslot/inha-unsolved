@@ -22,7 +22,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
 @SpringBatchTest
-@TestInstance(Lifecycle.PER_CLASS)
 public abstract class BatchTestSupport {
 
     @Autowired

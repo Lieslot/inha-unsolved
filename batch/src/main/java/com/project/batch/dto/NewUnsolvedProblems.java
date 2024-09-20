@@ -1,6 +1,7 @@
 package com.project.batch.dto;
 
-import com.project.inhaUnsolved.domain.problem.domain.UnsolvedProblem;
+import com.project.inhaUnsolved.domain.problem.domain.Problem;
+
 import java.util.Iterator;
 import java.util.List;
 import java.util.Spliterator;
@@ -10,27 +11,27 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class NewUnsolvedProblems implements Iterable<UnsolvedProblem> {
+public class NewUnsolvedProblems implements Iterable<Problem> {
 
-    private List<UnsolvedProblem> unsolvedProblems;
+    private List<Problem> problems;
 
-    public NewUnsolvedProblems(List<UnsolvedProblem> unsolvedProblems) {
-        this.unsolvedProblems = unsolvedProblems;
+    public NewUnsolvedProblems(List<Problem> problems) {
+        this.problems = problems;
     }
 
 
     @Override
-    public Iterator<UnsolvedProblem> iterator() {
-        return unsolvedProblems.iterator();
+    public Iterator<Problem> iterator() {
+        return problems.iterator();
     }
 
     @Override
-    public void forEach(Consumer<? super UnsolvedProblem> action) {
-        unsolvedProblems.forEach(action);
+    public void forEach(Consumer<? super Problem> action) {
+        problems.forEach(action);
     }
 
     @Override
-    public Spliterator<UnsolvedProblem> spliterator() {
-        return unsolvedProblems.spliterator();
+    public Spliterator<Problem> spliterator() {
+        return problems.spliterator();
     }
 }

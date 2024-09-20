@@ -2,7 +2,8 @@ package com.project.batch.newproblemadd;
 
 import com.project.batch.dto.NewUnsolvedProblems;
 import com.project.inhaUnsolved.domain.problem.domain.LastUpdatedProblemNumber;
-import com.project.inhaUnsolved.domain.problem.domain.UnsolvedProblem;
+import com.project.inhaUnsolved.domain.problem.domain.Problem;
+
 import java.util.List;
 import java.util.Set;
 import org.springframework.batch.item.Chunk;
@@ -27,15 +28,15 @@ public class NewUnsolvedProblemWriter implements ItemWriter<NewUnsolvedProblems>
 
     public void addProblems(NewUnsolvedProblems newProblems) {
 
-        List<Integer> numbers = newProblems.getUnsolvedProblems()
+        List<Integer> numbers = newProblems.getProblems()
                                            .stream()
-                                           .map(UnsolvedProblem::getNumber)
+                                           .map(Problem::getNumber)
                                            .sorted()
                                            .toList();
 
         Set<Integer> existingSolvedOne = newProblemAddService.findSolvedProblemNumbersIn(numbers);
 
-        for (UnsolvedProblem newProblem : newProblems) {
+        for (Problem newProblem : newProblems) {
             int newProblemNumber = newProblem.getNumber();
 
             if (existingSolvedOne.contains(newProblemNumber)) {

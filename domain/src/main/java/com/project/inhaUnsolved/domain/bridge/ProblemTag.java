@@ -1,7 +1,7 @@
 package com.project.inhaUnsolved.domain.bridge;
 
 import com.project.inhaUnsolved.domain.problem.domain.Tag;
-import com.project.inhaUnsolved.domain.problem.domain.UnsolvedProblem;
+import com.project.inhaUnsolved.domain.problem.domain.Problem;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -29,16 +29,16 @@ public class ProblemTag {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "problem_id")
-    private UnsolvedProblem problem;
+    private Problem problem;
 
     @Builder
-    ProblemTag(Tag tag, UnsolvedProblem problem) {
+    ProblemTag(Tag tag, Problem problem) {
         this.problem = problem;
         this.tag = tag;
     }
 
 
-    public void addProblem(UnsolvedProblem problem) {
+    public void addProblem(Problem problem) {
         this.problem = problem;
     }
 

@@ -1,6 +1,6 @@
 package com.project.inhaUnsolved.domain.problem.dto;
 
-import com.project.inhaUnsolved.domain.problem.domain.UnsolvedProblem;
+import com.project.inhaUnsolved.domain.problem.domain.Problem;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,10 +9,10 @@ import lombok.Setter;
 public class ProblemDetailCompare {
 
 
-    private UnsolvedProblem existingProblem;
-    private UnsolvedProblem newProblemDetail;
+    private Problem existingProblem;
+    private Problem newProblemDetail;
 
-    public ProblemDetailCompare(UnsolvedProblem existingProblem, UnsolvedProblem newProblemDetail) {
+    public ProblemDetailCompare(Problem existingProblem, Problem newProblemDetail) {
         this.existingProblem = existingProblem;
         this.newProblemDetail = newProblemDetail;
     }

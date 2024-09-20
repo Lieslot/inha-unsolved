@@ -4,8 +4,8 @@ import static org.mockito.Mockito.when;
 
 import com.project.api.UserDetailRequest;
 import com.project.batch.solvecheck.NewSolvedProblemService;
+import com.project.inhaUnsolved.domain.problem.domain.Problem;
 import com.project.inhaUnsolved.domain.problem.domain.Tier;
-import com.project.inhaUnsolved.domain.problem.domain.UnsolvedProblem;
 import com.project.inhaUnsolved.domain.problem.repository.ProblemRepository;
 import com.project.inhaUnsolved.domain.user.User;
 import com.project.inhaUnsolved.domain.user.repository.UserRepository;
@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -33,6 +34,12 @@ public class NewSolvedProblemServiceTest {
     private ProblemRepository problemRepository;
     @MockBean
     private UserDetailRequest userDetailRequest;
+
+    @AfterEach
+    public void tearDown() {
+        userRepository.deleteAll();
+        problemRepository.deleteAll();
+    }
 
 
     @Transactional
@@ -86,10 +93,10 @@ public class NewSolvedProblemServiceTest {
     @Test
     void commitChunkTransaction_저장테스트() {
 
-        List<UnsolvedProblem> newSolvedProblems = new ArrayList<>();
+        List<Problem> newSolvedProblems = new ArrayList<>();
 
         for (int i = 1000; i < 1010; i++) {
-            UnsolvedProblem problem = UnsolvedProblem.builder()
+            Problem problem = Problem.builder()
                                                      .number(i)
                                                      .tags(new HashSet<>())
                                                      .tier(Tier.BRONZE_IV)
@@ -105,7 +112,10 @@ public class NewSolvedProblemServiceTest {
 
         newSolvedProblemService.commitChunkTransaction(users, newSolvedProblems);
 
-        List<UnsolvedProblem> remainedUnsolvedProblems = problemRepository.findAll();
+        List<Problem> remainedUnsolvedProblems = problemRepository.findAll()
+                .stream()
+                .filter(problem -> !problem.hasSolved())
+                .toList();
 
         remainedUnsolvedProblems.forEach(
                 problem -> Assertions.assertThat(newSolvedProblems)
@@ -123,10 +133,10 @@ public class NewSolvedProblemServiceTest {
     @Test
     void commitChunkTransaction_트랜잭션_롤백_테스트() {
 
-        List<UnsolvedProblem> newSolvedProblems = new ArrayList<>();
+        List<Problem> newSolvedProblems = new ArrayList<>();
 
         for (int i = 1000; i < 1010; i++) {
-            UnsolvedProblem problem = UnsolvedProblem.builder()
+            Problem problem = Problem.builder()
                                                      .number(i)
                                                      .tags(new HashSet<>())
                                                      .tier(Tier.BRONZE_IV)
@@ -146,9 +156,10 @@ public class NewSolvedProblemServiceTest {
 
         }
 
-        List<UnsolvedProblem> remainedUnsolvedProblems = problemRepository.findAll();
+        List<Problem> problems = problemRepository.findAll();
 
-        Assertions.assertThat(remainedUnsolvedProblems.size())
+
+        Assertions.assertThat(problems.size())
                   .isEqualTo(10);
 
 

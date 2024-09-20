@@ -3,14 +3,11 @@ package com.project.batch.newproblemadd;
 import com.project.api.ProblemRequestByNumber;
 import com.project.batch.dto.NewUnsolvedProblems;
 import com.project.inhaUnsolved.domain.problem.domain.LastUpdatedProblemNumber;
-import com.project.inhaUnsolved.domain.problem.domain.UnsolvedProblem;
+import com.project.inhaUnsolved.domain.problem.domain.Problem;
 import com.project.inhaUnsolved.domain.problem.repository.LastUpdatedProblemNumberRepository;
 import com.project.inhaUnsolved.service.ProblemService;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+
+import java.util.*;
 import java.util.stream.IntStream;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -27,7 +24,7 @@ public class NewUnsolvedProblemAddService {
     private final ProblemRequestByNumber request;
 
 
-    public void save(UnsolvedProblem newProblem) {
+    public void save(Problem newProblem) {
         problemService.save(newProblem);
     }
 
@@ -51,7 +48,7 @@ public class NewUnsolvedProblemAddService {
         List<String> requestedNumbers = IntStream.range(number + 1, number + 101)
                                                  .mapToObj(String::valueOf)
                                                  .toList();
-        List<UnsolvedProblem> newProblems = request.getProblemBy(requestedNumbers);
+        List<Problem> newProblems = request.getProblemBy(requestedNumbers);
         //reader가 null 값을 반환하면 step 종료
         if (newProblems.isEmpty()) {
             return null;
@@ -62,7 +59,6 @@ public class NewUnsolvedProblemAddService {
 
 
     public Set<Integer> findSolvedProblemNumbersIn(List<Integer> numbers) {
-        //TODO problem에서 isSolved를 가진 문제의 수를 반환하도록 변경
-        return null;
+        return new HashSet<>(problemService.findSolvedProblemNumbersIn(numbers));
     }
 }

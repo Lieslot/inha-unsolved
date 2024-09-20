@@ -1,7 +1,7 @@
 package com.project.api.api;
 
 import com.project.api.ProblemRequestByNumber;
-import com.project.inhaUnsolved.domain.problem.domain.UnsolvedProblem;
+import com.project.inhaUnsolved.domain.problem.domain.Problem;
 import java.util.List;
 import java.util.stream.IntStream;
 import org.assertj.core.api.Assertions;
@@ -23,7 +23,7 @@ public class ProblemRequestsByNumberTest {
                                                .mapToObj(String::valueOf)
                                                .toList();
 
-        List<UnsolvedProblem> newProblems = request.getProblemBy(problemNumbers);
+        List<Problem> newProblems = request.getProblemBy(problemNumbers);
         Assertions.assertThat((long) newProblems.size())
                   .isEqualTo(100);
 

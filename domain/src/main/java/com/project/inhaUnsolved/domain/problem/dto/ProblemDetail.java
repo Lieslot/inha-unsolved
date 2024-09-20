@@ -4,7 +4,7 @@ package com.project.inhaUnsolved.domain.problem.dto;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.project.inhaUnsolved.domain.problem.domain.Tier;
-import com.project.inhaUnsolved.domain.problem.domain.UnsolvedProblem;
+import com.project.inhaUnsolved.domain.problem.domain.Problem;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.Getter;
@@ -23,8 +23,8 @@ public class ProblemDetail {
     @JsonProperty("tags")
     private List<TagDetail> tagDetails;
 
-    public UnsolvedProblem toUnsolvedProblem() {
-        return UnsolvedProblem.builder()
+    public Problem toUnsolvedProblem() {
+        return Problem.builder()
                               .name(titleKo)
                               .number(problemId)
                               .tier(Tier.valueOf(level))

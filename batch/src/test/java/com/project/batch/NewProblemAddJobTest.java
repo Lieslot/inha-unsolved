@@ -3,21 +3,17 @@ package com.project.batch;
 import com.project.api.ProblemRequestByNumber;
 import com.project.batch.newproblemadd.NewUnsolvedProblemAddJobConfig;
 import com.project.inhaUnsolved.domain.problem.domain.LastUpdatedProblemNumber;
+import com.project.inhaUnsolved.domain.problem.domain.Problem;
 import com.project.inhaUnsolved.domain.problem.domain.Tier;
-import com.project.inhaUnsolved.domain.problem.domain.UnsolvedProblem;
 import com.project.inhaUnsolved.domain.problem.repository.ProblemRepository;
-import jakarta.persistence.EntityManager;
+
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.springframework.batch.core.JobParameters;
-import org.springframework.batch.core.JobParametersBuilder;
-import org.springframework.batch.core.StepExecution;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
@@ -33,14 +29,20 @@ public class NewProblemAddJobTest extends BatchTestSupport {
     @Autowired
     private ProblemRepository problemRepository;
 
+    @AfterEach
+    void tearDown() {
+        deleteAll(Problem.class);
+    }
+
+
 
     @Test
     void 실행_테스트() throws Exception {
         List<String> problemNumbers = new ArrayList<>();
-        List<UnsolvedProblem> problems = new ArrayList<>();
+        List<Problem> problems = new ArrayList<>();
 
         for (int i = 1000; i <= 1106; i++) {
-            UnsolvedProblem test = UnsolvedProblem.builder()
+            Problem test = Problem.builder()
                                                   .number(i)
                                                   .tags(new HashSet<>())
                                                   .tier(Tier.BRONZE_IV)
@@ -64,7 +66,7 @@ public class NewProblemAddJobTest extends BatchTestSupport {
         launchJob(newProblemAddJobConfig.newProblemAddJob(), null);
 
 
-        List<UnsolvedProblem> problems1 = problemRepository.findAll();
+        List<Problem> problems1 = problemRepository.findAll();
         Assertions.assertThat(problems1.size()).isEqualTo(107);
 
         Assertions.assertThat(problems1.size()).isEqualTo(107);

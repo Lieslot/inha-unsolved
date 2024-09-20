@@ -1,6 +1,6 @@
 package com.project.inhaUnsolved.service;
 
-import com.project.inhaUnsolved.domain.problem.domain.UnsolvedProblem;
+import com.project.inhaUnsolved.domain.problem.domain.Problem;
 import com.project.inhaUnsolved.domain.problem.repository.ProblemRepository;
 import com.project.inhaUnsolved.domain.problem.repository.ProblemRepositoryCustom;
 
@@ -23,45 +23,50 @@ public class ProblemService {
     private final ProblemRepository unsolvedProblemRepository;
     private final ProblemRepositoryCustom unsolvedProblemRepositoryCustom;
 
-    public List<UnsolvedProblem> findAllByIdIn(List<Integer> ids) {
+    public List<Problem> findAllByIdIn(List<Integer> ids) {
         return unsolvedProblemRepository.findAllByIdIn(ids);
     }
 
-    public void save(UnsolvedProblem problem) {
+    public void save(Problem problem) {
         unsolvedProblemRepository.save(problem);
     }
 
-    public List<UnsolvedProblem> saveAllUnsolvedProblems(Collection<UnsolvedProblem> newUnsolvedProblems) {
+    public List<Problem> saveAllUnsolvedProblems(Collection<Problem> newUnsolvedProblems) {
         return unsolvedProblemRepository.saveAll(newUnsolvedProblems);
     }
-
-
 
 
     public List<Integer> findProblemNumbersIn(Collection<Integer> numbers) {
         return unsolvedProblemRepositoryCustom.findAllNumbersIn(numbers);
     }
 
-    public void deleteAllUnsolvedProblemByNumbers(List<Integer> numbers) {
+    public List<Integer> findSolvedProblemNumbersIn(Collection<Integer> numbers) {
+        return unsolvedProblemRepository.findByIsSolvedAndNumberIn(true, numbers)
+                .stream()
+                .map(Problem::getNumber)
+                .toList();
+    }
+
+    public void changeToSolved(List<Integer> numbers) {
         unsolvedProblemRepository.deleteAllByNumberIn(numbers);
     }
 
-    public Long getSolvedProblemCount() {
-        // TODO UnsolvedProblem을 isSolved를 바꾸자
-        return 0L;
+    public Integer getSolvedProblemCount() {
+
+        return unsolvedProblemRepository.countUnsolvedProblemsByIsSolved(true);
     }
 
-    public List<UnsolvedProblem> findRandomUnsolvedProblems(int limit) {
+    public List<Problem> findRandomUnsolvedProblems(int limit) {
 
         return unsolvedProblemRepository.findRandomProblems(limit);
     }
 
-    public Page<UnsolvedProblem> getPageOf(int page, int chunk) {
+    public Page<Problem> getPageOf(int page, int chunk) {
         Pageable pageable = PageRequest.of(page, chunk);
         return unsolvedProblemRepository.findAll(pageable);
     }
 
-    public Page<UnsolvedProblem> getPageOf(int page, int chunk, String title) {
+    public Page<Problem> getPageOf(int page, int chunk, String title) {
         Pageable pageable = PageRequest.of(page, chunk);
         return unsolvedProblemRepository.findByNameContaining(title, pageable);
     }

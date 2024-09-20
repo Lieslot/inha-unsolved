@@ -25,7 +25,7 @@ import org.hibernate.annotations.BatchSize;
 @Entity
 @Table(indexes = {@Index(name = "numberSortIndex", columnList = "number")})
 @NoArgsConstructor
-public class UnsolvedProblem {
+public class Problem {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,8 +44,10 @@ public class UnsolvedProblem {
     @OneToMany(mappedBy = "problem", orphanRemoval = true, cascade = CascadeType.ALL)
     private Set<ProblemTag> tags;
 
+    private Boolean isSolved = false;
+
     @Builder
-    public UnsolvedProblem(int number, String name, Tier tier, Set<Tag> tags) {
+    public Problem(int number, String name, Tier tier, Set<Tag> tags) {
         this.number = number;
         this.name = name;
         this.tier = tier;
@@ -60,6 +62,10 @@ public class UnsolvedProblem {
 
     public boolean hasEqual(int number) {
         return this.number == number;
+    }
+
+    public boolean hasSolved() {
+        return this.isSolved;
     }
 
     public void renewTags(Set<ProblemTag> newProblemTags) {
@@ -80,6 +86,10 @@ public class UnsolvedProblem {
         this.tier = tier;
     }
 
+    public void solved() {
+        isSolved = true;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -88,7 +98,7 @@ public class UnsolvedProblem {
         if (obj == null || getClass() != obj.getClass()) {
             return false;
         }
-        UnsolvedProblem other = (UnsolvedProblem) obj;
+        Problem other = (Problem) obj;
 
         return this.number == other.number;
     }

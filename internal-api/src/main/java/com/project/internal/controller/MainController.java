@@ -1,6 +1,6 @@
 package com.project.internal.controller;
 
-import com.project.inhaUnsolved.domain.problem.domain.UnsolvedProblem;
+import com.project.inhaUnsolved.domain.problem.domain.Problem;
 import com.project.inhaUnsolved.service.ProblemService;
 import com.project.inhaUnsolved.service.UserService;
 import java.util.List;
@@ -22,9 +22,11 @@ public class MainController {
 
     @GetMapping("/home")
     public String home(Model model) {
+        Integer problemCount = problemService.getSolvedProblemCount();
         Long userCount = userService.getUserCount();
-        List<UnsolvedProblem> randomProblems = problemService.findRandomUnsolvedProblems(10);
+        List<Problem> randomProblems = problemService.findRandomUnsolvedProblems(10);
 
+        model.addAttribute("problemCount", problemCount);
         model.addAttribute("userCount", userCount);
         model.addAttribute("randomProblems", randomProblems);
         return "home";
@@ -35,7 +37,7 @@ public class MainController {
     public String problems(Model model,
                            @RequestParam(value = "page", defaultValue = "0") int page,
                            @RequestParam(value = "title", required = false, defaultValue = "") String title) {
-        Page<UnsolvedProblem> paging;
+        Page<Problem> paging;
         if (title.isEmpty()) {
             paging = problemService.getPageOf(page, 50);
         } else {

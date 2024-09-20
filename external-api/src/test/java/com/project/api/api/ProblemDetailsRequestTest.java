@@ -1,7 +1,8 @@
 package com.project.api.api;
 
 import com.project.api.ProblemRequestSolvedByUser;
-import com.project.inhaUnsolved.domain.problem.domain.UnsolvedProblem;
+import com.project.inhaUnsolved.domain.problem.domain.Problem;
+
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -19,7 +20,7 @@ public class ProblemDetailsRequestTest {
     @DisplayName("유저 정보 API 테스트")
     @Test
     void userDetailApiTest() {
-        List<UnsolvedProblem> problems = request.getProblems("ditn258gh");
+        List<Problem> problems = request.getProblems("ditn258gh");
         System.out.println("problems = " + problems);
 
 

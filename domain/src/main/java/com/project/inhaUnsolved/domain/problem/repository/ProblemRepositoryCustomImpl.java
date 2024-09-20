@@ -1,8 +1,7 @@
 package com.project.inhaUnsolved.domain.problem.repository;
 
 
-import static com.project.inhaUnsolved.domain.problem.domain.QUnsolvedProblem.unsolvedProblem;
-
+import static com.project.inhaUnsolved.domain.problem.domain.QProblem.problem;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.LockModeType;
 import java.util.Collection;
@@ -29,8 +28,8 @@ public class ProblemRepositoryCustomImpl implements ProblemRepositoryCustom {
 
         return IntStream.iterate(0, n -> n + 1)
                         .mapToObj(page -> jpaQueryFactory
-                                .select(unsolvedProblem.number)
-                                .from(unsolvedProblem)
+                                .select(problem.number)
+                                .from(problem)
                                 .offset((long) page * batchSize)
                                 .limit(batchSize)
                                 .fetch())
@@ -48,9 +47,9 @@ public class ProblemRepositoryCustomImpl implements ProblemRepositoryCustom {
 
         return IntStream.iterate(0, n -> n + 1)
                         .mapToObj(page -> jpaQueryFactory
-                                .select(unsolvedProblem.number)
-                                .from(unsolvedProblem)
-                                .where(unsolvedProblem.number.in(numbers))
+                                .select(problem.number)
+                                .from(problem)
+                                .where(problem.number.in(numbers))
                                 .offset((long) page * batchSize)
                                 .limit(batchSize)
                                 .setLockMode(LockModeType.PESSIMISTIC_WRITE)
@@ -63,9 +62,9 @@ public class ProblemRepositoryCustomImpl implements ProblemRepositoryCustom {
 
     @Override
     public List<Integer> findAllNumbersIn(Collection<Integer> numbers) {
-        return jpaQueryFactory.select(unsolvedProblem.number)
-                              .from(unsolvedProblem)
-                              .where(unsolvedProblem.number.in(numbers))
+        return jpaQueryFactory.select(problem.number)
+                              .from(problem)
+                              .where(problem.number.in(numbers))
                               .fetch();
     }
 

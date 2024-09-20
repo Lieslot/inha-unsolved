@@ -5,8 +5,8 @@ import com.project.batch.dto.NewUnsolvedProblems;
 import com.project.batch.newproblemadd.NewUnsolvedProblemAddService;
 import com.project.batch.newproblemadd.NewUnsolvedProblemWriter;
 import com.project.batch.problemrenew.ProblemDetailRenewService;
+import com.project.inhaUnsolved.domain.problem.domain.Problem;
 import com.project.inhaUnsolved.domain.problem.domain.Tier;
-import com.project.inhaUnsolved.domain.problem.domain.UnsolvedProblem;
 import com.project.inhaUnsolved.domain.problem.repository.ProblemRepository;
 import com.project.inhaUnsolved.service.ProblemService;
 import java.util.ArrayList;
@@ -40,10 +40,16 @@ public class ProblemServiceTransactionLockTest {
     @Autowired
     ProblemDetailRenewService problemDetailRenewService;
     @Autowired
-    private ProblemRepository unsolvedProblemRepository;
+    private ProblemRepository problemRepository;
     @Autowired
     private PlatformTransactionManager transactionManager;
-    private List<UnsolvedProblem> test1 = new ArrayList<>();
+    private List<Problem> test1 = new ArrayList<>();
+
+
+    @AfterEach
+    void tearDown() {
+        problemRepository.deleteAll();
+    }
 
 
     public void addThread(Runnable logic, CountDownLatch latch, ExecutorService executorService) {
@@ -71,7 +77,7 @@ public class ProblemServiceTransactionLockTest {
     void setTestCase() {
 
         for (int i = startNumber; i < startNumber + testcaseCount; i++) {
-            UnsolvedProblem testProblem = UnsolvedProblem.builder()
+            Problem testProblem = Problem.builder()
                                                          .name("test1")
                                                          .tags(new HashSet<>())
                                                          .number(i)
@@ -92,19 +98,19 @@ public class ProblemServiceTransactionLockTest {
         CountDownLatch latch = new CountDownLatch(2);
 
         List<Integer> numbers = test1.stream()
-                                     .map(UnsolvedProblem::getNumber)
+                                     .map(Problem::getNumber)
                                      .toList();
 
         NewUnsolvedProblems newUnsolvedProblems = new NewUnsolvedProblems(test1);
 
-        addThread(() -> problemService.deleteAllUnsolvedProblemByNumbers(numbers), latch, executorService);
+        addThread(() -> problemService.changeToSolved(numbers), latch, executorService);
         addThread(() -> newUnsolvedProblemWriter.addProblems(newUnsolvedProblems), latch, executorService);
 
         latch.await();
 
         IntStream.range(startNumber, startNumber + testcaseCount)
                  .forEach((number) -> {
-                             Assertions.assertThat(unsolvedProblemRepository.existsByNumber(number))
+                             Assertions.assertThat(problemRepository.existsByNumber(number))
                                        .isFalse();
                          }
                  );
@@ -117,23 +123,23 @@ public class ProblemServiceTransactionLockTest {
         ExecutorService executorService = Executors.newFixedThreadPool(5);
         CountDownLatch latch = new CountDownLatch(2);
 
-        List<UnsolvedProblem> problems = problemService.saveAllUnsolvedProblems(test1);
+        List<Problem> problems = problemService.saveAllUnsolvedProblems(test1);
 
         List<Integer> problemNumbers = problems.stream()
-                                               .map(UnsolvedProblem::getNumber)
+                                               .map(Problem::getNumber)
                                                .toList();
         List<Integer> problemIds = problems.stream()
-                                           .map(UnsolvedProblem::getId)
+                                           .map(Problem::getId)
                                            .toList();
 
-        addThread(() -> problemService.deleteAllUnsolvedProblemByNumbers(problemNumbers), latch, executorService);
+        addThread(() -> problemService.changeToSolved(problemNumbers), latch, executorService);
         addThread(() -> problemDetailRenewService.renewProblemDetails(problemIds, problems), latch, executorService);
 
         latch.await();
 
         IntStream.range(startNumber, startNumber + testcaseCount)
                  .forEach((number) -> {
-                             Assertions.assertThat(unsolvedProblemRepository.existsByNumber(number))
+                             Assertions.assertThat(problemRepository.existsByNumber(number))
                                        .isFalse();
                          }
                  );
@@ -148,7 +154,7 @@ public class ProblemServiceTransactionLockTest {
         template.execute(status -> {
             IntStream.range(startNumber, startNumber + testcaseCount)
                      .forEach((number) -> {
-                                 unsolvedProblemRepository.deleteByNumber(number);
+                                 problemRepository.deleteByNumber(number);
                              }
                      );
             return null;

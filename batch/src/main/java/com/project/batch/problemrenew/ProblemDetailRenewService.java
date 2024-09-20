@@ -1,7 +1,7 @@
 package com.project.batch.problemrenew;
 
 
-import com.project.inhaUnsolved.domain.problem.domain.UnsolvedProblem;
+import com.project.inhaUnsolved.domain.problem.domain.Problem;
 import com.project.inhaUnsolved.service.ProblemService;
 import java.util.List;
 import java.util.Map;
@@ -21,18 +21,18 @@ public class ProblemDetailRenewService {
 
     @Transactional
     public void renewProblemDetails(List<Integer> problemIds,
-                                    List<UnsolvedProblem> newProblemDetails) {
+                                    List<Problem> newProblemDetails) {
 
-        List<UnsolvedProblem> existingProblems = problemService.findAllByIdIn(problemIds);
+        List<Problem> existingProblems = problemService.findAllByIdIn(problemIds);
 
-        Map<Integer, UnsolvedProblem> problemMap = existingProblems
+        Map<Integer, Problem> problemMap = existingProblems
                 .stream()
                 .collect(Collectors.toMap(
-                        UnsolvedProblem::getNumber,
+                        Problem::getNumber,
                         Function.identity()));
 
-        for (UnsolvedProblem newProblemDetail : newProblemDetails) {
-            UnsolvedProblem existingProblem = problemMap.get(newProblemDetail.getNumber());
+        for (Problem newProblemDetail : newProblemDetails) {
+            Problem existingProblem = problemMap.get(newProblemDetail.getNumber());
 
             if (existingProblem == null) {
                 continue;

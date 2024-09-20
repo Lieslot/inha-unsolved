@@ -1,8 +1,7 @@
 package com.project.batch.config;
 
 
-import com.project.inhaUnsolved.domain.problem.domain.QUnsolvedProblem;
-import com.project.inhaUnsolved.domain.problem.domain.UnsolvedProblem;
+import com.project.inhaUnsolved.domain.problem.domain.Problem;
 import com.project.reader.QuerydslNoOffsetPagingItemReader;
 import com.project.reader.expression.Expression;
 import com.project.reader.options.QuerydslNoOffsetNumberOptions;
@@ -24,6 +23,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.interceptor.DefaultTransactionAttribute;
+
+import static com.project.inhaUnsolved.domain.problem.domain.QProblem.problem;
 
 @TestConfiguration
 @RequiredArgsConstructor
@@ -48,7 +49,7 @@ public class TestConfig {
     @JobScope
     public Step testStep() {
         return new StepBuilder("testStep", jobRepository)
-                .<UnsolvedProblem, UnsolvedProblem>chunk(chunkSize, transactionManager)
+                .<Problem, Problem>chunk(chunkSize, transactionManager)
                 .reader(testReader())
                 .processor(testProcessor())
                 .writer(testWriter())
@@ -59,18 +60,18 @@ public class TestConfig {
 
     @Bean
     @StepScope
-    public QuerydslNoOffsetPagingItemReader<UnsolvedProblem> testReader() {
-        QuerydslNoOffsetNumberOptions<UnsolvedProblem, Integer> options =
-                new QuerydslNoOffsetNumberOptions<>(QUnsolvedProblem.unsolvedProblem.id, Expression.ASC);
+    public QuerydslNoOffsetPagingItemReader<Problem> testReader() {
+        QuerydslNoOffsetNumberOptions<Problem, Integer> options =
+                new QuerydslNoOffsetNumberOptions<>(problem.id, Expression.ASC);
 
         return new QuerydslNoOffsetPagingItemReader<>(emf, chunkSize, options, queryFactory -> queryFactory.
-                selectFrom(QUnsolvedProblem.unsolvedProblem)
+                selectFrom(problem)
                 .setLockMode(LockModeType.PESSIMISTIC_WRITE));
     }
 
     @Bean
     @StepScope
-    public ItemProcessor<UnsolvedProblem, UnsolvedProblem> testProcessor() {
+    public ItemProcessor<Problem, Problem> testProcessor() {
         return item -> {
             item.renewName("test");
             return item;
@@ -79,8 +80,8 @@ public class TestConfig {
 
     @Bean
     @StepScope
-    public ItemWriter<UnsolvedProblem> testWriter() {
-        JpaItemWriter<UnsolvedProblem> itemWriter = new JpaItemWriter<>();
+    public ItemWriter<Problem> testWriter() {
+        JpaItemWriter<Problem> itemWriter = new JpaItemWriter<>();
         itemWriter.setEntityManagerFactory(emf);
         return itemWriter;
     }

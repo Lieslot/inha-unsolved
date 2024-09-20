@@ -17,8 +17,7 @@ public class NewUnsolvedProblemsReader implements ItemReader<NewUnsolvedProblems
     }
 
     @Override
-    public NewUnsolvedProblems read()
-            throws Exception {
+    public NewUnsolvedProblems read() {
 
         int lastUpdatedNumber = newProblemAddService.getLastUpdatedProblemNumber();
 

@@ -1,7 +1,7 @@
 package com.project.api;
 
 import com.project.inhaUnsolved.domain.problem.common.ProblemDetailsParser;
-import com.project.inhaUnsolved.domain.problem.domain.UnsolvedProblem;
+import com.project.inhaUnsolved.domain.problem.domain.Problem;
 import com.project.inhaUnsolved.domain.problem.dto.ProblemDetail;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
@@ -47,7 +47,7 @@ public class ProblemRequestByNumber {
     }
 
 
-    public List<UnsolvedProblem> getProblemBy(List<String> problemNumbers) {
+    public List<Problem> getProblemBy(List<String> problemNumbers) {
 
         ResponseEntity<String> response = requestProblem(problemNumbers);
         List<ProblemDetail> problemDetails = ProblemDetailsParser.parse(response);

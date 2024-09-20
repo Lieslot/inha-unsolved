@@ -1,7 +1,7 @@
 package com.project.batch;
 
 
-import static com.project.inhaUnsolved.domain.problem.domain.QUnsolvedProblem.*;
+import static com.project.inhaUnsolved.domain.problem.domain.QProblem.problem;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.when;
 
@@ -10,11 +10,9 @@ import com.project.batch.dto.ProblemIdNumber;
 import com.project.batch.problemrenew.ProblemDetailRenewJobConfig;
 import com.project.batch.problemrenew.ProblemDetailRenewService;
 import com.project.batch.problemrenew.ProblemDetailRenewWriter;
-import com.project.inhaUnsolved.domain.bridge.ProblemTag;
-import com.project.inhaUnsolved.domain.problem.domain.QUnsolvedProblem;
+import com.project.inhaUnsolved.domain.problem.domain.Problem;
 import com.project.inhaUnsolved.domain.problem.domain.Tag;
 import com.project.inhaUnsolved.domain.problem.domain.Tier;
-import com.project.inhaUnsolved.domain.problem.domain.UnsolvedProblem;
 import com.project.inhaUnsolved.domain.problem.repository.ProblemRepository;
 import com.project.inhaUnsolved.domain.problem.repository.TagRepository;
 import jakarta.persistence.EntityManager;
@@ -27,14 +25,11 @@ import org.assertj.core.api.Assertions;
 import org.hibernate.Hibernate;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.item.Chunk;
-import org.springframework.batch.item.database.JpaCursorItemReader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.transaction.annotation.Transactional;
 
 
 @ActiveProfiles("test")
@@ -61,18 +56,18 @@ public class ProblemDetailRenewJobTest extends BatchTestSupport {
     @Test
     void 실행_테스트() throws Exception {
         List<String> problemNumbers = new ArrayList<>();
-        List<UnsolvedProblem> problems = new ArrayList<>();
+        List<Problem> problems = new ArrayList<>();
         tagRepository.save(Tag.builder().name("tet1").number(1).build());
         tagRepository.save(Tag.builder().name("tet2").number(2).build());
 
         for (int i = 1000; i <= 1199; i++) {
-            UnsolvedProblem test = UnsolvedProblem.builder()
+            Problem test = Problem.builder()
                                                   .number(i)
                                                   .tags(new HashSet<>(List.of(Tag.builder().name("tet1").number(1).build())))
                                                   .tier(Tier.BRONZE_IV)
                                                   .name(String.format("test %d", i))
                                                   .build();
-            UnsolvedProblem changed = UnsolvedProblem.builder()
+            Problem changed = Problem.builder()
                                                   .number(i)
                                                   .tags(new HashSet<>(List.of(
                                                           Tag.builder().name("tet1").number(1).build(),
@@ -103,7 +98,7 @@ public class ProblemDetailRenewJobTest extends BatchTestSupport {
 
         transaction.begin();
         entityManager1.clear();
-        List<UnsolvedProblem> changedProblems = getQueryFactory().selectFrom(unsolvedProblem)
+        List<Problem> changedProblems = getQueryFactory().selectFrom(problem)
                                                                          .fetch();
 
 
@@ -129,7 +124,7 @@ public class ProblemDetailRenewJobTest extends BatchTestSupport {
         ProblemDetailRenewWriter renewWriter = new ProblemDetailRenewWriter(request, service);
         List<ProblemIdNumber> problemMinDetails = new ArrayList<>();
         for (int i = 1000; i <= 1011; i++) {
-            UnsolvedProblem test = UnsolvedProblem.builder()
+            Problem test = Problem.builder()
                                                   .number(i)
                                                   .tags(new HashSet<>())
                                                   .tier(Tier.BRONZE_IV)
@@ -142,10 +137,10 @@ public class ProblemDetailRenewJobTest extends BatchTestSupport {
 
         }
 
-        List<UnsolvedProblem> newProblemDetail = new ArrayList<>();
+        List<Problem> newProblemDetail = new ArrayList<>();
         List<String> problemNumbers = new ArrayList<>();
         for (int i = 1000; i <= 1011; i++) {
-            UnsolvedProblem test = UnsolvedProblem.builder()
+            Problem test = Problem.builder()
                                                   .number(i)
                                                   .tags(new HashSet<>())
                                                   .tier(Tier.BRONZE_IV)
@@ -160,7 +155,7 @@ public class ProblemDetailRenewJobTest extends BatchTestSupport {
 
         renewWriter.write(new Chunk<>(problemMinDetails));
 
-        List<UnsolvedProblem> result = problemRepository.findByNumberIn(problemNumbers.stream().
+        List<Problem> result = problemRepository.findByNumberIn(problemNumbers.stream().
                                                                                       map(Integer::parseInt)
                 .collect(Collectors.toList()));
 

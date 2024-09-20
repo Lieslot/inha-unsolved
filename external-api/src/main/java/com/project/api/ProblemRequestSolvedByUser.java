@@ -2,7 +2,7 @@ package com.project.api;
 
 
 import com.project.inhaUnsolved.domain.problem.common.ProblemDetailResponseParser;
-import com.project.inhaUnsolved.domain.problem.domain.UnsolvedProblem;
+import com.project.inhaUnsolved.domain.problem.domain.Problem;
 import com.project.inhaUnsolved.domain.problem.dto.ProblemDetail;
 import com.project.inhaUnsolved.domain.problem.dto.ProblemsDetailResponse;
 import java.util.ArrayList;
@@ -49,9 +49,9 @@ public class ProblemRequestSolvedByUser {
     }
 
 
-    public List<UnsolvedProblem> getProblems(String handle) {
+    public List<Problem> getProblems(String handle) {
 
-        List<UnsolvedProblem> problems = new ArrayList<>();
+        List<Problem> problems = new ArrayList<>();
 
         log.info("{} 유저가 푼 문제 요청", handle);
 

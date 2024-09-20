@@ -1,7 +1,7 @@
 package com.project.inhaUnsolved.domain.problem.collection;
 
-import com.project.inhaUnsolved.domain.problem.domain.UnsolvedProblem;
-import com.project.inhaUnsolved.domain.user.User;
+import com.project.inhaUnsolved.domain.problem.domain.Problem;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -12,7 +12,7 @@ public class NewSolvedProblemStore {
 
 
     private final Set<Integer> check;
-    private final List<UnsolvedProblem> problems;
+    private final List<Problem> problems;
 
 
     public NewSolvedProblemStore() {
@@ -26,22 +26,20 @@ public class NewSolvedProblemStore {
     }
 
 
-    public List<UnsolvedProblem> flushProblems() {
-        List<UnsolvedProblem> flushed = new ArrayList<>(problems);
+    public List<Problem> flushProblems() {
+        List<Problem> flushed = new ArrayList<>(problems);
         problems.clear();
         return flushed;
     }
 
-    public void storeProblem(UnsolvedProblem problem) {
+    public void storeProblem(Problem problem) {
         if (exists(problem.getNumber())) {
             return;
         }
         problems.add(problem);
     }
-    public void storeAllProblems(Collection<UnsolvedProblem> unsolvedProblems) {
-        unsolvedProblems.forEach(this::storeProblem);
-
-
+    public void storeAllProblems(Collection<Problem> problems) {
+        problems.forEach(this::storeProblem);
     }
 
     private boolean exists(Integer problemNumber) {

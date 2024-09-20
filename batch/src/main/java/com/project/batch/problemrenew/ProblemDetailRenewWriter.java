@@ -2,10 +2,9 @@ package com.project.batch.problemrenew;
 
 import com.project.api.ProblemRequestByNumber;
 import com.project.batch.dto.ProblemIdNumber;
-import com.project.inhaUnsolved.domain.problem.domain.UnsolvedProblem;
+import com.project.inhaUnsolved.domain.problem.domain.Problem;
 import java.util.List;
 import org.springframework.batch.item.Chunk;
-import org.springframework.batch.item.ItemStreamWriter;
 import org.springframework.batch.item.ItemWriter;
 
 
@@ -24,7 +23,7 @@ public class ProblemDetailRenewWriter implements ItemWriter<ProblemIdNumber> {
     public void write(Chunk<? extends ProblemIdNumber> chunk) throws Exception {
 
         List<? extends ProblemIdNumber> items = chunk.getItems();
-        List<UnsolvedProblem> newProblemDetails = getNewProblemDetails(items);
+        List<Problem> newProblemDetails = getNewProblemDetails(items);
         List<Integer> problemIds = items.stream()
                                         .map(ProblemIdNumber::getId)
                                         .toList();
@@ -32,7 +31,7 @@ public class ProblemDetailRenewWriter implements ItemWriter<ProblemIdNumber> {
 
     }
 
-    private List<UnsolvedProblem> getNewProblemDetails(List<? extends ProblemIdNumber> newProblemDetails) {
+    private List<Problem> getNewProblemDetails(List<? extends ProblemIdNumber> newProblemDetails) {
         List<String> problemNumbers = newProblemDetails.stream()
                                                        .map(ProblemIdNumber::getNumber)
                                                        .map(String::valueOf)

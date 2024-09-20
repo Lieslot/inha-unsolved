@@ -1,7 +1,7 @@
 package com.project.batch.solvecheck;
 
 import com.project.inhaUnsolved.domain.problem.collection.NewSolvedProblemStore;
-import com.project.inhaUnsolved.domain.problem.domain.UnsolvedProblem;
+import com.project.inhaUnsolved.domain.problem.domain.Problem;
 import com.project.inhaUnsolved.domain.user.User;
 import java.util.List;
 import org.springframework.batch.item.Chunk;
@@ -28,11 +28,11 @@ public class NewSolvedProblemWriter implements ItemWriter<User> {
 
 
         for (User user : items) {
-            List<UnsolvedProblem> problemsSolvedByUser = newSolvedProblemService.getProblemsSolvedBy(user);
+            List<Problem> problemsSolvedByUser = newSolvedProblemService.getProblemsSolvedBy(user);
             newSolvedProblemStore.storeAllProblems(problemsSolvedByUser);
         }
 
-        List<UnsolvedProblem> newSolvedProblems = newSolvedProblemStore.flushProblems();
+        List<Problem> newSolvedProblems = newSolvedProblemStore.flushProblems();
 
         newSolvedProblemService.commitChunkTransaction(items, newSolvedProblems);
 

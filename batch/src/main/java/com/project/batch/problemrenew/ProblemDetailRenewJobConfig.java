@@ -3,7 +3,6 @@ package com.project.batch.problemrenew;
 
 import com.project.api.ProblemRequestByNumber;
 import com.project.batch.dto.ProblemIdNumber;
-import com.project.inhaUnsolved.domain.problem.domain.QUnsolvedProblem;
 import com.project.reader.QuerydslNoOffsetPagingItemReader;
 import com.project.reader.expression.Expression;
 import com.project.reader.options.QuerydslNoOffsetNumberOptions;
@@ -27,6 +26,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.interceptor.DefaultTransactionAttribute;
+
+import static com.project.inhaUnsolved.domain.problem.domain.QProblem.problem;
 
 @Slf4j
 @Configuration
@@ -63,12 +64,12 @@ public class ProblemDetailRenewJobConfig {
     @StepScope
     public QuerydslNoOffsetPagingItemReader<ProblemIdNumber> problemDetailRenewReader() {
         QuerydslNoOffsetNumberOptions<ProblemIdNumber, Integer> options =
-                new QuerydslNoOffsetNumberOptions<>(QUnsolvedProblem.unsolvedProblem.id, Expression.ASC);
+                new QuerydslNoOffsetNumberOptions<>(problem.id, Expression.ASC);
 
         return new QuerydslNoOffsetPagingItemReader<>(emf, chunkSize, options, queryFactory -> queryFactory
-                .select(Projections.constructor(ProblemIdNumber.class, QUnsolvedProblem.unsolvedProblem.id,
-                        QUnsolvedProblem.unsolvedProblem.number))
-                .from(QUnsolvedProblem.unsolvedProblem)
+                .select(Projections.constructor(ProblemIdNumber.class, problem.id,
+                        problem.number))
+                .from(problem)
                 .setLockMode(LockModeType.PESSIMISTIC_WRITE));
     }
 
