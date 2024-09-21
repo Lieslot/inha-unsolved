@@ -2,8 +2,8 @@ package com.project.batch;
 
 
 import com.project.batch.dto.NewUnsolvedProblems;
-import com.project.batch.newproblemadd.NewUnsolvedProblemAddService;
-import com.project.batch.newproblemadd.NewUnsolvedProblemWriter;
+import com.project.batch.newproblemadd.NewProblemsAddService;
+import com.project.batch.newproblemadd.NewProblemsWriter;
 import com.project.batch.problemrenew.ProblemDetailRenewService;
 import com.project.inhaUnsolved.domain.problem.domain.Problem;
 import com.project.inhaUnsolved.domain.problem.domain.Tier;
@@ -36,7 +36,7 @@ public class ProblemServiceTransactionLockTest {
     @Autowired
     private ProblemService problemService;
     @Autowired
-    private NewUnsolvedProblemAddService newProblemAddService;
+    private NewProblemsAddService newProblemAddService;
     @Autowired
     ProblemDetailRenewService problemDetailRenewService;
     @Autowired
@@ -92,7 +92,7 @@ public class ProblemServiceTransactionLockTest {
 
     @Test
     void addDeleteProblemLockTest() throws InterruptedException {
-        NewUnsolvedProblemWriter newUnsolvedProblemWriter = new NewUnsolvedProblemWriter(newProblemAddService);
+        NewProblemsWriter newUnsolvedProblemWriter = new NewProblemsWriter(newProblemAddService);
 
         ExecutorService executorService = Executors.newFixedThreadPool(5);
         CountDownLatch latch = new CountDownLatch(2);

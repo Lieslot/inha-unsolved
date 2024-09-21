@@ -18,14 +18,10 @@ import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.core.job.builder.JobBuilder;
 import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.step.builder.StepBuilder;
-import org.springframework.batch.core.step.tasklet.TaskletStep;
-import org.springframework.batch.item.ItemStreamWriter;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.TransactionDefinition;
-import org.springframework.transaction.interceptor.DefaultTransactionAttribute;
 
 import static com.project.inhaUnsolved.domain.problem.domain.QProblem.problem;
 
@@ -76,6 +72,6 @@ public class ProblemDetailRenewJobConfig {
     @Bean
     @StepScope
     public ItemWriter<ProblemIdNumber> problemDetailRenewWriter() {
-        return new ProblemDetailRenewWriter(request, service);
+        return new ProblemDetailWriter(request, service);
     }
 }

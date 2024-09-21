@@ -8,13 +8,13 @@ import org.springframework.batch.item.Chunk;
 import org.springframework.batch.item.ItemWriter;
 
 
-public class ProblemDetailRenewWriter implements ItemWriter<ProblemIdNumber> {
+public class ProblemDetailWriter implements ItemWriter<ProblemIdNumber> {
 
     private final ProblemRequestByNumber request;
     private final ProblemDetailRenewService service;
 
-    public ProblemDetailRenewWriter(ProblemRequestByNumber request,
-                                    ProblemDetailRenewService service) {
+    public ProblemDetailWriter(ProblemRequestByNumber request,
+                               ProblemDetailRenewService service) {
         this.request = request;
         this.service = service;
     }

@@ -9,7 +9,7 @@ import com.project.api.ProblemRequestByNumber;
 import com.project.batch.dto.ProblemIdNumber;
 import com.project.batch.problemrenew.ProblemDetailRenewJobConfig;
 import com.project.batch.problemrenew.ProblemDetailRenewService;
-import com.project.batch.problemrenew.ProblemDetailRenewWriter;
+import com.project.batch.problemrenew.ProblemDetailWriter;
 import com.project.inhaUnsolved.domain.problem.domain.Problem;
 import com.project.inhaUnsolved.domain.problem.domain.Tag;
 import com.project.inhaUnsolved.domain.problem.domain.Tier;
@@ -121,7 +121,7 @@ public class ProblemDetailRenewJobTest extends BatchTestSupport {
     @Test
     void 쓰기_테스트() throws Exception {
 
-        ProblemDetailRenewWriter renewWriter = new ProblemDetailRenewWriter(request, service);
+        ProblemDetailWriter renewWriter = new ProblemDetailWriter(request, service);
         List<ProblemIdNumber> problemMinDetails = new ArrayList<>();
         for (int i = 1000; i <= 1011; i++) {
             Problem test = Problem.builder()

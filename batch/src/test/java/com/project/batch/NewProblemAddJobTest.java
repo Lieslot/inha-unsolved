@@ -1,7 +1,7 @@
 package com.project.batch;
 
 import com.project.api.ProblemRequestByNumber;
-import com.project.batch.newproblemadd.NewUnsolvedProblemAddJobConfig;
+import com.project.batch.newproblemadd.NewProblemsAddJobConfig;
 import com.project.inhaUnsolved.domain.problem.domain.LastUpdatedProblemNumber;
 import com.project.inhaUnsolved.domain.problem.domain.Problem;
 import com.project.inhaUnsolved.domain.problem.domain.Tier;
@@ -22,7 +22,7 @@ public class NewProblemAddJobTest extends BatchTestSupport {
 
 
     @Autowired
-    private NewUnsolvedProblemAddJobConfig newProblemAddJobConfig;
+    private NewProblemsAddJobConfig newProblemAddJobConfig;
 
     @MockBean
     private ProblemRequestByNumber request;

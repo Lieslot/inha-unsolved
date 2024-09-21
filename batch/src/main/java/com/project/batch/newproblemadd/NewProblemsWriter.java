@@ -9,12 +9,12 @@ import java.util.Set;
 import org.springframework.batch.item.Chunk;
 import org.springframework.batch.item.ItemWriter;
 
-public class NewUnsolvedProblemWriter implements ItemWriter<NewUnsolvedProblems> {
+public class NewProblemsWriter implements ItemWriter<NewUnsolvedProblems> {
 
 
-    private final NewUnsolvedProblemAddService newProblemAddService;
+    private final NewProblemsAddService newProblemAddService;
 
-    public NewUnsolvedProblemWriter(NewUnsolvedProblemAddService newSolvedProblemService) {
+    public NewProblemsWriter(NewProblemsAddService newSolvedProblemService) {
 
         this.newProblemAddService = newSolvedProblemService;
     }

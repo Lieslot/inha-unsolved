@@ -48,7 +48,7 @@ public class ProblemSolveCheckJobConfig {
     @Bean
     @StepScope
     public ItemStreamReader<User> renewedUserPagingItemReader() {
-        return new RenewedUserPagingItemReader(chunkSize, newSolvedProblemService);
+        return new UserPagingItemReader(chunkSize, newSolvedProblemService);
     }
 
     @Bean

@@ -2,16 +2,15 @@ package com.project.batch.newproblemadd;
 
 import com.project.batch.dto.NewUnsolvedProblems;
 import org.springframework.batch.item.ItemReader;
-import org.springframework.batch.item.ItemStreamReader;
 
 
-public class NewUnsolvedProblemsReader implements ItemReader<NewUnsolvedProblems> {
+public class NewProblemsReader implements ItemReader<NewUnsolvedProblems> {
 
 
-    private final NewUnsolvedProblemAddService newProblemAddService;
+    private final NewProblemsAddService newProblemAddService;
 
 
-    public NewUnsolvedProblemsReader(NewUnsolvedProblemAddService newProblemAddService) {
+    public NewProblemsReader(NewProblemsAddService newProblemAddService) {
 
         this.newProblemAddService = newProblemAddService;
     }

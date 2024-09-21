@@ -12,7 +12,6 @@ import org.springframework.batch.core.job.builder.JobBuilder;
 import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.step.builder.StepBuilder;
 import org.springframework.batch.item.ItemReader;
-import org.springframework.batch.item.ItemStreamReader;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,14 +20,14 @@ import org.springframework.transaction.PlatformTransactionManager;
 @Slf4j
 @RequiredArgsConstructor
 @Configuration
-public class NewUnsolvedProblemAddJobConfig {
+public class NewProblemsAddJobConfig {
 
     public static final String JOB_NAME = "newProblemAddJob";
     private static final int chunkSize = 1;
 
     private final LastUpdatedProblemNumberRepository numberRepository;
 
-    private final NewUnsolvedProblemAddService newProblemAddService;
+    private final NewProblemsAddService newProblemAddService;
 
 
     private final PlatformTransactionManager transactionManager;
@@ -58,7 +57,7 @@ public class NewUnsolvedProblemAddJobConfig {
     @Bean
     @StepScope
     public ItemReader<NewUnsolvedProblems> newUnsolvedProblemsReader() {
-        return new NewUnsolvedProblemsReader(newProblemAddService);
+        return new NewProblemsReader(newProblemAddService);
 
     }
 
@@ -66,7 +65,7 @@ public class NewUnsolvedProblemAddJobConfig {
     @StepScope
     public ItemWriter<NewUnsolvedProblems> newUnsolvedProblemsWriter() {
 
-        return new NewUnsolvedProblemWriter(newProblemAddService);
+        return new NewProblemsWriter(newProblemAddService);
     }
 
 
