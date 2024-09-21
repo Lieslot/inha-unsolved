@@ -21,7 +21,7 @@ public interface ProblemRepository extends JpaRepository<Problem, Integer> {
 
     void deleteAllByNumberIn(Collection<Integer> numbers);
 
-    @Query(value = "SELECT * FROM Unsolved_Problem ORDER BY RAND() LIMIT :limit", nativeQuery = true)
+    @Query(value = "SELECT * FROM Problem ORDER BY RAND() LIMIT :limit", nativeQuery = true)
     List<Problem> findRandomProblems(int limit);
 
     Page<Problem> findAll(Pageable pageable);
