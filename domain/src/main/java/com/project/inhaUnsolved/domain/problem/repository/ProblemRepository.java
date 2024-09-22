@@ -9,8 +9,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 
-public interface ProblemRepository extends JpaRepository<Problem, Integer> {
+public interface ProblemRepository extends JpaRepository<Problem, Integer>, QuerydslPredicateExecutor<Problem> {
 
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     List<Problem> findAllByIdIn(Collection<Integer> ids);
@@ -31,6 +32,5 @@ public interface ProblemRepository extends JpaRepository<Problem, Integer> {
     List<Problem> findByNumberIn(Collection<Integer> numbers);
 
     Integer countUnsolvedProblemsByIsSolved(boolean isSolved);
-
     List<Problem> findByIsSolvedAndNumberIn(boolean isSolved, Collection<Integer> numbers);
 }

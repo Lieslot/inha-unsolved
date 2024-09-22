@@ -70,8 +70,8 @@ public class NewSolvedProblemService {
         List<Integer> numbers = solvedProblems.stream()
                                               .map(Problem::getNumber)
                                               .toList();
-        problemService.changeToSolved(numbers);
 
+        problemService.changeToSolved(numbers);
         userService.saveAll(savedUsers);
 
     }

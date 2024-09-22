@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout}"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <th:block layout:fragment="css">
+    <!-- <link rel="stylesheet" th:href="@{/css/page/home.css}"> -->
+  </th:block>
+  <th:block layout:fragment="script">
+    <!-- <script th:src="@{/js/page/home.js}"></script> -->
+  </th:block>
+</head>
+
+<body>
+<!-- Content -->
+<div layout:fragment="content">
+  <div class="container px-3 py-3">
+    <div class="row mt-4 mb-lg-5 mb-4 align-items-center">
+      <div class="col-lg-8 mb-4">
+        <a class="lead fs-1 fw-bold text-decoration-none text-reset" href="/problems">모든 문제</a>
+      </div>
+      <div class="col-lg-4">
+        <div class="input-group mt-lg-4 mt-3 mb-3">
+          <button th:text="${criteria.searchBy}" id="search_menu" class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+
+          </button>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="javascript:set_search_by('all')">all</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="javascript:set_search_by('id')">id</a></li>
+            <li><a class="dropdown-item" href="javascript:set_search_by('title')">title</a></li>
+          </ul>
+          <input type="text" id="search_kw" class="form-control rounded-end" th:value="${criteria.kw}">
+          <div class="ms-1">
+            <button type="button" class="btn btn-outline-secondary no-hover-effect" id="search_btn">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="form-check form-switch float-end align-items-center">
+          <input class="form-check-input" style="transform: scale(1.15);" type="checkbox" role="switch" id="notSolved_switch" th:checked="${criteria.notSolved}">
+          <label class="form-check-label fw-bold" for="notSolved_switch">&nbsp;아직 푼 사람이 없는 문제</label>
+        </div>
+      </div>
+    </div>
+    <table class="table table-hover table-striped table-success">
+      <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Name</th>
+        <th scope="col">Level</th>
+        <th scope="col">isSolved</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="problem : ${problems}">
+        <th th:text="${problem.number}"></th>
+        <th th:text="${problem.name}"></th>
+        <td>
+          <img th:src="@{/svg/{tier}.svg(tier=${problem.tier.ordinal})}" th:alt="${problem.tier}" style="width: 20px"/>
+        </td>
+        <td>
+          <img th:if="${problem.isSolved}" th:src="@{/svg/solved-check.svg}" th:alt="Solved" style="width: 20px"/>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+
+    <ul class="pagination justify-content-center">
+      <li class="page-item" th:classappend="${page == 0} ? 'disabled'">
+        <a class="page-link" th:href="@{/problems(page=0)}">First</a>
+      </li>
+      <li class="page-item" th:classappend="${page == 0} ? 'disabled'">
+        <a class="page-link" th:href="@{/problems(page=${page - 1})}">Previous</a>
+      </li>
+      <li th:each="pageNum : ${#numbers.sequence(0, totalPage - 1)}"
+          th:if="${pageNum >= page - 5 and pageNum <= page + 5}"
+          th:classappend="${pageNum == page} ? 'active'"
+          class="page-item">
+        <a class="page-link" th:text="${pageNum + 1}" th:href="@{/problems(page=${pageNum})}"></a>
+      </li>
+      <li class="page-item" th:classappend="${page == totalPage - 1} ? 'disabled'">
+        <a class="page-link" th:href="@{/problems(page=${page + 1})}">Next</a>
+      </li>
+      <li class="page-item" th:classappend="${page == totalPage - 1} ? 'disabled'">
+        <a class="page-link" th:href="@{/problems(page=${totalPage - 1})}">Last</a>
+      </li>
+    </ul>
+
+  </div>
+  <form id="searchForm" method="get">
+    <input type="hidden" id="page" name="page" th:value="${criteria.page}">
+    <input type="hidden" id="order" name="order" th:value="${criteria.order}">
+    <input type="hidden" id="search_by" name="searchBy" th:value="${criteria.searchBy}">
+    <input type="hidden" id="kw" name="kw" th:value="${criteria.kw}">
+    <input type="hidden" id="notSolved" name="notSolved" th:value="${criteria.notSolved}">
+  </form>
+
+  <script type="text/javascript">
+    const page_elements = document.getElementsByClassName("page-link");
+    Array.from(page_elements).forEach(function(element) {
+      element.addEventListener('click', function(event) {
+        event.preventDefault();// 기본 링크 동작 방지
+        const href = this.getAttribute('href');
+        const urlParams = new URLSearchParams(href.split('?')[1]);
+        const pageNum = urlParams.get('page');
+        document.getElementById('page').value = pageNum;
+        document.getElementById('searchForm').submit();
+      });
+    });
+
+
+    // 검색 조건 설정 함수
+    const set_search_by = function(s) {
+      document.getElementById('search_by').value = s;
+      if (s === 'all')
+        document.getElementById('search_menu').innerText = 'all';
+      else if (s === 'id')
+        document.getElementById('search_menu').innerText = 'id';
+      else if (s === 'title')
+        document.getElementById('search_menu').innerText = 'title';
+    };
+
+    document.getElementById('notSolved_switch').addEventListener('change', function (e) {
+      e.preventDefault()
+      document.getElementById('page').value = '0';
+      const target = document.getElementById("notSolved")
+      target.value = this.checked
+      console.log(this.checked)
+      document.getElementById('searchForm').submit();
+    });
+
+    const search_function = function() {
+      document.getElementById('page').value = '0';
+      document.getElementById('kw').value = document.getElementById('search_kw').value;
+      document.getElementById('searchForm').submit();
+    };
+
+    document.getElementById('search_btn').addEventListener('click', search_function);
+
+    // Enter 키 입력 시 검색 실행
+    document.getElementById('search_kw').addEventListener('keypress', function(event) {
+      if (event.key === 'Enter') {
+        event.preventDefault(); // 기본 Enter 동작 방지
+        search_function();
+      }
+    });
+  </script>
+</div>
+
+
+
+</body>
+</html>

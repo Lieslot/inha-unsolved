@@ -36,7 +36,6 @@ public class RandomProblemPickJob {
 
 
     @Bean
-    @JobScope
     public Job pickRandomProblem() {
         return new JobBuilder(JOB_NAME, jobRepository)
                 .start(pickRandomProblemStep())
@@ -44,13 +43,13 @@ public class RandomProblemPickJob {
     }
 
     @Bean
-    @StepScope
+    @JobScope
     public Step pickRandomProblemStep() {
         return new StepBuilder(STEP_NAME, jobRepository)
                 .tasklet(pickRandomProblemTasklet(), transactionManager)
                 .build();
     }
-
+    @StepScope
     @Bean
     public Tasklet pickRandomProblemTasklet() {
         return (StepContribution contribution, ChunkContext chunkContext) -> {

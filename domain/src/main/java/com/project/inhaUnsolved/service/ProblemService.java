@@ -1,6 +1,7 @@
 package com.project.inhaUnsolved.service;
 
 import com.project.inhaUnsolved.domain.problem.domain.Problem;
+import com.project.inhaUnsolved.domain.problem.repository.DailyRandomProblemRepository;
 import com.project.inhaUnsolved.domain.problem.repository.ProblemRepository;
 import com.project.inhaUnsolved.domain.problem.repository.ProblemRepositoryCustom;
 
@@ -22,6 +23,8 @@ public class ProblemService {
 
     private final ProblemRepository unsolvedProblemRepository;
     private final ProblemRepositoryCustom unsolvedProblemRepositoryCustom;
+    private final ProblemRepository problemRepository;
+    private final DailyRandomProblemRepository dailyRandomProblemRepository;
 
     public List<Problem> findAllByIdIn(List<Integer> ids) {
         return unsolvedProblemRepository.findAllByIdIn(ids);
@@ -35,6 +38,14 @@ public class ProblemService {
         return unsolvedProblemRepository.saveAll(newUnsolvedProblems);
     }
 
+    public List<Problem> findDailyRandomProblems() {
+        return dailyRandomProblemRepository.findAll().
+                stream()
+                .map(randomProblem -> problemRepository.findById(randomProblem.getProblemId()).orElseThrow(IllegalStateException::new))
+                .toList();
+
+
+    }
 
     public List<Integer> findProblemNumbersIn(Collection<Integer> numbers) {
         return unsolvedProblemRepositoryCustom.findAllNumbersIn(numbers);
@@ -48,12 +59,19 @@ public class ProblemService {
     }
 
     public void changeToSolved(List<Integer> numbers) {
-        unsolvedProblemRepository.deleteAllByNumberIn(numbers);
+        List<Problem> problems = unsolvedProblemRepository.findByNumberIn(numbers);
+        problems.forEach(Problem::solved);
+        System.out.println(problems);
+        problemRepository.saveAll(problems);
     }
 
     public Integer getSolvedProblemCount() {
 
         return unsolvedProblemRepository.countUnsolvedProblemsByIsSolved(true);
+    }
+
+    public Long getProblemCount() {
+        return unsolvedProblemRepository.count();
     }
 
     public List<Problem> findRandomUnsolvedProblems(int limit) {

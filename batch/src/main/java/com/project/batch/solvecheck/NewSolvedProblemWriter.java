@@ -24,7 +24,10 @@ public class NewSolvedProblemWriter implements ItemWriter<User> {
             return;
         }
 
+
         List<User> items = (List<User>) chunk.getItems();
+
+        System.out.println(items);
 
 
         for (User user : items) {
